@@ -30,44 +30,53 @@ const generateDescription = (html) => {
   return text.substring(0, 160) + '...';
 };
 
-// Smart YouTube Player - tries iframe first, falls back to clickable thumbnail
+// Smart YouTube Player - shows thumbnail with play button (no iframe embedding needed)
 const YouTubePlayer = ({ url, title }) => {
-  const [embedFailed, setEmbedFailed] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(false);
   const embedUrl = convertToEmbedUrl(url);
   const thumbnail = getYouTubeThumbnail(url);
 
-  if (embedFailed || !embedUrl) {
-    // Fallback: Beautiful clickable thumbnail that always works
+  // If user clicks play, try iframe
+  if (isPlaying && embedUrl) {
     return (
-      <a
-        href={url}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="absolute inset-0 flex items-center justify-center group/play"
-        style={{ backgroundImage: `url(${thumbnail})`, backgroundSize: 'cover', backgroundPosition: 'center' }}
-      >
-        <div className="absolute inset-0 bg-black/40 group-hover/play:bg-black/20 transition-colors duration-300" />
-        <div className="relative z-10 flex flex-col items-center gap-3">
-          <div className="w-20 h-20 bg-red-600 rounded-full flex items-center justify-center shadow-2xl group-hover/play:scale-110 transition-transform duration-300">
-            <svg className="w-9 h-9 text-white ml-1" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M8 5v14l11-7z"/>
-            </svg>
-          </div>
-          <span className="text-white text-sm font-bold bg-black/60 px-4 py-1.5 rounded-full backdrop-blur-sm">YouTube वर पहा</span>
-        </div>
-      </a>
+      <iframe
+        src={`${embedUrl}?autoplay=1`}
+        title={title}
+        className="absolute top-0 left-0 w-full h-full"
+        allowFullScreen
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+      />
     );
   }
 
+  // Default: show thumbnail with play button
   return (
-    <iframe
-      src={embedUrl}
-      title={title}
-      className="absolute top-0 left-0 w-full h-full"
-      allowFullScreen
-      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-      onError={() => setEmbedFailed(true)}
-    />
+    <div
+      className="absolute inset-0 cursor-pointer group/play"
+      onClick={() => setIsPlaying(true)}
+    >
+      {/* Thumbnail */}
+      {thumbnail ? (
+        <img
+          src={thumbnail}
+          alt={title}
+          className="w-full h-full object-cover"
+        />
+      ) : (
+        <div className="w-full h-full bg-gray-900" />
+      )}
+      {/* Dark overlay */}
+      <div className="absolute inset-0 bg-black/40 group-hover/play:bg-black/20 transition-colors duration-300" />
+      {/* Play button */}
+      <div className="absolute inset-0 flex flex-col items-center justify-center gap-3">
+        <div className="w-20 h-20 bg-red-600 rounded-full flex items-center justify-center shadow-2xl group-hover/play:scale-110 transition-transform duration-300">
+          <svg className="w-9 h-9 text-white ml-1" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M8 5v14l11-7z"/>
+          </svg>
+        </div>
+        <span className="text-white text-sm font-bold bg-black/60 px-4 py-1.5 rounded-full">▶ व्हिडिओ पहा</span>
+      </div>
+    </div>
   );
 };
 
