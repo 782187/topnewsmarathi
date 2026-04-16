@@ -80,7 +80,8 @@ export const convertToEmbedUrl = (url) => {
 export const getYouTubeThumbnail = (url) => {
   const youtubeInfo = extractYouTubeInfo(url);
   if (!youtubeInfo) return null;
-  return `https://img.youtube.com/vi/${youtubeInfo.videoId}/maxresdefault.jpg`;
+  // Use hqdefault.jpg because maxresdefault.jpg gives 404 if the video is not HD
+  return `https://img.youtube.com/vi/${youtubeInfo.videoId}/hqdefault.jpg`;
 };
 
 /**
