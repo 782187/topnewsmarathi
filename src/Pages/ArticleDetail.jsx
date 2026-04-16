@@ -280,7 +280,7 @@ const ArticleDetail = () => {
 
             {/* Featured Media Container */}
             <div className="relative group mb-10">
-              {article.type === 'video' && article.video_url ? (
+              {article.video_url && isYouTubeUrl(article.video_url) ? (
                 <div className="w-full shadow-[0_30px_60px_-15px_rgba(0,0,0,0.7)] rounded-2xl overflow-hidden ring-1 ring-white/10 bg-black">
                   <div className="relative w-full aspect-video">
                     <iframe

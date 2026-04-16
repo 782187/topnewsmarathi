@@ -21,7 +21,11 @@ export const extractYouTubeInfo = (url) => {
     // Watch URL with time parameter
     /(?:youtube\.com\/watch\?.*v=([^&\n]+))(?:.*time_continue=(\d+))?/,
     // Watch URL with hms format (1h2m3s)
-    /(?:youtube\.com\/watch\?v=([^&\n?#]+))(?:.*t=(\d+h)?(\d+m)?(\d+s))?/
+    /(?:youtube\.com\/watch\?v=([^&\n?#]+))(?:.*t=(\d+h)?(\d+m)?(\d+s))?/,
+    // Live URL
+    /(?:youtube\.com\/live\/([^?&\n]+))/,
+    // Shorts URL
+    /(?:youtube\.com\/shorts\/([^?&\n]+))/
   ];
 
   for (const pattern of patterns) {
@@ -94,7 +98,9 @@ export const isYouTubeUrl = (url) => {
   const youtubePatterns = [
     /youtube\.com\/watch/,
     /youtu\.be/,
-    /youtube\.com\/embed/
+    /youtube\.com\/embed/,
+    /youtube\.com\/live/,
+    /youtube\.com\/shorts/
   ];
   
   return youtubePatterns.some(pattern => pattern.test(url));
