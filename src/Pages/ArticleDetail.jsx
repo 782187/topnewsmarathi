@@ -284,7 +284,7 @@ const ArticleDetail = () => {
                 <div className="w-full shadow-[0_30px_60px_-15px_rgba(0,0,0,0.7)] rounded-2xl overflow-hidden ring-1 ring-white/10 bg-black">
                   <div className="relative w-full aspect-video">
                     <iframe
-                      src={isYouTubeUrl(article.video_url) ? convertToEmbedUrl(article.video_url) : article.video_url}
+                      src={convertToEmbedUrl(article.video_url)}
                       title={article.title}
                       className="absolute top-0 left-0 w-full h-full"
                       allowFullScreen
