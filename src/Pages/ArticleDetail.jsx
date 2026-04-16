@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
-import { convertToEmbedUrl, isYouTubeUrl, getYouTubeThumbnail } from '../utils/videoUtils.js';
+import { convertToEmbedUrl, isYouTubeUrl } from '../utils/videoUtils.js';
 import LatestNewsWidget from '../Components/LatestNewsWidget.jsx';
 import SEO from '../Components/SEO.jsx';
 import { Link as LinkIcon, Home, ChevronRight, Clock, User, Share2 } from 'lucide-react';
@@ -28,56 +28,6 @@ const generateDescription = (html) => {
   const text = html.replace(/<[^>]+>/g, '').trim();
   if (text.length <= 160) return text;
   return text.substring(0, 160) + '...';
-};
-
-// Smart YouTube Player - shows thumbnail with play button (no iframe embedding needed)
-const YouTubePlayer = ({ url, title }) => {
-  const [isPlaying, setIsPlaying] = useState(false);
-  const embedUrl = convertToEmbedUrl(url);
-  const thumbnail = getYouTubeThumbnail(url);
-
-  // If user clicks play, try iframe
-  if (isPlaying && embedUrl) {
-    return (
-      <iframe
-        src={`${embedUrl}?autoplay=1`}
-        title={title}
-        className="absolute top-0 left-0 w-full h-full"
-        allowFullScreen
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-      />
-    );
-  }
-
-  // Default: show thumbnail with play button
-  return (
-    <div
-      className="absolute inset-0 cursor-pointer group/play"
-      onClick={() => setIsPlaying(true)}
-    >
-      {/* Thumbnail */}
-      {thumbnail ? (
-        <img
-          src={thumbnail}
-          alt={title}
-          className="w-full h-full object-cover"
-        />
-      ) : (
-        <div className="w-full h-full bg-gray-900" />
-      )}
-      {/* Dark overlay */}
-      <div className="absolute inset-0 bg-black/40 group-hover/play:bg-black/20 transition-colors duration-300" />
-      {/* Play button */}
-      <div className="absolute inset-0 flex flex-col items-center justify-center gap-3">
-        <div className="w-20 h-20 bg-red-600 rounded-full flex items-center justify-center shadow-2xl group-hover/play:scale-110 transition-transform duration-300">
-          <svg className="w-9 h-9 text-white ml-1" fill="currentColor" viewBox="0 0 24 24">
-            <path d="M8 5v14l11-7z"/>
-          </svg>
-        </div>
-        <span className="text-white text-sm font-bold bg-black/60 px-4 py-1.5 rounded-full">▶ व्हिडिओ पहा</span>
-      </div>
-    </div>
-  );
 };
 
 const ArticleDetail = () => {
@@ -333,7 +283,13 @@ const ArticleDetail = () => {
               {article.video_url && isYouTubeUrl(article.video_url) ? (
                 <div className="w-full shadow-[0_30px_60px_-15px_rgba(0,0,0,0.7)] rounded-2xl overflow-hidden ring-1 ring-white/10 bg-black">
                   <div className="relative w-full aspect-video">
-                    <YouTubePlayer url={article.video_url} title={article.title} />
+                    <iframe
+                      src={convertToEmbedUrl(article.video_url)}
+                      title={article.title}
+                      className="absolute top-0 left-0 w-full h-full"
+                      allowFullScreen
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    />
                   </div>
                 </div>
               ) : article.thumbnail ? (
