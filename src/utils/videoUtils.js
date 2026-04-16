@@ -9,6 +9,7 @@
  */
 export const extractYouTubeInfo = (url) => {
   if (!url) return null;
+  url = url.trim();
 
   // YouTube URL patterns
   const patterns = [
@@ -94,7 +95,8 @@ export const getYouTubeThumbnail = (url) => {
  * @returns {boolean} - True if YouTube URL
  */
 export const isYouTubeUrl = (url) => {
-  if (!url) return false;
+  if (!url) return null;
+  url = url.trim();
   const youtubePatterns = [
     /youtube\.com\/watch/,
     /youtu\.be/,
