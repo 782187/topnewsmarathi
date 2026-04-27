@@ -12,6 +12,7 @@ import LatestNewsPage from './Pages/LatestNewsPage'
 import CategoryPage from './Pages/CategoryPage'
 import CityPage from './Pages/CityPage'
 import SearchPage from './Pages/SearchPage'
+import VideosPage from './Pages/VideosPage'
 import ScrollToTop from './Components/ScrollToTop'
 import ErrorBoundary from './Components/ErrorBoundary'
 import PushNotificationManager from './Components/PushNotificationManager'
@@ -33,6 +34,7 @@ function App() {
         {/* Specific Structural Pages */}
 
         <Route path="/fresh" element={<LatestNewsPage />} />
+        <Route path="/videos" element={<VideosPage />} />
         
         {/* Dynamic Category Maps */}
         <Route path="/category/:categoryId" element={<CategoryPage />} />
