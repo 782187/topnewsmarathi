@@ -1,5 +1,8 @@
 User-agent: *
 Allow: /
+Disallow: /search
+Disallow: /api/
+Disallow: /admin/ # Just in case
 
 # Sitemaps
 Sitemap: https://topnewsmarathi.com/sitemap.xml

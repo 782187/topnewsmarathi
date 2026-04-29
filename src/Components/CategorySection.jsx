@@ -101,9 +101,6 @@ const CategorySection = ({
                   <h3 className="text-brand-white font-bold text-lg md:text-xl line-clamp-2">
                     {mainArticle.title}
                   </h3>
-                  <p className="text-brand-gray text-sm mt-1 line-clamp-2 hidden md:block">
-                    {mainArticle.description || ''}
-                  </p>
                 </div>
               </Link>
             </div>
