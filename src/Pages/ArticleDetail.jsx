@@ -104,7 +104,10 @@ const ArticleDetail = () => {
       ],
       "datePublished": article.created_at,
       "dateModified": article.updated_at || article.created_at,
-      "author": [{
+      "author": article.author_name ? [{
+        "@type": "Person",
+        "name": article.author_name
+      }] : [{
         "@type": "Organization",
         "name": "टॉप न्यूज मराठी",
         "url": "https://topnewsmarathi.com/"
@@ -250,7 +253,7 @@ const ArticleDetail = () => {
                   </div>
                   <div className="flex flex-col gap-1">
                     <div className="text-sm font-black text-brand-white flex items-center gap-2">
-                      टॉप न्यूज मराठी टीम
+                      {article.author_name ? article.author_name : 'टॉप न्यूज मराठी टीम'}
                     </div>
                     <div className="flex items-center gap-2 text-xs text-brand-gray">
                       <Clock size={12} className="text-brand-yellow" />
