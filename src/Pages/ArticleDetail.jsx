@@ -4,6 +4,7 @@ import { convertToEmbedUrl, isYouTubeUrl } from '../utils/videoUtils.js';
 import LatestNewsWidget from '../Components/LatestNewsWidget.jsx';
 import SEO from '../Components/SEO.jsx';
 import { Link as LinkIcon, Home, ChevronRight, Clock, User, Share2 } from 'lucide-react';
+import { buildStaticUrl } from '../utils/staticUrl.js';
 
 // Production-safe text sanitization for Marathi/Devanagari
 const cleanText = (text) => {
@@ -28,6 +29,36 @@ const generateDescription = (html) => {
   const text = html.replace(/<[^>]+>/g, '').trim();
   if (text.length <= 160) return text;
   return text.substring(0, 160) + '...';
+};
+
+const AvatarInner = ({ article }) => {
+  const [imgErr, setImgErr] = React.useState(false);
+  const initials = article.author_name
+    ? article.author_name.split(' ').map(w => w[0]).join('').toUpperCase().slice(0, 2)
+    : '?';
+
+  if (article.author_image && !imgErr) {
+    return (
+      <img
+        src={buildStaticUrl(article.author_image)}
+        alt={article.author_name || 'Author'}
+        style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'top center' }}
+        onError={() => setImgErr(true)}
+      />
+    );
+  }
+  if (article.author_name) {
+    return (
+      <div className="w-full h-full bg-brand-red-dark flex items-center justify-center">
+        <span className="text-brand-yellow font-black text-sm">{initials}</span>
+      </div>
+    );
+  }
+  return (
+    <div className="w-full h-full bg-brand-red-dark flex items-center justify-center">
+      <User size={24} className="text-brand-yellow" />
+    </div>
+  );
 };
 
 const ArticleDetail = () => {
@@ -106,7 +137,8 @@ const ArticleDetail = () => {
       "dateModified": article.updated_at || article.created_at,
       "author": article.author_name ? [{
         "@type": "Person",
-        "name": article.author_name
+        "name": article.author_name,
+        ...(article.author_image && { "image": buildStaticUrl(article.author_image) })
       }] : [{
         "@type": "Organization",
         "name": "टॉप न्यूज मराठी",
@@ -248,13 +280,32 @@ const ArticleDetail = () => {
 
                 {/* Author and Date */}
                 <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 rounded-full bg-brand-red-dark flex items-center justify-center border-2 border-brand-yellow/30 shadow-lg">
-                    <User size={24} className="text-brand-yellow" />
-                  </div>
-                  <div className="flex flex-col gap-1">
-                    <div className="text-sm font-black text-brand-white flex items-center gap-2">
-                      {article.author_name ? article.author_name : 'टॉप न्यूज मराठी टीम'}
+                  {/* Avatar — clickable when author_id exists */}
+                  {article.author_id ? (
+                    <Link
+                      to={`/author/${article.author_id}`}
+                      style={{ width: 64, height: 64, minWidth: 64 }}
+                      className="rounded-full flex-shrink-0 overflow-hidden border-2 border-brand-yellow/30 shadow-lg hover:border-brand-yellow hover:scale-105 transition-all duration-200 block"
+                    >
+                      <AvatarInner article={article} />
+                    </Link>
+                  ) : (
+                    <div style={{ width: 64, height: 64, minWidth: 64 }} className="rounded-full flex-shrink-0 overflow-hidden border-2 border-brand-yellow/30 shadow-lg">
+                      <AvatarInner article={article} />
                     </div>
+                  )}
+                  <div className="flex flex-col gap-1">
+                    {article.author_id ? (
+                      <Link
+                        to={`/author/${article.author_id}`}
+                        className="text-sm font-black text-brand-white hover:text-brand-yellow transition-colors flex items-center gap-1 group"
+                      >
+                        {article.author_name}
+                        <ChevronRight size={13} className="opacity-0 group-hover:opacity-100 transition-opacity -ml-0.5" />
+                      </Link>
+                    ) : (
+                      <span className="text-sm font-black text-brand-white">टॉप न्यूज मराठी टीम</span>
+                    )}
                     <div className="flex items-center gap-2 text-xs text-brand-gray">
                       <Clock size={12} className="text-brand-yellow" />
                       {formatDate(article.created_at)}
@@ -296,14 +347,15 @@ const ArticleDetail = () => {
                   </div>
                 </div>
               ) : article.thumbnail ? (
-                <figure className="w-full relative rounded-2xl overflow-hidden shadow-[0_30px_60px_-15px_rgba(0,0,0,0.7)] ring-1 ring-white/10 aspect-video bg-brand-black-light flex items-center justify-center">
-                  <img
-                    src={`${import.meta.env.VITE_STATIC_URL}${article.thumbnail}`}
-                    alt={article.title}
-                    className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-[2000ms]"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                </figure>
+                <div className="w-full shadow-[0_30px_60px_-15px_rgba(0,0,0,0.7)] rounded-2xl overflow-hidden ring-1 ring-white/10 bg-brand-black">
+                  <div className="relative w-full aspect-video flex items-center justify-center">
+                    <img
+                      src={`${import.meta.env.VITE_STATIC_URL}${article.thumbnail}`}
+                      alt={article.title}
+                      className="w-full h-full object-contain"
+                    />
+                  </div>
+                </div>
               ) : null}
             </div>
 
@@ -343,7 +395,7 @@ const ArticleDetail = () => {
                           <img
                             src={`${import.meta.env.VITE_STATIC_URL}${rel.thumbnail}`}
                             alt={rel.title}
-                            className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                            className="w-full h-full object-contain"
                           />
                         )}
                       </div>

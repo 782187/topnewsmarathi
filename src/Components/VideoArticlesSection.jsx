@@ -82,7 +82,7 @@ const VideoArticlesSection = () => {
                     <img
                       src={getYouTubeThumbnail(article.video_url)}
                       alt={article.title}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                      className="w-full h-full object-contain"
                     />
                     <div className="absolute inset-0 flex items-center justify-center bg-black/20 group-hover:bg-black/10 transition-colors">
                       <div className="bg-brand-red w-12 h-12 rounded-full flex items-center justify-center shadow-lg group-hover:scale-110 transition-all duration-300">

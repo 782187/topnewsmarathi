@@ -77,13 +77,13 @@ const CityPage = () => {
                 className="bg-brand-gray-dark border border-brand-gray-medium hover:border-brand-yellow rounded-lg overflow-hidden transition-all duration-300 group hover:shadow-xl"
               >
                 {(article.thumbnail || (article.type === 'video' && getYouTubeThumbnail(article.video_url))) && (
-                  <div className="aspect-video relative overflow-hidden bg-brand-black">
+                  <div className="aspect-video relative bg-brand-black flex items-center justify-center">
                     <img
                       src={article.type === 'video' && article.video_url 
                         ? getYouTubeThumbnail(article.video_url)
                         : `${import.meta.env.VITE_STATIC_URL}${article.thumbnail}`}
                       alt={article.title}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                      className="w-full h-full object-contain"
                     />
                     {article.type === 'video' && (
                       <div className="absolute inset-0 flex items-center justify-center pointer-events-none bg-black/20 group-hover:bg-transparent transition-colors">

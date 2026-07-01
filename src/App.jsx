@@ -13,6 +13,8 @@ import CategoryPage from './Pages/CategoryPage'
 import CityPage from './Pages/CityPage'
 import SearchPage from './Pages/SearchPage'
 import VideosPage from './Pages/VideosPage'
+import AuthorPage from './Pages/AuthorPage'
+import FollowUsPage from './Pages/FollowUsPage'
 import ScrollToTop from './Components/ScrollToTop'
 import ErrorBoundary from './Components/ErrorBoundary'
 import PushNotificationManager from './Components/PushNotificationManager'
@@ -44,6 +46,12 @@ function App() {
         
         {/* Dynamic City Maps */}
         <Route path="/city/:cityName" element={<CityPage />} />
+
+        {/* Author Profile Page */}
+        <Route path="/author/:authorId" element={<AuthorPage />} />
+
+        {/* Follow Us Page */}
+        <Route path="/follow" element={<FollowUsPage />} />
       </Routes>
       <Footer />
       </Router>

@@ -40,6 +40,21 @@ const YoutubeIcon = ({ size = 20, className = "" }) => (
   </svg>
 );
 
+
+
+const RedditIcon = ({ size = 20, className = "" }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor" className={className}>
+    <path d="M12 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0zm5.01 4.744c.688 0 1.25.561 1.25 1.249a1.25 1.25 0 0 1-2.498.056l-2.597-.547-.8 3.747c1.824.07 3.48.632 4.674 1.488.308-.309.73-.491 1.207-.491.968 0 1.754.786 1.754 1.754 0 .716-.435 1.333-1.01 1.614a3.111 3.111 0 0 1 .042.52c0 2.694-3.13 4.87-7.004 4.87-3.874 0-7.004-2.176-7.004-4.87 0-.183.015-.366.043-.534A1.748 1.748 0 0 1 4.028 12c0-.968.786-1.754 1.754-1.754.463 0 .898.196 1.207.49 1.207-.883 2.878-1.43 4.744-1.487l.885-4.182a.342.342 0 0 1 .14-.197.35.35 0 0 1 .238-.042l2.906.617a1.214 1.214 0 0 1 1.108-.701zM9.25 12C8.561 12 8 12.562 8 13.25c0 .687.561 1.248 1.25 1.248.687 0 1.248-.561 1.248-1.249 0-.688-.561-1.249-1.249-1.249zm5.5 0c-.687 0-1.248.561-1.248 1.25 0 .687.561 1.248 1.249 1.248.688 0 1.249-.561 1.249-1.249 0-.687-.562-1.249-1.25-1.249zm-5.466 3.99a.327.327 0 0 0-.231.094.33.33 0 0 0 0 .463c.842.842 2.484.913 2.961.913.477 0 2.105-.056 2.961-.913a.361.361 0 0 0 .029-.463.33.33 0 0 0-.464 0c-.547.533-1.684.73-2.512.73-.828 0-1.979-.196-2.512-.73a.326.326 0 0 0-.232-.095z" />
+  </svg>
+);
+
+const QuoraIcon = ({ size = 20, className = "" }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor" className={className}>
+    <path d="M12.555 20.265c-.624-1.399-1.397-2.699-2.97-2.699-.301 0-.603.049-.879.176l-.468-.936c.516-.479 1.367-.805 2.459-.805 1.867 0 3.022.986 3.813 2.293.667-1.133.986-2.643.986-4.234 0-4.478-2.176-7.398-5.497-7.398-3.322 0-5.459 2.92-5.459 7.398 0 4.479 2.137 7.369 5.459 7.369.927 0 1.75-.205 2.556-.164zm1.791 1.322c-1.188 1.025-2.706 1.413-4.347 1.413C5.439 23 2 19.077 2 12c0-7.077 3.439-11 8-11s8 3.923 8 11c0 3.071-.762 5.473-2.117 7.072.449.674 1.011 1.156 1.866 1.156.762 0 1.332-.342 1.797-.732l.454 1.037c-.649.611-1.462 1.067-2.476 1.067-1.261 0-2.244-.625-3.178-1.013z" />
+  </svg>
+);
+
+
 const Navbar = () => {
   const location = useLocation();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -152,13 +167,15 @@ const Navbar = () => {
   // Dynamic cities state for dropdown hook
   const [cities, setCities] = useState([]);
 
-  // Social media links
+  // Social media links shown in sidebar
   const socialLinks = [
-    { name: 'Facebook', icon: FacebookIcon, href: 'https://www.facebook.com/people/Top-News-Marathi/61560392199389/', color: 'hover:text-blue-500' },
-    { name: 'X', icon: XIcon, href: 'https://x.com/Topnewsmarathi', color: 'hover:text-white' },
-    { name: 'Threads', icon: ThreadsIcon, href: 'https://www.threads.com/@topnewsmarathi', color: 'hover:text-gray-400' },
-    { name: 'Instagram', icon: InstagramIcon, href: 'https://www.instagram.com/topnewsmarathi/', color: 'hover:text-pink-500' },
-    { name: 'YouTube', icon: YoutubeIcon, href: 'https://www.youtube.com/@topnewsmarathi', color: 'hover:text-red-500' },
+    { name: 'Facebook',    icon: FacebookIcon,  href: 'https://www.facebook.com/people/Top-News-Marathi/61560392199389/',             color: 'hover:text-blue-500' },
+    { name: 'X (Twitter)', icon: XIcon,         href: 'https://x.com/Topnewsmarathi',                                                color: 'hover:text-white' },
+    { name: 'Instagram',   icon: InstagramIcon, href: 'https://www.instagram.com/topnewsmarathiofficial?igsh=MWRqa2ZqNTJ5YzdueQ==',  color: 'hover:text-pink-500' },
+    { name: 'YouTube',     icon: YoutubeIcon,   href: 'https://www.youtube.com/@topnewsmarathi',                                      color: 'hover:text-red-500' },
+    { name: 'Threads',     icon: ThreadsIcon,   href: 'https://www.threads.com/@topnewsmarathi',                                      color: 'hover:text-gray-400' },
+    { name: 'Reddit',      icon: RedditIcon,    href: 'https://www.reddit.com/user/Top_News_Marathi/?screen_view_count=2',            color: 'hover:text-orange-500' },
+    { name: 'Quora',       icon: QuoraIcon,      href: 'https://www.quora.com/profile/TOP-NEWS-MARATHI',  color: 'hover:text-red-400' },
   ];
 
   // Close dropdown when clicking outside

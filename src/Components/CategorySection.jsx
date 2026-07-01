@@ -2,9 +2,9 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { getYouTubeThumbnail } from '../utils/videoUtils.js';
 
-const CategorySection = ({ 
-  title, 
-  articles = [], 
+const CategorySection = ({
+  title,
+  articles = [],
   loading = false,
   viewMoreLink = null,
   layout = 'default' // 'default', 'featured', 'compact'
@@ -49,7 +49,7 @@ const CategorySection = ({
             <span className="w-1 h-5 bg-brand-yellow rounded"></span>
             <span className="text-brand-white">{title}</span>
             {viewMoreLink && (
-              <Link 
+              <Link
                 to={viewMoreLink}
                 className="ml-auto text-sm text-brand-accent hover:text-brand-yellow-dark transition-colors flex items-center gap-1 font-bold"
               >
@@ -65,40 +65,41 @@ const CategorySection = ({
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-4">
             {/* Main Featured Article */}
             <div className="lg:col-span-2">
-              <Link 
+              <Link
                 to={`/article/${mainArticle.slug}`}
-                className="block relative aspect-video rounded-xl overflow-hidden group bg-brand-black-light shadow-xl shadow-black/40 hover:shadow-2xl hover:shadow-black/60 transition-all duration-300"
+                className="block group rounded-xl overflow-hidden bg-brand-black shadow-xl shadow-black/40 hover:shadow-2xl hover:shadow-black/60 transition-all duration-300"
               >
-                {(mainArticle.thumbnail || (mainArticle.type === 'video' && getYouTubeThumbnail(mainArticle.video_url))) ? (
-                  <>
-                    <img
-                      src={mainArticle.type === 'video' && mainArticle.video_url 
-                        ? (getYouTubeThumbnail(mainArticle.video_url)) 
-                        : (mainArticle.thumbnail ? `${import.meta.env.VITE_STATIC_URL}${mainArticle.thumbnail}` : '')}
-                      alt={mainArticle.title}
-                      className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
-                    />
-                    {mainArticle.type === 'video' && (
-                      <div className="absolute inset-0 flex items-center justify-center">
-                        <div className="bg-brand-red w-12 h-12 rounded-full flex items-center justify-center shadow-lg">
-                          <svg className="w-6 h-6 text-brand-white ml-1" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                {/* Image */}
+                <div className="relative aspect-video flex items-center justify-center">
+                  {(mainArticle.thumbnail || (mainArticle.type === 'video' && getYouTubeThumbnail(mainArticle.video_url))) ? (
+                    <>
+                      <img
+                        src={mainArticle.type === 'video' && mainArticle.video_url
+                          ? getYouTubeThumbnail(mainArticle.video_url)
+                          : (mainArticle.thumbnail ? `${import.meta.env.VITE_STATIC_URL}${mainArticle.thumbnail}` : '')}
+                        alt={mainArticle.title}
+                        className="w-full h-full object-contain"
+                      />
+                      {mainArticle.type === 'video' && (
+                        <div className="absolute inset-0 flex items-center justify-center">
+                          <div className="bg-brand-red w-12 h-12 rounded-full flex items-center justify-center shadow-lg">
+                            <svg className="w-6 h-6 text-brand-white ml-1" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                          </div>
                         </div>
-                      </div>
-                    )}
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
-                  </>
-                ) : (
-                  <div className="absolute inset-0 bg-brand-gray-dark flex items-center justify-center opacity-30 select-none">
-                     {/* No image indicator? Keep it clean as per user request */}
-                  </div>
-                )}
-                <div className="absolute bottom-0 left-0 right-0 p-4">
+                      )}
+                    </>
+                  ) : (
+                    <div className="w-full h-full bg-brand-gray-dark opacity-30" />
+                  )}
+                </div>
+                {/* Title below the image — never overlaps empty space */}
+                <div className="p-3 bg-gradient-to-b from-brand-black-light to-brand-black">
                   {mainArticle.category_name && (
                     <span className="bg-brand-red text-brand-white text-xs px-3 py-1 rounded font-medium mb-2 inline-block shadow-lg">
                       {mainArticle.category_name}
                     </span>
                   )}
-                  <h3 className="text-brand-white font-bold text-lg md:text-xl line-clamp-2">
+                  <h3 className="text-brand-white font-bold text-lg md:text-xl line-clamp-2 group-hover:text-brand-yellow transition-colors">
                     {mainArticle.title}
                   </h3>
                 </div>
@@ -114,13 +115,13 @@ const CategorySection = ({
                   className="flex gap-3 bg-brand-gray-medium/30 rounded-lg p-2 hover:bg-brand-gray-medium/50 transition-colors group"
                 >
                   {(article.thumbnail || (article.type === 'video' && getYouTubeThumbnail(article.video_url))) && (
-                    <div className="relative w-28 h-20 flex-shrink-0">
+                    <div className="relative w-28 aspect-video flex-shrink-0 rounded bg-brand-black flex items-center justify-center">
                       <img
-                        src={article.type === 'video' && article.video_url 
+                        src={article.type === 'video' && article.video_url
                           ? getYouTubeThumbnail(article.video_url)
                           : `${import.meta.env.VITE_STATIC_URL}${article.thumbnail}`}
                         alt={article.title}
-                        className="w-full h-full object-cover rounded"
+                        className="w-full h-full object-contain"
                       />
                       {article.type === 'video' && (
                         <div className="absolute inset-0 flex items-center justify-center">
@@ -154,17 +155,17 @@ const CategorySection = ({
                   className="group"
                 >
                   {(article.thumbnail || (article.type === 'video' && getYouTubeThumbnail(article.video_url))) && (
-                    <div className="relative aspect-video rounded-lg overflow-hidden mb-2">
+                    <div className="relative aspect-video rounded-lg bg-brand-black flex items-center justify-center mb-2">
                       <img
-                        src={article.type === 'video' && article.video_url 
+                        src={article.type === 'video' && article.video_url
                           ? getYouTubeThumbnail(article.video_url)
                           : `${import.meta.env.VITE_STATIC_URL}${article.thumbnail}`}
                         alt={article.title}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                        className="w-full h-full object-contain"
                       />
                       {article.type === 'video' && (
                         <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                        <div className="bg-brand-red w-10 h-10 rounded-full flex items-center justify-center shadow-lg">
+                          <div className="bg-brand-red w-10 h-10 rounded-full flex items-center justify-center shadow-lg">
                             <svg className="w-5 h-5 text-brand-white ml-1" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
                           </div>
                         </div>
@@ -193,7 +194,7 @@ const CategorySection = ({
             <span className="w-1 h-5 bg-brand-yellow rounded"></span>
             <span className="text-brand-white">{title}</span>
             {viewMoreLink && (
-              <Link 
+              <Link
                 to={viewMoreLink}
                 className="ml-auto text-sm text-brand-accent hover:text-brand-yellow-dark transition-colors flex items-center gap-1 font-bold"
               >
@@ -214,13 +215,13 @@ const CategorySection = ({
                 className="flex-shrink-0 w-48 group"
               >
                 {(article.thumbnail || (article.type === 'video' && getYouTubeThumbnail(article.video_url))) && (
-                  <div className="aspect-video rounded-xl overflow-hidden mb-2 relative shadow-md shadow-black/30 group-hover:shadow-xl group-hover:shadow-black/50 transition-all duration-300">
+                  <div className="aspect-video rounded-xl bg-brand-black flex items-center justify-center mb-2 relative shadow-md shadow-black/30 group-hover:shadow-xl group-hover:shadow-black/50 transition-all duration-300">
                     <img
-                      src={article.type === 'video' && article.video_url 
-                        ? (getYouTubeThumbnail(article.video_url)) 
+                      src={article.type === 'video' && article.video_url
+                        ? (getYouTubeThumbnail(article.video_url))
                         : (article.thumbnail ? `${import.meta.env.VITE_STATIC_URL}${article.thumbnail}` : '')}
                       alt={article.title}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                      className="w-full h-full object-contain"
                     />
                     {article.type === 'video' && (
                       <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
@@ -230,7 +231,7 @@ const CategorySection = ({
                       </div>
                     )}
                     {article.category_name && (
-                    <span className="absolute top-2 left-2 bg-brand-red text-brand-white text-xs px-2 py-1 rounded font-medium shadow-lg">
+                      <span className="absolute top-2 left-2 bg-brand-red text-brand-white text-xs px-2 py-1 rounded font-medium shadow-lg">
                         {article.category_name}
                       </span>
                     )}
@@ -264,7 +265,7 @@ const CategorySection = ({
           <span className="w-1 h-5 bg-brand-yellow rounded"></span>
           <span className="text-brand-white">{title}</span>
           {viewMoreLink && (
-            <Link 
+            <Link
               to={viewMoreLink}
               className="ml-auto text-sm text-brand-accent hover:text-brand-yellow-dark transition-colors flex items-center gap-1 font-bold"
             >
@@ -276,7 +277,7 @@ const CategorySection = ({
           )}
         </h2>
 
-        {/* Articles List Layout (Matches 'Latest News') */}
+        {/* Articles List Layout */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {articles.slice(0, 8).map((article) => (
             <Link
@@ -285,13 +286,13 @@ const CategorySection = ({
               className="flex gap-3 hover:bg-brand-black-light transition-all duration-300 rounded-xl p-2 shadow-sm hover:shadow-md"
             >
               {(article.thumbnail || (article.type === 'video' && getYouTubeThumbnail(article.video_url))) && (
-                <div className="relative w-24 h-18 md:w-28 md:h-20 flex-shrink-0">
+                <div className="relative w-28 sm:w-32 aspect-video flex-shrink-0 rounded bg-brand-black flex items-center justify-center">
                   <img
-                    src={article.type === 'video' && article.video_url 
-                      ? (getYouTubeThumbnail(article.video_url)) 
+                    src={article.type === 'video' && article.video_url
+                      ? getYouTubeThumbnail(article.video_url)
                       : (article.thumbnail ? `${import.meta.env.VITE_STATIC_URL}${article.thumbnail}` : '')}
                     alt={article.title}
-                    className="w-full h-full object-cover rounded shadow-inner"
+                    className="w-full h-full object-contain"
                   />
                   {article.type === 'video' && (
                     <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
