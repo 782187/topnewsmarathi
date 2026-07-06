@@ -62,6 +62,12 @@ const Footer = () => {
               >
                 सर्व पहा →
               </Link>
+              <Link
+                to="/about"
+                className="text-[10px] bg-brand-yellow/20 text-brand-yellow border border-brand-yellow/40 px-2 py-0.5 rounded-full font-bold hover:bg-brand-yellow/30 transition-colors"
+              >
+                आमच्याविषयी →
+              </Link>
             </div>
             <div className="flex flex-wrap gap-3 justify-center lg:justify-end max-w-xs lg:max-w-sm">
               {socialLinks.map((social) => (
@@ -86,6 +92,9 @@ const Footer = () => {
 
         <div className="text-center">
           <p className="text-gray-400 text-xs sm:text-sm">
+            संपादक: <Link to="/about" className="text-brand-yellow hover:underline">श्री. अजय कांबळे</Link>
+          </p>
+          <p className="text-gray-400 text-xs sm:text-sm mt-1">
             © 2026 सर्व हक्क राखीव
           </p>
         </div>

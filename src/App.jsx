@@ -15,6 +15,7 @@ import SearchPage from './Pages/SearchPage'
 import VideosPage from './Pages/VideosPage'
 import AuthorPage from './Pages/AuthorPage'
 import FollowUsPage from './Pages/FollowUsPage'
+import AboutPage from './Pages/AboutPage'
 import ScrollToTop from './Components/ScrollToTop'
 import ErrorBoundary from './Components/ErrorBoundary'
 import PushNotificationManager from './Components/PushNotificationManager'
@@ -52,6 +53,9 @@ function App() {
 
         {/* Follow Us Page */}
         <Route path="/follow" element={<FollowUsPage />} />
+
+        {/* About Us / Director Profile Page */}
+        <Route path="/about" element={<AboutPage />} />
       </Routes>
       <Footer />
       </Router>
