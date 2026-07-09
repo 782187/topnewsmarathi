@@ -3,33 +3,28 @@ import { Link } from 'react-router-dom';
 import { Home, ChevronRight } from 'lucide-react';
 import SEO from '../Components/SEO.jsx';
 
-const DIRECTOR_PHOTO = '/director.jpg';
-
-const DirectorAvatar = () => {
+const DirectorAvatar = ({ photo, alt, fallback }) => {
   const [imgError, setImgError] = useState(false);
 
   return (
-    <div
-      style={{ width: 160, height: 160, minWidth: 160 }}
-      className="rounded-full overflow-hidden border-4 border-brand-yellow/40 shadow-[0_0_30px_rgba(0,0,0,0.6)] flex-shrink-0"
-    >
+    <div className="w-56 h-56 sm:w-64 sm:h-64 md:w-72 md:h-72 mx-auto rounded-2xl overflow-hidden border-4 border-brand-yellow/40 shadow-[0_0_30px_rgba(0,0,0,0.15)] flex-shrink-0">
       {!imgError ? (
         <img
-          src={DIRECTOR_PHOTO}
-          alt="श्री. अजय कांबळे"
+          src={photo}
+          alt={alt}
           style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'top center' }}
           onError={() => setImgError(true)}
         />
       ) : (
         <div className="w-full h-full bg-brand-red-dark flex items-center justify-center">
-          <span className="text-brand-yellow font-black text-5xl">AK</span>
+          <span className="text-brand-yellow font-black text-5xl">{fallback}</span>
         </div>
       )}
     </div>
   );
 };
 
-const stats = [
+const kambleStats = [
   { label: 'India TV सोबत अनुभव', value: '18+ वर्षे' },
   { label: 'YouTube सबस्क्रायबर्स', value: '386K+' },
   { label: 'एकूण व्ह्यूज', value: '650M+' },
@@ -48,45 +43,45 @@ const AboutPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-brand-black w-full pb-16" lang="mr">
+    <div className="min-h-screen bg-white text-black w-full pb-16" lang="mr">
       <SEO
         title="आमच्याविषयी | संचालक - श्री. अजय कांबळे"
         description="टॉप न्यूज मराठीचे संचालक व मुख्य संपादक श्री. अजय कांबळे यांची संपूर्ण माहिती — India TV मधील १८ वर्षांचा अनुभव, Deccan AV Media LLP आणि टॉप न्यूज मराठीची वाटचाल."
         schema={schema}
       />
 
-      <div className="w-full px-4 md:px-6 lg:px-8 py-6 max-w-4xl mx-auto">
+      <div className="w-full px-4 md:px-8 lg:px-12 py-6">
 
         {/* Breadcrumb */}
-        <nav className="flex items-center flex-wrap gap-2 text-[10px] md:text-xs text-brand-gray mb-8 uppercase tracking-widest font-bold">
-          <Link to="/" className="hover:text-brand-yellow transition-colors flex items-center gap-1">
+        <nav className="flex items-center flex-wrap gap-2 text-[10px] md:text-xs text-gray-500 mb-8 uppercase tracking-widest font-bold">
+          <Link to="/" className="hover:text-brand-red transition-colors flex items-center gap-1">
             <Home size={12} /> होम
           </Link>
           <ChevronRight size={12} className="text-brand-red" />
-          <span className="text-brand-yellow/70">आमच्याविषयी</span>
+          <span className="text-gray-900">आमच्याविषयी</span>
         </nav>
 
-        {/* Director Hero Card */}
-        <div className="flex flex-col sm:flex-row items-center sm:items-start gap-6 bg-gradient-to-br from-brand-black-light to-brand-gray-dark border border-brand-gray-medium rounded-2xl p-6 md:p-8 mb-10 shadow-2xl">
-          <DirectorAvatar />
+        {/* Director Hero Card — Ajay Kamble */}
+        <div className="flex flex-col items-center text-center gap-6 bg-gray-50 border border-gray-200 rounded-2xl p-6 md:p-8 mb-10">
+          <DirectorAvatar photo="/ajay_kamble.jpeg" alt="श्री. अजय कांबळे" fallback="AK" />
 
-          <div className="flex-1 text-center sm:text-left">
-            <span className="text-[10px] bg-brand-red/20 text-brand-red border border-brand-red/30 px-3 py-0.5 rounded-full font-black uppercase tracking-widest">
+          <div className="flex-1">
+            <span className="text-[10px] bg-brand-red/10 text-brand-red border border-brand-red/30 px-3 py-0.5 rounded-full font-black uppercase tracking-widest">
               संचालक प्रोफाइल
             </span>
-            <h1 className="text-3xl md:text-4xl font-black text-brand-white mt-3 mb-1 tracking-tight">
+            <h1 className="text-3xl md:text-4xl font-black text-black mt-3 mb-1 tracking-tight">
               श्री. अजय कांबळे
             </h1>
-            <p className="text-brand-yellow font-bold text-sm md:text-base">
+            <p className="text-brand-red font-bold text-sm md:text-base">
               Director, Deccan AV Media LLP · Editor-in-Chief, Top News Marathi
             </p>
 
             {/* Stats row */}
-            <div className="flex flex-wrap items-center justify-center sm:justify-start gap-6 mt-6">
-              {stats.map(stat => (
-                <div key={stat.label} className="text-center sm:text-left">
-                  <div className="text-2xl font-black text-brand-yellow">{stat.value}</div>
-                  <div className="text-xs text-brand-gray uppercase tracking-wider mt-0.5">{stat.label}</div>
+            <div className="flex flex-wrap items-center justify-center gap-6 mt-6">
+              {kambleStats.map(stat => (
+                <div key={stat.label} className="text-center">
+                  <div className="text-2xl font-black text-brand-red">{stat.value}</div>
+                  <div className="text-xs text-gray-600 uppercase tracking-wider mt-0.5">{stat.label}</div>
                 </div>
               ))}
             </div>
@@ -95,7 +90,7 @@ const AboutPage = () => {
 
         {/* Editorial Bio - same document fashion as the source profile: real heading
             hierarchy, inline bold/italic emphasis, bold-led bullet items. */}
-        <div className="article-content">
+        <div className="article-content legal-content">
           <h2>Executive Summary</h2>
           <p>
             Mr. Ajay Kamble is a distinguished media maven, visionary entrepreneur, and senior journalist
@@ -193,6 +188,19 @@ const AboutPage = () => {
             </li>
           </ul>
         </div>
+
+        {/* Cross-link to other director's profile */}
+        <Link
+          to="/about/anirban-sarkar"
+          className="flex items-center justify-between gap-4 bg-gray-50 border border-gray-200 rounded-2xl p-6 md:p-8 mt-4 hover:border-brand-red/40 transition-colors group"
+        >
+          <div>
+            <span className="text-[10px] text-gray-500 uppercase tracking-widest font-bold">आमचे इतर संचालक</span>
+            <h2 className="text-xl md:text-2xl font-black text-black mt-1">Dr. Anirban Sarkar</h2>
+            <p className="text-brand-red text-sm font-bold mt-0.5">Chairman &amp; Managing Director, Deccan Group</p>
+          </div>
+          <ChevronRight size={24} className="text-brand-red flex-shrink-0 group-hover:translate-x-1 transition-transform" />
+        </Link>
       </div>
     </div>
   );

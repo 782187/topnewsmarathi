@@ -30,9 +30,10 @@ const Footer = () => {
 
   return (
     <footer className="bg-brand-secondary text-brand-white border-t-4 border-brand-red-dark">
-      <div className="max-w-7xl mx-auto px-4 py-8">
+      <div className="max-w-7xl mx-auto px-4 md:px-6 lg:px-8 py-10">
 
-        <div className="flex flex-col items-center lg:flex-row lg:items-start lg:justify-between gap-8 mb-8 text-center lg:text-left">
+        {/* Brand + Follow/Social */}
+        <div className="flex flex-col items-center lg:flex-row lg:items-start lg:justify-between gap-8 text-center lg:text-left">
 
           <div className="flex justify-center lg:justify-start w-full lg:w-auto">
             <a href="/" className="flex items-center" aria-label="टॉप न्यूज मराठी होम पेज">
@@ -88,15 +89,23 @@ const Footer = () => {
 
         </div>
 
-        <div className="border-t border-brand-gray-medium mb-4"></div>
+        <div className="border-t border-brand-gray-medium my-8"></div>
 
-        <div className="text-center">
-          <p className="text-gray-400 text-xs sm:text-sm">
-            संपादक: <Link to="/about" className="text-brand-yellow hover:underline">श्री. अजय कांबळे</Link>
-          </p>
-          <p className="text-gray-400 text-xs sm:text-sm mt-1">
-            © 2026 सर्व हक्क राखीव
-          </p>
+        {/* Directors credit */}
+        <p className="text-center text-gray-400 text-xs sm:text-sm mb-4">
+          Directors: <Link to="/about" className="text-brand-yellow hover:underline">Mr. Ajay Kamble</Link>
+          <span className="text-gray-600"> &amp; </span>
+          <Link to="/about/anirban-sarkar" className="text-brand-yellow hover:underline">Dr. Anirban Sarkar</Link>
+        </p>
+
+        {/* Bottom bar: copyright + legal links */}
+        <div className="flex flex-col-reverse sm:flex-row items-center justify-center sm:justify-between gap-3 pt-4 border-t border-brand-gray-medium/50 text-xs sm:text-sm text-gray-400">
+          <p>© 2026 सर्व हक्क राखीव</p>
+          <div className="flex items-center gap-2">
+            <Link to="/terms-and-conditions" className="hover:text-brand-yellow hover:underline">Terms &amp; Conditions</Link>
+            <span className="text-gray-600">|</span>
+            <Link to="/privacy-policy" className="hover:text-brand-yellow hover:underline">Privacy Policy</Link>
+          </div>
         </div>
 
       </div>

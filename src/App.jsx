@@ -16,6 +16,9 @@ import VideosPage from './Pages/VideosPage'
 import AuthorPage from './Pages/AuthorPage'
 import FollowUsPage from './Pages/FollowUsPage'
 import AboutPage from './Pages/AboutPage'
+import AnirbanSarkarPage from './Pages/AnirbanSarkarPage'
+import TermsAndConditionsPage from './Pages/TermsAndConditionsPage'
+import PrivacyPolicyPage from './Pages/PrivacyPolicyPage'
 import ScrollToTop from './Components/ScrollToTop'
 import ErrorBoundary from './Components/ErrorBoundary'
 import PushNotificationManager from './Components/PushNotificationManager'
@@ -56,6 +59,15 @@ function App() {
 
         {/* About Us / Director Profile Page */}
         <Route path="/about" element={<AboutPage />} />
+
+        {/* Dr. Anirban Sarkar — Director Profile Page */}
+        <Route path="/about/anirban-sarkar" element={<AnirbanSarkarPage />} />
+
+        {/* Terms & Conditions Page */}
+        <Route path="/terms-and-conditions" element={<TermsAndConditionsPage />} />
+
+        {/* Privacy Policy Page */}
+        <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
       </Routes>
       <Footer />
       </Router>

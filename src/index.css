@@ -519,3 +519,49 @@ body {
   box-shadow: 0 20px 40px rgba(0,0,0,0.6);
   border: 1px solid var(--brand-gray-medium);
 }
+
+/* ===== Legal Pages (Terms & Privacy) — light theme override ===== */
+.legal-content {
+  color: #111827;
+}
+
+.legal-content h1,
+.legal-content h2,
+.legal-content h3,
+.legal-content h4 {
+  color: #000000;
+}
+
+.legal-content h2 {
+  border-left-color: var(--brand-red);
+}
+
+.legal-content blockquote {
+  background: #f9fafb;
+  border-left-color: var(--brand-red);
+  color: #111827;
+}
+
+.legal-content a {
+  color: var(--brand-red);
+}
+
+.legal-content a:hover {
+  color: #000000;
+  background: rgba(220, 38, 38, 0.08);
+}
+
+.legal-content table {
+  background: #ffffff;
+}
+
+.legal-content th,
+.legal-content td {
+  border-color: #e5e7eb;
+  color: #111827;
+}
+
+.legal-content th {
+  background: #f3f4f6;
+  color: #000000;
+}
