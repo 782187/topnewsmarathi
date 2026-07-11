@@ -65,14 +65,8 @@ const Navbar = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const navigate = useNavigate();
   const [dynamicCategories, setDynamicCategories] = useState([]);
-  const [isMoreOpen, setIsMoreOpen] = useState(false);
-  const [visibleCount, setVisibleCount] = useState(0);
   const dropdownRef = useRef(null);
   const sidebarRef = useRef(null);
-  const moreRef = useRef(null);
-  const navContainerRef = useRef(null);
-  const measureRef = useRef(null);
-  const MORE_BUTTON_WIDTH = 60;
 
   // Fallback map to translate standard English category slugs from backend to Marathi logic
   const categoryNamesOptions = {
@@ -171,9 +165,6 @@ const Navbar = () => {
     }))
   ], [dynamicCategories]);
 
-  const visibleItems = navItems.slice(0, visibleCount || navItems.length);
-  const overflowItems = navItems.slice(visibleCount || navItems.length);
-
   // Dynamic cities state for dropdown hook
   const [cities, setCities] = useState([]);
 
@@ -194,49 +185,10 @@ const Navbar = () => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
         setIsDropdownOpen(false);
       }
-      if (moreRef.current && !moreRef.current.contains(event.target)) {
-        setIsMoreOpen(false);
-      }
     };
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
-
-  // Measure available width in the desktop nav row and decide how many
-  // category links fit before the rest collapse into the "More" dropdown.
-  useEffect(() => {
-    const measure = () => {
-      if (!navContainerRef.current || !measureRef.current) {
-        setVisibleCount(navItems.length);
-        return;
-      }
-      const containerWidth = navContainerRef.current.offsetWidth;
-      const itemEls = Array.from(measureRef.current.children);
-      let total = 0;
-      let count = 0;
-      for (let i = 0; i < itemEls.length; i++) {
-        const w = itemEls[i].offsetWidth;
-        const isLast = i === itemEls.length - 1;
-        const budget = containerWidth - (isLast ? 0 : MORE_BUTTON_WIDTH);
-        if (total + w <= budget) {
-          total += w;
-          count++;
-        } else {
-          break;
-        }
-      }
-      setVisibleCount(count);
-    };
-
-    measure();
-    const ro = new ResizeObserver(measure);
-    if (navContainerRef.current) ro.observe(navContainerRef.current);
-    window.addEventListener('resize', measure);
-    return () => {
-      ro.disconnect();
-      window.removeEventListener('resize', measure);
-    };
-  }, [navItems]);
 
   // Close sidebar and notifications when clicking outside
   useEffect(() => {
@@ -270,7 +222,6 @@ const Navbar = () => {
   const handleNavClick = () => {
     setIsDropdownOpen(false);
     setIsMobileMenuOpen(false);
-    setIsMoreOpen(false);
   };
 
   const toggleSidebar = () => {
@@ -336,57 +287,22 @@ const Navbar = () => {
               </button>
             </div>
 
-            {/* Center Navigation - Desktop */}
-            <div className="hidden lg:flex items-center gap-1 xl:gap-2 flex-1 min-w-0 justify-center" ref={navContainerRef}>
-              {visibleItems.map((item) => (
-                <div key={item.label} className="relative" ref={item.hasDropdown ? dropdownRef : null}>
-                  {item.hasDropdown ? (
-                    <div className="relative">
-                      <button
-                        onClick={() => {
-                          setIsDropdownOpen(!isDropdownOpen);
-                        }}
-                        className={`flex items-center space-x-1 px-2 xl:px-3 py-2 rounded-lg text-sm font-bold transition-all duration-200 whitespace-nowrap ${location.pathname === item.href
-                          ? 'bg-brand-black text-brand-yellow shadow-inner'
-                          : 'text-brand-white hover:bg-brand-black hover:text-brand-yellow'
-                          }`}
-                      >
-                        <span>{item.label}</span>
-                        <ChevronDown
-                          size={16}
-                          className={`transition-transform duration-200 ${isDropdownOpen ? 'rotate-180' : ''
-                            }`}
-                        />
-                      </button>
-
-                      <div
-                        className={`absolute top-full left-0 mt-2 w-48 bg-brand-gray-dark rounded-lg shadow-xl border border-brand-yellow overflow-hidden transition-all duration-200 origin-top ${isDropdownOpen
-                          ? 'opacity-100 scale-100 translate-y-0'
-                          : 'opacity-0 scale-95 -translate-y-2 pointer-events-none'
-                          }`}
-                      >
-                        <div className="py-2">
-                          {cities.map((city) => (
-                            <Link
-                              key={city.id}
-                              to={city.href}
-                              className="block px-4 py-2 text-sm text-brand-white hover:text-brand-yellow hover:bg-brand-black transition-colors duration-150 font-bold"
-                              onClick={() => {
-                                setIsDropdownOpen(false);
-                                handleNavClick();
-                              }}
-                            >
-                              {city.name}
-                            </Link>
-                          ))}
-                        </div>
-                      </div>
-                    </div>
-                  ) : (
+            {/* Center Navigation - Desktop
+                CSS-driven horizontal scroll instead of JS width-measurement: works at
+                any viewport width or category count without needing to compute fit.
+                The cities dropdown is kept OUTSIDE the scrolling row — an absolutely
+                positioned panel nested inside an overflow-x-auto ancestor can end up
+                painted behind normal-flow page content below the navbar even with
+                overflow-y left visible, so it needs its own non-scrolling home. */}
+            <div className="hidden lg:flex items-center flex-1 min-w-0 gap-1 xl:gap-2">
+              <div className="relative flex-1 min-w-0">
+                <div className="flex items-center gap-1 xl:gap-2 overflow-x-auto scrollbar-hide scroll-smooth px-1">
+                  {navItems.filter((item) => !item.hasDropdown).map((item) => (
                     <Link
+                      key={item.label}
                       to={item.href}
                       onClick={() => handleNavClick()}
-                      className={`flex items-center space-x-2 px-2 xl:px-3 py-2 rounded-lg text-sm font-bold transition-all duration-200 whitespace-nowrap ${location.pathname === item.href
+                      className={`flex-shrink-0 flex items-center space-x-2 px-2 xl:px-3 py-2 rounded-lg text-sm font-bold transition-all duration-200 whitespace-nowrap ${location.pathname === item.href
                         ? 'bg-brand-black text-brand-yellow shadow-inner'
                         : 'text-brand-white hover:bg-brand-black hover:text-brand-yellow'
                         }`}
@@ -399,86 +315,58 @@ const Navbar = () => {
                       )}
                       <span>{item.label}</span>
                     </Link>
-                  )}
+                  ))}
                 </div>
-              ))}
 
-              {/* Overflow "More" menu - collapses category links that no longer fit */}
-              {overflowItems.length > 0 && (
-                <div className="relative" ref={moreRef}>
+                {/* Edge fades hint that the row scrolls horizontally */}
+                <div className="pointer-events-none absolute left-0 top-0 bottom-0 w-6 bg-gradient-to-r from-brand-gray-dark to-transparent" />
+                <div className="pointer-events-none absolute right-0 top-0 bottom-0 w-6 bg-gradient-to-l from-brand-gray-dark to-transparent" />
+              </div>
+
+              {/* Cities dropdown - always visible, never inside a scroll container */}
+              {navItems.filter((item) => item.hasDropdown).map((item) => (
+                <div key={item.label} className="relative flex-shrink-0" ref={dropdownRef}>
                   <button
-                    onClick={() => setIsMoreOpen(!isMoreOpen)}
-                    className={`flex items-center gap-0.5 px-2 xl:px-3 py-2 rounded-lg transition-all duration-200 ${isMoreOpen
+                    onClick={() => {
+                      setIsDropdownOpen(!isDropdownOpen);
+                    }}
+                    className={`flex items-center space-x-1 px-2 xl:px-3 py-2 rounded-lg text-sm font-bold transition-all duration-200 whitespace-nowrap ${location.pathname === item.href
                       ? 'bg-brand-black text-brand-yellow shadow-inner'
                       : 'text-brand-white hover:bg-brand-black hover:text-brand-yellow'
                       }`}
-                    aria-label="अधिक विभाग"
-                    aria-expanded={isMoreOpen}
                   >
-                    <Menu size={18} />
+                    <span>{item.label}</span>
                     <ChevronDown
-                      size={14}
-                      className={`transition-transform duration-200 ${isMoreOpen ? 'rotate-180' : ''}`}
+                      size={16}
+                      className={`transition-transform duration-200 ${isDropdownOpen ? 'rotate-180' : ''
+                        }`}
                     />
                   </button>
 
                   <div
-                    className={`absolute top-full right-0 mt-2 w-56 bg-brand-gray-dark rounded-lg shadow-xl border border-brand-yellow overflow-hidden transition-all duration-200 origin-top-right z-50 ${isMoreOpen
+                    className={`absolute top-full right-0 mt-2 w-48 bg-brand-gray-dark rounded-lg shadow-xl border border-brand-yellow overflow-hidden transition-all duration-200 origin-top-right ${isDropdownOpen
                       ? 'opacity-100 scale-100 translate-y-0'
                       : 'opacity-0 scale-95 -translate-y-2 pointer-events-none'
                       }`}
                   >
-                    <div className="py-2 max-h-96 overflow-y-auto">
-                      {overflowItems.map((item) => (
-                        item.hasDropdown ? (
-                          <div key={item.label}>
-                            <div className="px-4 py-2 text-xs font-black uppercase tracking-wider text-brand-yellow/70">
-                              {item.label}
-                            </div>
-                            {cities.map((city) => (
-                              <Link
-                                key={city.id}
-                                to={city.href}
-                                className="block px-6 py-2 text-sm text-brand-white hover:text-brand-yellow hover:bg-brand-black transition-colors duration-150 font-bold"
-                                onClick={() => handleNavClick()}
-                              >
-                                {city.name}
-                              </Link>
-                            ))}
-                          </div>
-                        ) : (
-                          <Link
-                            key={item.label}
-                            to={item.href}
-                            className="block px-4 py-2 text-sm text-brand-white hover:text-brand-yellow hover:bg-brand-black transition-colors duration-150 font-bold"
-                            onClick={() => handleNavClick()}
-                          >
-                            {item.label}
-                          </Link>
-                        )
+                    <div className="py-2">
+                      {cities.map((city) => (
+                        <Link
+                          key={city.id}
+                          to={city.href}
+                          className="block px-4 py-2 text-sm text-brand-white hover:text-brand-yellow hover:bg-brand-black transition-colors duration-150 font-bold"
+                          onClick={() => {
+                            setIsDropdownOpen(false);
+                            handleNavClick();
+                          }}
+                        >
+                          {city.name}
+                        </Link>
                       ))}
                     </div>
                   </div>
                 </div>
-              )}
-
-              {/* Hidden measurement row - mirrors real item markup to compute natural widths */}
-              <div
-                ref={measureRef}
-                aria-hidden="true"
-                className="flex items-center gap-1 xl:gap-2 absolute -z-10 pointer-events-none"
-                style={{ visibility: 'hidden', top: 0, left: 0 }}
-              >
-                {navItems.map((item) => (
-                  <div
-                    key={item.label}
-                    className="flex items-center space-x-2 px-2 xl:px-3 py-2 text-sm font-bold whitespace-nowrap"
-                  >
-                    <span>{item.label}</span>
-                    {item.hasDropdown && <ChevronDown size={16} />}
-                  </div>
-                ))}
-              </div>
+              ))}
             </div>
 
             {/* Right Section - Bell Icon */}
