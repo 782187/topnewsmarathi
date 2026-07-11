@@ -23,6 +23,8 @@ const EpaperReader = () => {
   const [containerWidth, setContainerWidth] = useState(600);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [pdfLoadError, setPdfLoadError] = useState(null);
+  const [pdfRetryKey, setPdfRetryKey] = useState(0);
 
   useEffect(() => {
     fetchEpaper();
@@ -83,7 +85,20 @@ const EpaperReader = () => {
   };
 
   const onDocumentLoadSuccess = ({ numPages: n }) => {
+    setPdfLoadError(null);
     setNumPages(n);
+  };
+
+  // react-pdf's `error` render prop has no access to the actual failure reason,
+  // so it's logged here for real debugging instead of just showing a dead end.
+  const onDocumentLoadError = (err) => {
+    console.error('E-paper PDF failed to load:', epaper && buildStaticUrl(epaper.pdf_url), err);
+    setPdfLoadError(err?.message || 'Unknown error');
+  };
+
+  const retryPdfLoad = () => {
+    setPdfLoadError(null);
+    setPdfRetryKey((k) => k + 1);
   };
 
   const goToPrevPage = useCallback(() => setPageNumber((p) => Math.max(1, p - 1)), []);
@@ -181,10 +196,40 @@ const EpaperReader = () => {
           thumbnail strip below so the PDF is only fetched/parsed once. */}
       <div ref={containerRef} className="max-w-screen-lg mx-auto px-2 sm:px-4 py-6 flex flex-col items-center">
         <Document
+          key={pdfRetryKey}
           file={pdfUrl}
           onLoadSuccess={onDocumentLoadSuccess}
+          onLoadError={onDocumentLoadError}
           loading={<div className="text-brand-white py-20 animate-pulse">पृष्ठ लोड होत आहे...</div>}
-          error={<div className="text-brand-white py-20">पीडीएफ उघडता आले नाही</div>}
+          error={
+            <div className="flex flex-col items-center gap-4 py-20 px-4 text-center">
+              <p className="text-brand-white text-lg">पीडीएफ उघडता आले नाही</p>
+              <p className="text-brand-gray text-sm max-w-md">
+                कनेक्शन किंवा फाईलमध्ये समस्या असू शकते. पुन्हा प्रयत्न करा किंवा थेट डाउनलोड करा.
+              </p>
+              <div className="flex items-center gap-3">
+                <button
+                  onClick={retryPdfLoad}
+                  className="bg-brand-red hover:bg-brand-red-dark text-brand-white px-4 py-2 rounded-lg font-bold transition-colors"
+                >
+                  पुन्हा प्रयत्न करा
+                </button>
+                <a
+                  href={pdfUrl}
+                  download
+                  className="border border-brand-gray-medium hover:border-brand-yellow text-brand-white px-4 py-2 rounded-lg font-bold transition-colors"
+                >
+                  पीडीएफ डाउनलोड करा
+                </a>
+              </div>
+              {pdfLoadError && (
+                <details className="text-brand-gray text-xs mt-2">
+                  <summary className="cursor-pointer hover:text-brand-white">तांत्रिक तपशील</summary>
+                  <p className="mt-1 max-w-md break-words">{pdfLoadError}</p>
+                </details>
+              )}
+            </div>
+          }
           className="flex flex-col items-center w-full"
         >
           <Page
