@@ -158,6 +158,7 @@ const Navbar = () => {
   const baseNavItems = [
     { label: 'लाईव्ह टीव्ही', href: '/', hasDropdown: false },
     { label: 'ताज्या', href: '/fresh', hasDropdown: false },
+    { label: 'ई-पेपर', href: '/epaper', hasDropdown: false },
   ];
 
   // Dynamic Navigation Items

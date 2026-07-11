@@ -1,4 +1,5 @@
 import './App.css'
+import { Suspense, lazy } from 'react'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import Navbar from './Components/Navbar'
 import Footer from './Components/Footer'
@@ -13,6 +14,7 @@ import CategoryPage from './Pages/CategoryPage'
 import CityPage from './Pages/CityPage'
 import SearchPage from './Pages/SearchPage'
 import VideosPage from './Pages/VideosPage'
+import EpaperPage from './Pages/EpaperPage'
 import AuthorPage from './Pages/AuthorPage'
 import FollowUsPage from './Pages/FollowUsPage'
 import AboutPage from './Pages/AboutPage'
@@ -23,6 +25,16 @@ import ScrollToTop from './Components/ScrollToTop'
 import ErrorBoundary from './Components/ErrorBoundary'
 import PushNotificationManager from './Components/PushNotificationManager'
 import { Toaster } from 'react-hot-toast'
+
+// Lazy-loaded: pulls in react-pdf/pdfjs (~230KB gzipped) which only readers
+// of the E-Paper section need — keeps it out of the main bundle.
+const EpaperReader = lazy(() => import('./Pages/EpaperReader'))
+
+const ReaderFallback = () => (
+  <div className="min-h-screen bg-brand-black w-full flex items-center justify-center">
+    <div className="text-brand-white text-xl animate-pulse">ई-पेपर लोड होत आहे...</div>
+  </div>
+)
 
 function App() {
   return (
@@ -41,6 +53,17 @@ function App() {
 
         <Route path="/fresh" element={<LatestNewsPage />} />
         <Route path="/videos" element={<VideosPage />} />
+
+        {/* E-Paper: grid of editions + page-by-page PDF reader */}
+        <Route path="/epaper" element={<EpaperPage />} />
+        <Route
+          path="/epaper/:editionSlug/:date"
+          element={(
+            <Suspense fallback={<ReaderFallback />}>
+              <EpaperReader />
+            </Suspense>
+          )}
+        />
         
         {/* Dynamic Category Maps */}
         <Route path="/category/:categoryId" element={<CategoryPage />} />
