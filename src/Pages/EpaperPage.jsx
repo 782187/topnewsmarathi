@@ -89,7 +89,7 @@ const EpaperPage = () => {
                       <img
                         src={buildStaticUrl(epaper.thumbnail_url)}
                         alt={`${epaper.edition_name} - ${formatDate(epaper.publish_date)}`}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                        className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-300"
                         loading="lazy"
                       />
                     ) : epaper.pdf_url ? (
@@ -106,7 +106,7 @@ const EpaperPage = () => {
                             renderTextLayer={false}
                             renderAnnotationLayer={false}
                             devicePixelRatio={2}
-                            className="w-full h-full flex items-center justify-center [&>canvas]:!w-full [&>canvas]:!h-full [&>canvas]:!object-cover"
+                            className="!w-full !h-full flex items-center justify-center [&>canvas]:!w-full [&>canvas]:!h-full [&>canvas]:!object-contain [&>canvas]:!object-center"
                           />
                         </Document>
                       </div>
