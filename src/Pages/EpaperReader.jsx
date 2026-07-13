@@ -203,7 +203,7 @@ const EpaperReader = () => {
 
       {/* Page viewer — a single Document instance is shared by the main page and the
           thumbnail strip below so the PDF is only fetched/parsed once. */}
-      <div className="w-full max-w-[1600px] mx-auto py-4 sm:py-6 px-3 sm:px-6 lg:px-8 flex flex-col items-center">
+      <div className="w-full mx-auto py-4 sm:py-6 px-1 sm:px-2 flex flex-col items-center">
         <div ref={containerRef} className="w-full flex justify-center relative">
           <Document
             key={pdfRetryKey}

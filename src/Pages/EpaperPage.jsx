@@ -106,7 +106,7 @@ const EpaperPage = () => {
                             renderTextLayer={false}
                             renderAnnotationLayer={false}
                             devicePixelRatio={2}
-                            className="!w-full !h-full flex items-center justify-center [&>canvas]:!w-full [&>canvas]:!h-full [&>canvas]:!object-contain [&>canvas]:!object-center"
+                            className="!w-full !h-full flex items-center justify-center [&_div]:!w-full [&_div]:!h-full [&_canvas]:!w-full [&_canvas]:!h-full [&_canvas]:!object-contain [&_canvas]:!object-center"
                           />
                         </Document>
                       </div>
