@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { Document, Page } from 'react-pdf';
+import '../utils/pdfWorker';
 import { buildStaticUrl } from '../utils/staticUrl';
 
 const PAGE_LIMIT = 24;
@@ -90,12 +92,29 @@ const EpaperPage = () => {
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                         loading="lazy"
                       />
+                    ) : epaper.pdf_url ? (
+                      <div className="w-full h-full overflow-hidden flex items-center justify-center pointer-events-none group-hover:scale-105 transition-transform duration-300">
+                        <Document
+                          file={buildStaticUrl(epaper.pdf_url)}
+                          loading={<div className="w-full h-full flex items-center justify-center animate-pulse text-brand-gray text-xs">लोड...</div>}
+                          error={<div className="w-full h-full flex items-center justify-center text-brand-gray text-xs">पीडीएफ</div>}
+                          className="flex justify-center w-full"
+                        >
+                          <Page
+                            pageNumber={1}
+                            width={220}
+                            renderTextLayer={false}
+                            renderAnnotationLayer={false}
+                            devicePixelRatio={2}
+                          />
+                        </Document>
+                      </div>
                     ) : (
                       <div className="w-full h-full flex items-center justify-center text-brand-gray text-sm">
                         पीडीएफ
                       </div>
                     )}
-                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors flex items-center justify-center">
+                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors flex items-center justify-center pointer-events-none">
                       <span className="opacity-0 group-hover:opacity-100 bg-brand-red text-brand-white text-xs font-bold px-3 py-1.5 rounded-full transition-opacity">
                         वाचा
                       </span>

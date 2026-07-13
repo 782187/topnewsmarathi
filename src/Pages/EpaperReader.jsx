@@ -142,7 +142,8 @@ const EpaperReader = () => {
   }
 
   const pdfUrl = buildStaticUrl(epaper.pdf_url);
-  const baseWidth = Math.min(containerWidth, 900);
+  // Use the full width of the container for a full-screen reading experience
+  const baseWidth = containerWidth;
 
   return (
     <div className="min-h-screen bg-brand-black w-full" lang="mr">
@@ -202,81 +203,88 @@ const EpaperReader = () => {
 
       {/* Page viewer — a single Document instance is shared by the main page and the
           thumbnail strip below so the PDF is only fetched/parsed once. */}
-      <div ref={containerRef} className="max-w-screen-lg mx-auto px-2 sm:px-4 py-6 flex flex-col items-center">
-        <Document
-          key={pdfRetryKey}
-          file={pdfUrl}
-          onLoadSuccess={onDocumentLoadSuccess}
-          onLoadError={onDocumentLoadError}
-          loading={<div className="text-brand-white py-20 animate-pulse">पृष्ठ लोड होत आहे...</div>}
-          error={
-            <div className="flex flex-col items-center gap-4 py-20 px-4 text-center">
-              <p className="text-brand-white text-lg">पीडीएफ उघडता आले नाही</p>
-              <p className="text-brand-gray text-sm max-w-md">
-                कनेक्शन किंवा फाईलमध्ये समस्या असू शकते. पुन्हा प्रयत्न करा किंवा थेट डाउनलोड करा.
-              </p>
-              <div className="flex items-center gap-3">
-                <button
-                  onClick={retryPdfLoad}
-                  className="bg-brand-red hover:bg-brand-red-dark text-brand-white px-4 py-2 rounded-lg font-bold transition-colors"
-                >
-                  पुन्हा प्रयत्न करा
-                </button>
-                <a
-                  href={pdfUrl}
-                  download
-                  className="border border-brand-gray-medium hover:border-brand-yellow text-brand-white px-4 py-2 rounded-lg font-bold transition-colors"
-                >
-                  पीडीएफ डाउनलोड करा
-                </a>
-              </div>
-              {pdfLoadError && (
-                <details className="text-brand-gray text-xs mt-2">
-                  <summary className="cursor-pointer hover:text-brand-white">तांत्रिक तपशील</summary>
-                  <p className="mt-1 max-w-md break-words">{pdfLoadError}</p>
-                </details>
-              )}
-            </div>
-          }
-          className="flex flex-col items-center w-full"
-        >
-          <Page
-            pageNumber={pageNumber}
-            width={baseWidth}
-            scale={scale}
-            devicePixelRatio={RENDER_DPR}
-            renderTextLayer={false}
-            renderAnnotationLayer={false}
-            className="shadow-2xl"
+      <div className="w-full max-w-screen-2xl mx-auto px-2 sm:px-12 py-6 flex flex-col items-center">
+        <div ref={containerRef} className="w-full flex justify-center relative">
+          <Document
+            key={pdfRetryKey}
+            file={pdfUrl}
+            onLoadSuccess={onDocumentLoadSuccess}
+            onLoadError={onDocumentLoadError}
             loading={<div className="text-brand-white py-20 animate-pulse">पृष्ठ लोड होत आहे...</div>}
-          />
+            error={
+              <div className="flex flex-col items-center gap-4 py-20 px-4 text-center w-full">
+                <p className="text-brand-white text-lg">पीडीएफ उघडता आले नाही</p>
+                <p className="text-brand-gray text-sm max-w-md">
+                  कनेक्शन किंवा फाईलमध्ये समस्या असू शकते. पुन्हा प्रयत्न करा किंवा थेट डाउनलोड करा.
+                </p>
+                <div className="flex items-center gap-3">
+                  <button
+                    onClick={retryPdfLoad}
+                    className="bg-brand-red hover:bg-brand-red-dark text-brand-white px-4 py-2 rounded-lg font-bold transition-colors"
+                  >
+                    पुन्हा प्रयत्न करा
+                  </button>
+                  <a
+                    href={pdfUrl}
+                    download
+                    className="border border-brand-gray-medium hover:border-brand-yellow text-brand-white px-4 py-2 rounded-lg font-bold transition-colors"
+                  >
+                    पीडीएफ डाउनलोड करा
+                  </a>
+                </div>
+                {pdfLoadError && (
+                  <details className="text-brand-gray text-xs mt-2">
+                    <summary className="cursor-pointer hover:text-brand-white">तांत्रिक तपशील</summary>
+                    <p className="mt-1 max-w-md break-words">{pdfLoadError}</p>
+                  </details>
+                )}
+              </div>
+            }
+            className="flex flex-col items-center w-full"
+          >
+            <div className="relative w-full flex justify-center group">
+              {/* Carousel Navigation Buttons */}
+              {numPages && (
+                <>
+                  <button
+                    onClick={goToPrevPage}
+                    disabled={pageNumber <= 1}
+                    className="absolute left-2 sm:-left-6 top-1/2 -translate-y-1/2 z-10 p-3 sm:p-4 bg-brand-black/70 hover:bg-brand-gray-dark border border-brand-gray-medium rounded-full text-brand-white disabled:opacity-0 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition-all backdrop-blur-md shadow-2xl"
+                    aria-label="मागील पृष्ठ"
+                  >
+                    <ChevronLeft size={36} />
+                  </button>
+                  <button
+                    onClick={goToNextPage}
+                    disabled={pageNumber >= numPages}
+                    className="absolute right-2 sm:-right-6 top-1/2 -translate-y-1/2 z-10 p-3 sm:p-4 bg-brand-black/70 hover:bg-brand-gray-dark border border-brand-gray-medium rounded-full text-brand-white disabled:opacity-0 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition-all backdrop-blur-md shadow-2xl"
+                    aria-label="पुढील पृष्ठ"
+                  >
+                    <ChevronRight size={36} />
+                  </button>
+                </>
+              )}
 
-          {/* Page navigation */}
-          {numPages && (
-            <div className="flex items-center gap-4 mt-6 bg-brand-gray-dark border border-brand-gray-medium rounded-full px-4 py-2">
-              <button
-                onClick={goToPrevPage}
-                disabled={pageNumber <= 1}
-                className="p-2 text-brand-white hover:text-brand-yellow disabled:opacity-30 transition-colors"
-                aria-label="मागील पृष्ठ"
-              >
-                <ChevronLeft size={22} />
-              </button>
-              <span className="text-brand-white text-sm font-medium min-w-[80px] text-center">
-                पृष्ठ {pageNumber} / {numPages}
-              </span>
-              <button
-                onClick={goToNextPage}
-                disabled={pageNumber >= numPages}
-                className="p-2 text-brand-white hover:text-brand-yellow disabled:opacity-30 transition-colors"
-                aria-label="पुढील पृष्ठ"
-              >
-                <ChevronRight size={22} />
-              </button>
+              <Page
+                pageNumber={pageNumber}
+                width={baseWidth}
+                scale={scale}
+                devicePixelRatio={RENDER_DPR}
+                renderTextLayer={false}
+                renderAnnotationLayer={false}
+                className="shadow-2xl"
+                loading={<div className="text-brand-white py-20 animate-pulse">पृष्ठ लोड होत आहे...</div>}
+              />
             </div>
-          )}
 
-          {/* Thumbnail strip */}
+            {/* Current Page Indicator */}
+            {numPages && (
+              <div className="mt-4 text-brand-gray text-sm font-medium">
+                पृष्ठ {pageNumber} / {numPages}
+              </div>
+            )}
+
+            {/* Thumbnail strip */}
           {numPages && numPages > 1 && (
             <div className="w-full mt-8 overflow-x-auto scrollbar-hide">
               <div className="flex gap-3 pb-2 px-1">
@@ -295,7 +303,8 @@ const EpaperReader = () => {
               </div>
             </div>
           )}
-        </Document>
+          </Document>
+        </div>
       </div>
     </div>
   );
