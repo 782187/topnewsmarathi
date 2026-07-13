@@ -93,19 +93,20 @@ const EpaperPage = () => {
                         loading="lazy"
                       />
                     ) : epaper.pdf_url ? (
-                      <div className="w-full h-full overflow-hidden flex items-center justify-center pointer-events-none group-hover:scale-105 transition-transform duration-300">
+                      <div className="w-full h-full overflow-hidden flex items-center justify-center pointer-events-none group-hover:scale-105 transition-transform duration-300 bg-brand-black-light">
                         <Document
                           file={buildStaticUrl(epaper.pdf_url)}
                           loading={<div className="w-full h-full flex items-center justify-center animate-pulse text-brand-gray text-xs">लोड...</div>}
                           error={<div className="w-full h-full flex items-center justify-center text-brand-gray text-xs">पीडीएफ</div>}
-                          className="flex justify-center w-full"
+                          className="w-full h-full"
                         >
                           <Page
                             pageNumber={1}
-                            width={220}
+                            width={400}
                             renderTextLayer={false}
                             renderAnnotationLayer={false}
                             devicePixelRatio={2}
+                            className="w-full h-full flex items-center justify-center [&>canvas]:!w-full [&>canvas]:!h-full [&>canvas]:!object-cover"
                           />
                         </Document>
                       </div>

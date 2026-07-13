@@ -203,7 +203,7 @@ const EpaperReader = () => {
 
       {/* Page viewer — a single Document instance is shared by the main page and the
           thumbnail strip below so the PDF is only fetched/parsed once. */}
-      <div className="w-full max-w-screen-2xl mx-auto px-2 sm:px-12 py-6 flex flex-col items-center">
+      <div className="w-full mx-auto py-4 sm:py-6 flex flex-col items-center">
         <div ref={containerRef} className="w-full flex justify-center relative">
           <Document
             key={pdfRetryKey}
@@ -249,7 +249,7 @@ const EpaperReader = () => {
                   <button
                     onClick={goToPrevPage}
                     disabled={pageNumber <= 1}
-                    className="absolute left-2 sm:-left-6 top-1/2 -translate-y-1/2 z-10 p-3 sm:p-4 bg-brand-black/70 hover:bg-brand-gray-dark border border-brand-gray-medium rounded-full text-brand-white disabled:opacity-0 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition-all backdrop-blur-md shadow-2xl"
+                    className="absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 z-10 p-3 sm:p-4 bg-brand-black/70 hover:bg-brand-gray-dark border border-brand-gray-medium rounded-full text-brand-white disabled:opacity-0 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition-all backdrop-blur-md shadow-2xl"
                     aria-label="मागील पृष्ठ"
                   >
                     <ChevronLeft size={36} />
@@ -257,7 +257,7 @@ const EpaperReader = () => {
                   <button
                     onClick={goToNextPage}
                     disabled={pageNumber >= numPages}
-                    className="absolute right-2 sm:-right-6 top-1/2 -translate-y-1/2 z-10 p-3 sm:p-4 bg-brand-black/70 hover:bg-brand-gray-dark border border-brand-gray-medium rounded-full text-brand-white disabled:opacity-0 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition-all backdrop-blur-md shadow-2xl"
+                    className="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 z-10 p-3 sm:p-4 bg-brand-black/70 hover:bg-brand-gray-dark border border-brand-gray-medium rounded-full text-brand-white disabled:opacity-0 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition-all backdrop-blur-md shadow-2xl"
                     aria-label="पुढील पृष्ठ"
                   >
                     <ChevronRight size={36} />
