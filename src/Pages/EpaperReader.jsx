@@ -10,6 +10,14 @@ import { buildStaticUrl } from '../utils/staticUrl';
 const MIN_SCALE = 0.6;
 const MAX_SCALE = 2.5;
 
+// Newspaper pages are dense, so render the canvas at a higher internal resolution
+// than its on-screen size (supersampling) and let the browser downscale it. Without
+// this react-pdf falls back to window.devicePixelRatio (1 on most desktops), which
+// rasterizes the whole broadsheet at its shrunk display size and looks blurry.
+// Capped at 3x to keep canvas memory in check.
+const RENDER_DPR =
+  typeof window !== 'undefined' ? Math.max(3, (window.devicePixelRatio || 1) + 1) : 3;
+
 const EpaperReader = () => {
   const { editionSlug, date } = useParams();
   const navigate = useNavigate();
@@ -134,7 +142,7 @@ const EpaperReader = () => {
   }
 
   const pdfUrl = buildStaticUrl(epaper.pdf_url);
-  const pageWidth = Math.min(containerWidth, 900) * scale;
+  const baseWidth = Math.min(containerWidth, 900);
 
   return (
     <div className="min-h-screen bg-brand-black w-full" lang="mr">
@@ -234,7 +242,9 @@ const EpaperReader = () => {
         >
           <Page
             pageNumber={pageNumber}
-            width={pageWidth}
+            width={baseWidth}
+            scale={scale}
+            devicePixelRatio={RENDER_DPR}
             renderTextLayer={false}
             renderAnnotationLayer={false}
             className="shadow-2xl"
@@ -278,8 +288,8 @@ const EpaperReader = () => {
                       pageNum === pageNumber ? 'border-brand-yellow' : 'border-brand-gray-medium hover:border-brand-gray'
                     }`}
                   >
-                    <Page pageNumber={pageNum} width={70} renderTextLayer={false} renderAnnotationLayer={false} loading={null} />
-                    <div className="bg-brand-black text-brand-gray text-[10px] text-center py-0.5">{pageNum}</div>
+                    <Page pageNumber={pageNum} width={130} devicePixelRatio={3} renderTextLayer={false} renderAnnotationLayer={false} loading={null} />
+                    <div className="bg-brand-black text-brand-gray text-xs text-center py-1">{pageNum}</div>
                   </button>
                 ))}
               </div>
