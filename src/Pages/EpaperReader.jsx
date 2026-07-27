@@ -40,16 +40,24 @@ const EpaperReader = () => {
     setPageNumber(1);
   }, [editionSlug, date]);
 
+  const measure = useCallback(() => {
+    if (containerRef.current) {
+      setContainerWidth(containerRef.current.offsetWidth);
+    }
+  }, []);
+
   useEffect(() => {
-    const measure = () => {
-      if (containerRef.current) {
-        setContainerWidth(containerRef.current.offsetWidth);
-      }
-    };
     measure();
     window.addEventListener('resize', measure);
     return () => window.removeEventListener('resize', measure);
-  }, []);
+  }, [measure]);
+
+  // The main column lives inside <Document>, so it only mounts once the PDF has
+  // finished loading. Re-measure then so the page renders at the true width of the
+  // center column (which is narrower than the viewport once the thumbnail rail shows).
+  useEffect(() => {
+    measure();
+  }, [numPages, measure]);
 
   useEffect(() => {
     const handleKeyDown = (e) => {
@@ -124,7 +132,7 @@ const EpaperReader = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-brand-black w-full flex items-center justify-center">
+      <div className="min-h-screen bg-[var(--brand-black)] w-full flex items-center justify-center">
         <div className="text-brand-white text-xl animate-pulse">ई-पेपर लोड होत आहे...</div>
       </div>
     );
@@ -132,9 +140,9 @@ const EpaperReader = () => {
 
   if (error || !epaper) {
     return (
-      <div className="min-h-screen bg-brand-black w-full flex flex-col items-center justify-center gap-4 px-4 text-center">
+      <div className="min-h-screen bg-[var(--brand-black)] w-full flex flex-col items-center justify-center gap-4 px-4 text-center">
         <p className="text-brand-white text-xl">{error || 'ई-पेपर आढळला नाही'}</p>
-        <Link to="/epaper" className="bg-brand-red text-brand-white px-5 py-2 rounded-lg font-bold hover:bg-brand-red-dark transition-colors">
+        <Link to="/epaper" className="bg-[var(--brand-red)] text-brand-white px-5 py-2 rounded-lg font-bold hover:bg-[var(--brand-red-dark)] transition-colors">
           सर्व आवृत्त्या पहा
         </Link>
       </div>
@@ -142,35 +150,41 @@ const EpaperReader = () => {
   }
 
   const pdfUrl = buildStaticUrl(epaper.pdf_url);
-  // Use the full width of the container for a full-screen reading experience
+  // The main <Page> fills the width of the center column (measured live), so it
+  // stays as large as possible whether or not the thumbnail rail is showing.
   const baseWidth = containerWidth;
+  const pages = numPages ? Array.from({ length: numPages }, (_, i) => i + 1) : [];
 
   return (
-    <div className="min-h-screen bg-brand-black w-full" lang="mr">
-      {/* Top toolbar */}
+    <div className="min-h-screen bg-[var(--brand-black)] w-full" lang="mr">
+      {/* Top control bar — edition, archive date picker, zoom, download */}
       <div className="sticky top-16 z-30 bg-brand-gray-dark border-b border-brand-gray-medium">
-        <div className="max-w-screen-2xl mx-auto px-3 sm:px-6 py-3 flex flex-wrap items-center justify-between gap-3">
+        <div className="max-w-screen-2xl mx-auto px-3 sm:px-6 py-2.5 flex items-center justify-between gap-3">
           <div className="flex items-center gap-3 min-w-0">
-            <Link to="/epaper" className="text-brand-white hover:text-brand-yellow transition-colors flex-shrink-0" aria-label="ई-पेपर सूचीकडे परत जा">
+            <Link
+              to="/epaper"
+              className="text-brand-white hover:text-[color:var(--brand-yellow)] transition-colors flex-shrink-0"
+              aria-label="ई-पेपर सूचीकडे परत जा"
+            >
               <ArrowLeft size={20} />
             </Link>
             <div className="min-w-0">
-              <h1 className="text-brand-white font-bold truncate">{epaper.edition_name}</h1>
+              <h1 className="text-brand-white font-bold truncate leading-tight">{epaper.edition_name}</h1>
               <p className="text-brand-gray text-xs truncate">{formatDate(epaper.publish_date)}</p>
             </div>
           </div>
 
-          <div className="flex items-center gap-2 flex-wrap">
-            {/* Date picker */}
-            <div className="relative flex items-center gap-1 bg-brand-black rounded-lg px-2 py-1.5 border border-brand-gray-medium">
-              <Calendar size={16} className="text-brand-yellow flex-shrink-0" />
+          <div className="flex items-center gap-2 flex-wrap justify-end">
+            {/* Date picker (archive) */}
+            <div className="relative flex items-center gap-1 bg-[var(--brand-black)] rounded-lg px-2 py-1.5 border border-brand-gray-medium">
+              <Calendar size={16} className="text-[color:var(--brand-yellow)] flex-shrink-0" />
               <select
                 value={epaper.publish_date.slice(0, 10)}
                 onChange={handleDateChange}
                 className="bg-transparent text-brand-white text-sm outline-none max-w-[110px]"
               >
                 {archive.map((issue) => (
-                  <option key={issue.id} value={issue.publish_date.slice(0, 10)} className="bg-brand-black">
+                  <option key={issue.id} value={issue.publish_date.slice(0, 10)} className="bg-[var(--brand-black)]">
                     {issue.publish_date.slice(0, 10)}
                   </option>
                 ))}
@@ -178,12 +192,12 @@ const EpaperReader = () => {
             </div>
 
             {/* Zoom controls */}
-            <div className="flex items-center gap-1 bg-brand-black rounded-lg px-1 py-1 border border-brand-gray-medium">
-              <button onClick={zoomOut} disabled={scale <= MIN_SCALE} className="p-1.5 text-brand-white hover:text-brand-yellow disabled:opacity-30 transition-colors" aria-label="झूम कमी करा">
+            <div className="flex items-center gap-1 bg-[var(--brand-black)] rounded-lg px-1 py-1 border border-brand-gray-medium">
+              <button onClick={zoomOut} disabled={scale <= MIN_SCALE} className="p-1.5 text-brand-white hover:text-[color:var(--brand-yellow)] disabled:opacity-30 transition-colors" aria-label="झूम कमी करा">
                 <ZoomOut size={18} />
               </button>
               <span className="text-brand-gray text-xs w-10 text-center">{Math.round(scale * 100)}%</span>
-              <button onClick={zoomIn} disabled={scale >= MAX_SCALE} className="p-1.5 text-brand-white hover:text-brand-yellow disabled:opacity-30 transition-colors" aria-label="झूम वाढवा">
+              <button onClick={zoomIn} disabled={scale >= MAX_SCALE} className="p-1.5 text-brand-white hover:text-[color:var(--brand-yellow)] disabled:opacity-30 transition-colors" aria-label="झूम वाढवा">
                 <ZoomIn size={18} />
               </button>
             </div>
@@ -192,7 +206,7 @@ const EpaperReader = () => {
             <a
               href={pdfUrl}
               download
-              className="p-2 bg-brand-red hover:bg-brand-red-dark text-brand-white rounded-lg transition-colors"
+              className="p-2 bg-[var(--brand-red)] hover:bg-[var(--brand-red-dark)] text-brand-white rounded-lg transition-colors"
               aria-label="पीडीएफ डाउनलोड करा"
             >
               <Download size={18} />
@@ -201,49 +215,120 @@ const EpaperReader = () => {
         </div>
       </div>
 
-      {/* Page viewer — a single Document instance is shared by the main page and the
-          thumbnail strip below so the PDF is only fetched/parsed once. */}
-      <div className="w-full mx-auto py-4 sm:py-6 px-1 sm:px-2 flex flex-col items-center">
-        <div ref={containerRef} className="w-full flex justify-center relative">
-          <Document
-            key={pdfRetryKey}
-            file={pdfUrl}
-            onLoadSuccess={onDocumentLoadSuccess}
-            onLoadError={onDocumentLoadError}
-            loading={<div className="text-brand-white py-20 animate-pulse">पृष्ठ लोड होत आहे...</div>}
-            error={
-              <div className="flex flex-col items-center gap-4 py-20 px-4 text-center w-full">
-                <p className="text-brand-white text-lg">पीडीएफ उघडता आले नाही</p>
-                <p className="text-brand-gray text-sm max-w-md">
-                  कनेक्शन किंवा फाईलमध्ये समस्या असू शकते. पुन्हा प्रयत्न करा किंवा थेट डाउनलोड करा.
-                </p>
-                <div className="flex items-center gap-3">
-                  <button
-                    onClick={retryPdfLoad}
-                    className="bg-brand-red hover:bg-brand-red-dark text-brand-white px-4 py-2 rounded-lg font-bold transition-colors"
-                  >
-                    पुन्हा प्रयत्न करा
-                  </button>
-                  <a
-                    href={pdfUrl}
-                    download
-                    className="border border-brand-gray-medium hover:border-brand-yellow text-brand-white px-4 py-2 rounded-lg font-bold transition-colors"
-                  >
-                    पीडीएफ डाउनलोड करा
-                  </a>
-                </div>
-                {pdfLoadError && (
-                  <details className="text-brand-gray text-xs mt-2">
-                    <summary className="cursor-pointer hover:text-brand-white">तांत्रिक तपशील</summary>
-                    <p className="mt-1 max-w-md break-words">{pdfLoadError}</p>
-                  </details>
-                )}
+      {/* Reader body. A single <Document> instance is shared by the thumbnail rail and
+          the main page so the PDF is only fetched/parsed once. */}
+      <Document
+        key={pdfRetryKey}
+        file={pdfUrl}
+        onLoadSuccess={onDocumentLoadSuccess}
+        onLoadError={onDocumentLoadError}
+        loading={<div className="text-brand-white text-center py-20 animate-pulse">पृष्ठ लोड होत आहे...</div>}
+        error={
+          <div className="flex flex-col items-center gap-4 py-20 px-4 text-center w-full">
+            <p className="text-brand-white text-lg">पीडीएफ उघडता आले नाही</p>
+            <p className="text-brand-gray text-sm max-w-md">
+              कनेक्शन किंवा फाईलमध्ये समस्या असू शकते. पुन्हा प्रयत्न करा किंवा थेट डाउनलोड करा.
+            </p>
+            <div className="flex items-center gap-3">
+              <button
+                onClick={retryPdfLoad}
+                className="bg-[var(--brand-red)] hover:bg-[var(--brand-red-dark)] text-brand-white px-4 py-2 rounded-lg font-bold transition-colors"
+              >
+                पुन्हा प्रयत्न करा
+              </button>
+              <a
+                href={pdfUrl}
+                download
+                className="border border-brand-gray-medium hover:border-[color:var(--brand-yellow)] text-brand-white px-4 py-2 rounded-lg font-bold transition-colors"
+              >
+                पीडीएफ डाउनलोड करा
+              </a>
+            </div>
+            {pdfLoadError && (
+              <details className="text-brand-gray text-xs mt-2">
+                <summary className="cursor-pointer hover:text-brand-white">तांत्रिक तपशील</summary>
+                <p className="mt-1 max-w-md break-words">{pdfLoadError}</p>
+              </details>
+            )}
+          </div>
+        }
+        className="w-full"
+      >
+        <div className="max-w-screen-2xl mx-auto w-full px-2 sm:px-4 py-4 sm:py-6 flex flex-col lg:flex-row gap-4 lg:gap-6">
+          {/* Thumbnail rail — vertical on the left (desktop), horizontal strip below the page (mobile) */}
+          {numPages && numPages > 1 && (
+            <aside className="order-2 lg:order-1 lg:w-[176px] flex-shrink-0 lg:sticky lg:top-32 lg:self-start">
+              <div className="hidden lg:flex items-center gap-2 mb-3 px-1">
+                <span className="w-1.5 h-4 bg-[var(--brand-red)] rounded-sm"></span>
+                <h2 className="text-brand-white text-sm font-bold">पृष्ठे</h2>
               </div>
-            }
-            className="flex flex-col items-center w-full"
-          >
+              <div className="flex lg:flex-col gap-3 overflow-x-auto lg:overflow-x-hidden lg:overflow-y-auto lg:max-h-[calc(100vh-10rem)] pb-2 lg:pb-1 lg:pr-1 scrollbar-hide">
+                {pages.map((pageNum) => (
+                  <button
+                    key={pageNum}
+                    onClick={() => setPageNumber(pageNum)}
+                    className={`flex-shrink-0 rounded overflow-hidden border-2 transition-colors ${
+                      pageNum === pageNumber ? 'border-[color:var(--brand-yellow)]' : 'border-brand-gray-medium hover:border-brand-gray'
+                    }`}
+                    aria-label={`पृष्ठ ${pageNum}`}
+                    aria-current={pageNum === pageNumber}
+                  >
+                    <Page pageNumber={pageNum} width={150} devicePixelRatio={3} renderTextLayer={false} renderAnnotationLayer={false} loading={null} />
+                    <div className={`text-xs text-center py-1 ${
+                      pageNum === pageNumber ? 'bg-[var(--brand-yellow)] text-[color:var(--brand-black)] font-bold' : 'bg-[var(--brand-black)] text-brand-gray'
+                    }`}>
+                      {pageNum}
+                    </div>
+                  </button>
+                ))}
+              </div>
+            </aside>
+          )}
+
+          {/* Main viewer */}
+          <main ref={containerRef} className="order-1 lg:order-2 flex-1 min-w-0 flex flex-col items-center">
+            {/* Numbered page pager (Lokmat-style quick page jump) */}
+            {numPages && (
+              <div className="w-full flex items-center gap-2 mb-4">
+                <button
+                  onClick={goToPrevPage}
+                  disabled={pageNumber <= 1}
+                  className="flex-shrink-0 p-1.5 rounded-lg bg-brand-gray-dark border border-brand-gray-medium text-brand-white hover:text-[color:var(--brand-yellow)] disabled:opacity-30 transition-colors"
+                  aria-label="मागील पृष्ठ"
+                >
+                  <ChevronLeft size={18} />
+                </button>
+                <div className="flex-1 overflow-x-auto scrollbar-hide">
+                  <div className="flex items-center gap-1.5 w-max mx-auto px-1">
+                    {pages.map((n) => (
+                      <button
+                        key={n}
+                        onClick={() => setPageNumber(n)}
+                        aria-current={n === pageNumber}
+                        className={`flex-shrink-0 min-w-[2rem] h-8 px-2 rounded-md text-sm font-semibold transition-colors ${
+                          n === pageNumber
+                            ? 'bg-[var(--brand-yellow)] text-[color:var(--brand-black)]'
+                            : 'bg-brand-black-light text-brand-white hover:bg-brand-gray-medium'
+                        }`}
+                      >
+                        {n}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+                <button
+                  onClick={goToNextPage}
+                  disabled={pageNumber >= numPages}
+                  className="flex-shrink-0 p-1.5 rounded-lg bg-brand-gray-dark border border-brand-gray-medium text-brand-white hover:text-[color:var(--brand-yellow)] disabled:opacity-30 transition-colors"
+                  aria-label="पुढील पृष्ठ"
+                >
+                  <ChevronRight size={18} />
+                </button>
+              </div>
+            )}
+
+            {/* Page + hover navigation arrows */}
             <div className="relative w-full flex justify-center group">
-              {/* Carousel Navigation Buttons */}
               {numPages && (
                 <>
                   <button
@@ -277,35 +362,15 @@ const EpaperReader = () => {
               />
             </div>
 
-            {/* Current Page Indicator */}
+            {/* Current page indicator */}
             {numPages && (
               <div className="mt-4 text-brand-gray text-sm font-medium">
                 पृष्ठ {pageNumber} / {numPages}
               </div>
             )}
-
-            {/* Thumbnail strip */}
-          {numPages && numPages > 1 && (
-            <div className="w-full mt-8 overflow-x-auto scrollbar-hide">
-              <div className="flex gap-3 pb-2 px-1">
-                {Array.from({ length: numPages }, (_, i) => i + 1).map((pageNum) => (
-                  <button
-                    key={pageNum}
-                    onClick={() => setPageNumber(pageNum)}
-                    className={`flex-shrink-0 rounded overflow-hidden border-2 transition-colors ${
-                      pageNum === pageNumber ? 'border-brand-yellow' : 'border-brand-gray-medium hover:border-brand-gray'
-                    }`}
-                  >
-                    <Page pageNumber={pageNum} width={130} devicePixelRatio={3} renderTextLayer={false} renderAnnotationLayer={false} loading={null} />
-                    <div className="bg-brand-black text-brand-gray text-xs text-center py-1">{pageNum}</div>
-                  </button>
-                ))}
-              </div>
-            </div>
-          )}
-          </Document>
+          </main>
         </div>
-      </div>
+      </Document>
     </div>
   );
 };
