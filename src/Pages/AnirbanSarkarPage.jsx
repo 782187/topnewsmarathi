@@ -7,10 +7,7 @@ const DirectorAvatar = ({ photo, alt, fallback }) => {
   const [imgError, setImgError] = useState(false);
 
   return (
-    <div
-      style={{ width: 160, height: 160, minWidth: 160 }}
-      className="rounded-full overflow-hidden border-4 border-brand-yellow/40 shadow-[0_0_30px_rgba(0,0,0,0.6)] flex-shrink-0"
-    >
+    <div className="w-56 h-56 sm:w-64 sm:h-64 md:w-72 md:h-72 mx-auto rounded-2xl overflow-hidden border-4 border-brand-yellow/40 shadow-[0_0_30px_rgba(0,0,0,0.15)] flex-shrink-0">
       {!imgError ? (
         <img
           src={photo}
@@ -70,7 +67,7 @@ const AnirbanSarkarPage = () => {
 
         {/* Director Hero Card */}
         <div className="flex flex-col sm:flex-row items-center sm:items-start gap-6 bg-gray-50 border border-gray-200 rounded-2xl p-6 md:p-8 mb-10">
-          <DirectorAvatar photo="/director2.jpg" alt="Dr. Anirban Sarkar" fallback="AS" />
+          <DirectorAvatar photo="/sarkar_sir.png" alt="Dr. Anirban Sarkar" fallback="AS" />
 
           <div className="flex-1 text-center sm:text-left">
             <span className="text-[10px] bg-brand-red/10 text-brand-red border border-brand-red/30 px-3 py-0.5 rounded-full font-black uppercase tracking-widest">
