@@ -66,10 +66,10 @@ const AnirbanSarkarPage = () => {
         </nav>
 
         {/* Director Hero Card */}
-        <div className="flex flex-col sm:flex-row items-center sm:items-start gap-6 bg-gray-50 border border-gray-200 rounded-2xl p-6 md:p-8 mb-10">
+        <div className="flex flex-col items-center text-center gap-6 bg-gray-50 border border-gray-200 rounded-2xl p-6 md:p-8 mb-10">
           <DirectorAvatar photo="/sarkar_sir.png" alt="Dr. Anirban Sarkar" fallback="AS" />
 
-          <div className="flex-1 text-center sm:text-left">
+          <div className="flex-1">
             <span className="text-[10px] bg-brand-red/10 text-brand-red border border-brand-red/30 px-3 py-0.5 rounded-full font-black uppercase tracking-widest">
               संचालक प्रोफाइल
             </span>
@@ -81,9 +81,9 @@ const AnirbanSarkarPage = () => {
             </p>
 
             {/* Stats row */}
-            <div className="flex flex-wrap items-center justify-center sm:justify-start gap-6 mt-6">
+            <div className="flex flex-wrap items-center justify-center gap-6 mt-6">
               {sarkarStats.map(stat => (
-                <div key={stat.label} className="text-center sm:text-left">
+                <div key={stat.label} className="text-center">
                   <div className="text-2xl font-black text-brand-red">{stat.value}</div>
                   <div className="text-xs text-gray-600 uppercase tracking-wider mt-0.5">{stat.label}</div>
                 </div>
