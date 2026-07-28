@@ -67,7 +67,7 @@ const AnirbanSarkarPage = () => {
 
         {/* Director Hero Card */}
         <div className="flex flex-col items-center text-center gap-6 bg-gray-50 border border-gray-200 rounded-2xl p-6 md:p-8 mb-10">
-          <DirectorAvatar photo="/sarkar_sir.png" alt="Dr. Anirban Sarkar" fallback="AS" />
+          <DirectorAvatar photo="/sarkar_sir.jpeg" alt="Dr. Anirban Sarkar" fallback="AS" />
 
           <div className="flex-1">
             <span className="text-[10px] bg-brand-red/10 text-brand-red border border-brand-red/30 px-3 py-0.5 rounded-full font-black uppercase tracking-widest">
