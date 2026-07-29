@@ -29,6 +29,7 @@ import { Toaster } from 'react-hot-toast'
 // Lazy-loaded: pulls in react-pdf/pdfjs (~230KB gzipped) which only readers
 // of the E-Paper section need — keeps it out of the main bundle.
 const EpaperReader = lazy(() => import('./Pages/EpaperReader'))
+const EpaperArticleView = lazy(() => import('./Pages/EpaperArticleView'))
 
 const ReaderFallback = () => (
   <div className="min-h-screen bg-brand-black w-full flex items-center justify-center">
@@ -64,7 +65,15 @@ function App() {
             </Suspense>
           )}
         />
-        
+        <Route
+          path="/epaper/:editionSlug/:date/article/:slug"
+          element={(
+            <Suspense fallback={<ReaderFallback />}>
+              <EpaperArticleView />
+            </Suspense>
+          )}
+        />
+
         {/* Dynamic Category Maps */}
         <Route path="/category/:categoryId" element={<CategoryPage />} />
         

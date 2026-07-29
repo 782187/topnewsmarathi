@@ -6,6 +6,7 @@ import 'react-pdf/dist/Page/TextLayer.css';
 import { ChevronLeft, ChevronRight, ZoomIn, ZoomOut, Download, Calendar, ArrowLeft } from 'lucide-react';
 import '../utils/pdfWorker';
 import { buildStaticUrl } from '../utils/staticUrl';
+import EpaperImageReader from './EpaperImageReader';
 
 const MIN_SCALE = 0.6;
 const MAX_SCALE = 2.5;
@@ -23,8 +24,16 @@ const EpaperReader = () => {
   const navigate = useNavigate();
   const containerRef = useRef(null);
 
+  // Track the last edition+date key that was successfully fetched so we can
+  // skip the null-reset when the user navigates *back* to the same issue
+  // (e.g. after viewing an article section). Without this, every remount
+  // unconditionally set pageImages to null → caused a visible loading-pulse
+  // blink even though the data was identical to what was just shown.
+  const loadedKeyRef = useRef(null);
+
   const [epaper, setEpaper] = useState(null);
   const [archive, setArchive] = useState([]);
+  const [pageImages, setPageImages] = useState(null); // null = not fetched yet; [] = none (use PDF fallback)
   const [numPages, setNumPages] = useState(null);
   const [pageNumber, setPageNumber] = useState(1);
   const [scale, setScale] = useState(1);
@@ -35,9 +44,23 @@ const EpaperReader = () => {
   const [pdfRetryKey, setPdfRetryKey] = useState(0);
 
   useEffect(() => {
+    const key = `${editionSlug}__${date}`;
+    const isSameIssue = loadedKeyRef.current === key;
+
+    // Only flash the loading screen when switching to a genuinely different
+    // edition or date. Back-navigation to the same issue keeps the already-
+    // rendered images visible, so there is no blink.
+    if (!isSameIssue) {
+      setPageImages(null);
+      loadedKeyRef.current = key;
+    }
+
     fetchEpaper();
     fetchArchive();
-    setPageNumber(1);
+    fetchPages();
+
+    // Only reset to page 1 when switching issues, not on a mere remount.
+    if (!isSameIssue) setPageNumber(1);
   }, [editionSlug, date]);
 
   const measure = useCallback(() => {
@@ -100,6 +123,19 @@ const EpaperReader = () => {
     }
   };
 
+  // Fetch server-rendered page images. When present, the issue is shown with the
+  // image-based reader; on any failure/empty result we fall back to the PDF reader.
+  const fetchPages = async () => {
+    try {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/epapers/edition/${editionSlug}/${date}/pages`);
+      const data = await response.json();
+      setPageImages(data.success && Array.isArray(data.data.pages) ? data.data.pages : []);
+    } catch (err) {
+      console.error('Failed to fetch e-paper pages', err);
+      setPageImages([]); // fall back to PDF reader
+    }
+  };
+
   const onDocumentLoadSuccess = ({ numPages: n }) => {
     setPdfLoadError(null);
     setNumPages(n);
@@ -149,6 +185,29 @@ const EpaperReader = () => {
     );
   }
 
+  // Preferred path: server-rendered page images exist → use the image reader.
+  if (pageImages && pageImages.length > 0) {
+    return (
+      <EpaperImageReader
+        epaper={epaper}
+        pages={pageImages}
+        archive={archive}
+        editionSlug={editionSlug}
+        date={date}
+      />
+    );
+  }
+
+  // Page images not resolved yet — hold rather than briefly flashing the PDF reader.
+  if (pageImages === null) {
+    return (
+      <div className="min-h-screen bg-[var(--brand-black)] w-full flex items-center justify-center">
+        <div className="text-brand-white text-xl animate-pulse">ई-पेपर लोड होत आहे...</div>
+      </div>
+    );
+  }
+
+  // Fallback path (pages === []): older/unrendered issues keep the PDF reader below.
   const pdfUrl = buildStaticUrl(epaper.pdf_url);
   // The main <Page> fills the width of the center column (measured live), so it
   // stays as large as possible whether or not the thumbnail rail is showing.
