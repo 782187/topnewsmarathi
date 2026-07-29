@@ -122,12 +122,12 @@ const EpaperArticleView = () => {
       </div>
 
       {/* Section image only */}
-      <div className="max-w-screen-xl mx-auto w-full px-3 sm:px-6 py-5 sm:py-8">
+      <div className="max-w-2xl mx-auto w-full px-3 sm:px-6 py-5 sm:py-8">
         <div className="w-full overflow-auto flex justify-center">
           <img
             src={imageUrl}
             alt={article.title || 'बातमी'}
-            style={{ width: `${Math.round(scale * 100)}%`, maxWidth: scale <= 1 ? 900 : 'none' }}
+            style={{ width: `${Math.round(scale * 100)}%`, maxWidth: scale <= 1 ? 600 : 'none' }}
             className="h-auto rounded-lg shadow-2xl bg-white"
           />
         </div>

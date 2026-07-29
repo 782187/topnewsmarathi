@@ -209,9 +209,10 @@ const EpaperReader = () => {
 
   // Fallback path (pages === []): older/unrendered issues keep the PDF reader below.
   const pdfUrl = buildStaticUrl(epaper.pdf_url);
-  // The main <Page> fills the width of the center column (measured live), so it
-  // stays as large as possible whether or not the thumbnail rail is showing.
-  const baseWidth = containerWidth;
+  // Cap the base width so the newspaper page never fills the entire widescreen
+  // viewport. 720 px is comfortable for reading; zoom still applies on top.
+  const BASE_MAX_WIDTH = 720;
+  const baseWidth = Math.min(containerWidth, BASE_MAX_WIDTH);
   const pages = numPages ? Array.from({ length: numPages }, (_, i) => i + 1) : [];
 
   return (

@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { ChevronLeft, ChevronRight, ZoomIn, ZoomOut, Download, Calendar, ArrowLeft } from 'lucide-react';
 import { buildStaticUrl } from '../utils/staticUrl';
+import { EpaperAd } from '../Components/Ads';
 
 const MIN_SCALE = 0.6;
 const MAX_SCALE = 3;
@@ -80,7 +81,11 @@ const EpaperImageReader = ({ epaper, pages, archive = [], editionSlug, date }) =
     new Date(dateString).toLocaleDateString('mr-IN', { year: 'numeric', month: 'long', day: 'numeric' });
 
   const pdfUrl = buildStaticUrl(epaper.pdf_url);
-  const displayWidth = Math.round(containerWidth * scale);
+  // Cap the base width so the newspaper page never stretches across the full
+  // widescreen viewport. 720 px is comfortable for reading; zoom applies on top.
+  const BASE_MAX_WIDTH = 720;
+  const baseWidth = Math.min(containerWidth, BASE_MAX_WIDTH);
+  const displayWidth = Math.round(baseWidth * scale);
   const aspect = current && current.image_width ? current.image_height / current.image_width : 1.414;
   const displayHeight = Math.round(displayWidth * aspect);
 
@@ -291,6 +296,12 @@ const EpaperImageReader = ({ epaper, pages, archive = [], editionSlug, date }) =
             </div>
           )}
         </main>
+
+        {/* Right-side advertisement column — desktop only */}
+        <aside className="hidden lg:flex order-3 flex-col gap-4 w-60 flex-shrink-0 sticky top-32 self-start">
+          <EpaperAd />
+          <EpaperAd />
+        </aside>
       </div>
     </div>
   );

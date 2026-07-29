@@ -4,6 +4,7 @@ import { Document, Page } from 'react-pdf';
 import { Calendar } from 'lucide-react';
 import '../utils/pdfWorker';
 import { buildStaticUrl } from '../utils/staticUrl';
+import { EpaperAd } from '../Components/Ads';
 
 const PAGE_LIMIT = 24;
 
@@ -94,77 +95,86 @@ const EpaperPage = () => {
         ) : epapers.length === 0 ? (
           <div className="text-brand-gray text-center py-12">सध्या कोणतेही ई-पेपर उपलब्ध नाहीत</div>
         ) : (
-          <>
-            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-5 sm:gap-6">
-              {epapers.map((epaper) => (
-                <Link
-                  key={epaper.id}
-                  to={`/epaper/${epaper.edition_slug}/${epaper.publish_date.slice(0, 10)}`}
-                  className="group bg-brand-gray-dark border border-brand-gray-medium hover:border-[color:var(--brand-yellow)] rounded-lg overflow-hidden transition-all duration-300 hover:shadow-xl flex flex-col"
-                >
-                  {/* Front-page thumbnail — the hero of the card */}
-                  <div className="aspect-[3/4] relative bg-brand-black-light overflow-hidden">
-                    {epaper.thumbnail_url ? (
-                      <img
-                        src={buildStaticUrl(epaper.thumbnail_url)}
-                        alt={`${epaper.edition_name} - ${formatDate(epaper.publish_date)}`}
-                        className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-300"
-                        loading="lazy"
-                      />
-                    ) : epaper.pdf_url ? (
-                      <div className="w-full h-full overflow-hidden flex items-center justify-center pointer-events-none group-hover:scale-105 transition-transform duration-300 bg-brand-black-light">
-                        <Document
-                          file={buildStaticUrl(epaper.pdf_url)}
-                          loading={<div className="w-full h-full flex items-center justify-center animate-pulse text-brand-gray text-xs">लोड...</div>}
-                          error={<div className="w-full h-full flex items-center justify-center text-brand-gray text-xs">पीडीएफ</div>}
-                          className="w-full h-full"
-                        >
-                          <Page
-                            pageNumber={1}
-                            width={400}
-                            renderTextLayer={false}
-                            renderAnnotationLayer={false}
-                            devicePixelRatio={2}
-                            className="!w-full !h-full flex items-center justify-center [&_div]:!w-full [&_div]:!h-full [&_canvas]:!w-full [&_canvas]:!h-full [&_canvas]:!object-contain [&_canvas]:!object-center"
-                          />
-                        </Document>
+          <div className="flex gap-6 items-start">
+            {/* Editions grid */}
+            <div className="flex-1 min-w-0">
+              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-5 sm:gap-6">
+                {epapers.map((epaper) => (
+                  <Link
+                    key={epaper.id}
+                    to={`/epaper/${epaper.edition_slug}/${epaper.publish_date.slice(0, 10)}`}
+                    className="group bg-brand-gray-dark border border-brand-gray-medium hover:border-[color:var(--brand-yellow)] rounded-lg overflow-hidden transition-all duration-300 hover:shadow-xl flex flex-col"
+                  >
+                    {/* Front-page thumbnail — the hero of the card */}
+                    <div className="aspect-[3/4] relative bg-brand-black-light overflow-hidden">
+                      {epaper.thumbnail_url ? (
+                        <img
+                          src={buildStaticUrl(epaper.thumbnail_url)}
+                          alt={`${epaper.edition_name} - ${formatDate(epaper.publish_date)}`}
+                          className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-300"
+                          loading="lazy"
+                        />
+                      ) : epaper.pdf_url ? (
+                        <div className="w-full h-full overflow-hidden flex items-center justify-center pointer-events-none group-hover:scale-105 transition-transform duration-300 bg-brand-black-light">
+                          <Document
+                            file={buildStaticUrl(epaper.pdf_url)}
+                            loading={<div className="w-full h-full flex items-center justify-center animate-pulse text-brand-gray text-xs">लोड...</div>}
+                            error={<div className="w-full h-full flex items-center justify-center text-brand-gray text-xs">पीडीएफ</div>}
+                            className="w-full h-full"
+                          >
+                            <Page
+                              pageNumber={1}
+                              width={400}
+                              renderTextLayer={false}
+                              renderAnnotationLayer={false}
+                              devicePixelRatio={2}
+                              className="!w-full !h-full flex items-center justify-center [&_div]:!w-full [&_div]:!h-full [&_canvas]:!w-full [&_canvas]:!h-full [&_canvas]:!object-contain [&_canvas]:!object-center"
+                            />
+                          </Document>
+                        </div>
+                      ) : (
+                        <div className="w-full h-full flex items-center justify-center text-brand-gray text-sm">
+                          पीडीएफ
+                        </div>
+                      )}
+                      <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors flex items-center justify-center pointer-events-none">
+                        <span className="opacity-0 group-hover:opacity-100 bg-[var(--brand-red)] text-brand-white text-xs font-bold px-3 py-1.5 rounded-full transition-opacity">
+                          वाचा
+                        </span>
                       </div>
-                    ) : (
-                      <div className="w-full h-full flex items-center justify-center text-brand-gray text-sm">
-                        पीडीएफ
-                      </div>
-                    )}
-                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors flex items-center justify-center pointer-events-none">
-                      <span className="opacity-0 group-hover:opacity-100 bg-[var(--brand-red)] text-brand-white text-xs font-bold px-3 py-1.5 rounded-full transition-opacity">
-                        वाचा
-                      </span>
                     </div>
-                  </div>
 
-                  {/* Caption — edition name + date below the front page */}
-                  <div className="p-2.5 text-center border-t border-brand-gray-medium">
-                    <h3 className="text-brand-white font-bold text-sm truncate group-hover:text-[color:var(--brand-yellow)] transition-colors">{epaper.edition_name}</h3>
-                    <div className="flex items-center justify-center gap-1 mt-1">
-                      <Calendar size={12} className="text-brand-gray flex-shrink-0" />
-                      <span className="text-brand-gray text-xs">{formatDate(epaper.publish_date)}</span>
+                    {/* Caption — edition name + date below the front page */}
+                    <div className="p-2.5 text-center border-t border-brand-gray-medium">
+                      <h3 className="text-brand-white font-bold text-sm truncate group-hover:text-[color:var(--brand-yellow)] transition-colors">{epaper.edition_name}</h3>
+                      <div className="flex items-center justify-center gap-1 mt-1">
+                        <Calendar size={12} className="text-brand-gray flex-shrink-0" />
+                        <span className="text-brand-gray text-xs">{formatDate(epaper.publish_date)}</span>
+                      </div>
                     </div>
-                  </div>
-                </Link>
-              ))}
+                  </Link>
+                ))}
+              </div>
+
+              {page < totalPages && (
+                <div className="flex justify-center mt-10">
+                  <button
+                    onClick={handleLoadMore}
+                    disabled={loadingMore}
+                    className="bg-[var(--brand-red)] hover:bg-[var(--brand-red-dark)] text-brand-white font-bold px-6 py-3 rounded-lg transition-colors disabled:opacity-50"
+                  >
+                    {loadingMore ? 'लोड होत आहे...' : 'अजून पहा'}
+                  </button>
+                </div>
+              )}
             </div>
 
-            {page < totalPages && (
-              <div className="flex justify-center mt-10">
-                <button
-                  onClick={handleLoadMore}
-                  disabled={loadingMore}
-                  className="bg-[var(--brand-red)] hover:bg-[var(--brand-red-dark)] text-brand-white font-bold px-6 py-3 rounded-lg transition-colors disabled:opacity-50"
-                >
-                  {loadingMore ? 'लोड होत आहे...' : 'अजून पहा'}
-                </button>
-              </div>
-            )}
-          </>
+            {/* Right-side advertisement panel (desktop only) */}
+            <aside className="hidden lg:flex flex-col gap-4 w-64 flex-shrink-0 sticky top-28 self-start">
+              <EpaperAd />
+              <EpaperAd />
+            </aside>
+          </div>
         )}
       </div>
     </div>
