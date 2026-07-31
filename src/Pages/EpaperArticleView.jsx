@@ -75,6 +75,9 @@ const EpaperArticleView = () => {
     );
   }
 
+  const formatDate = (dateString) =>
+    new Date(dateString).toLocaleDateString('mr-IN', { year: 'numeric', month: 'long', day: 'numeric' });
+
   const imageUrl = buildStaticUrl(article.image_url);
 
   return (
@@ -123,13 +126,27 @@ const EpaperArticleView = () => {
 
       {/* Section image only */}
       <div className="max-w-2xl mx-auto w-full px-3 sm:px-6 py-5 sm:py-8">
-        <div className="w-full overflow-auto flex justify-center">
+        <div className="w-full overflow-auto flex flex-col items-center gap-4 sm:gap-6">
+          {/* Logo above the paper */}
+          <div className="flex justify-center w-full">
+            <img 
+              src="/logo.png" 
+              alt="Top News Marathi" 
+              className="h-8 sm:h-10 md:h-12 object-contain"
+            />
+          </div>
+
           <img
             src={imageUrl}
             alt={article.title || 'बातमी'}
             style={{ width: `${Math.round(scale * 100)}%`, maxWidth: scale <= 1 ? 600 : 'none' }}
-            className="h-auto rounded-lg shadow-2xl bg-white"
+            className="h-auto rounded-lg shadow-2xl bg-white block"
           />
+
+          {/* Date below the paper */}
+          <div className="flex justify-center w-full text-brand-gray text-sm sm:text-base font-medium tracking-wide">
+            {formatDate(date)}
+          </div>
         </div>
       </div>
     </div>
