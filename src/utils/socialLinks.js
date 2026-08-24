@@ -14,8 +14,8 @@ export const SOCIAL_LINKS = [
   },
   {
     name: 'X (Twitter)',
-    handle: '@Topnewsmarathi',
-    href: 'https://x.com/Topnewsmarathi',
+    handle: '@topnewsmarathio',
+    href: 'https://x.com/topnewsmarathio',
     color: '#000000',
     hoverClass: 'hover:bg-white/10 hover:border-white hover:text-white',
     iconColor: 'text-white',

@@ -20,7 +20,7 @@ const SocialIcon = ({ name }) => {
 const Footer = () => {
   const socialLinks = [
     { name: 'Facebook',    href: 'https://www.facebook.com/people/Top-News-Marathi/61560392199389/',             color: 'hover:text-blue-500' },
-    { name: 'X (Twitter)', href: 'https://x.com/Topnewsmarathi',                                                color: 'hover:text-white' },
+    { name: 'X (Twitter)', href: 'https://x.com/topnewsmarathio',                                                color: 'hover:text-white' },
     { name: 'Instagram',   href: 'https://www.instagram.com/topnewsmarathiofficial?igsh=MWRqa2ZqNTJ5YzdueQ==',  color: 'hover:text-pink-500' },
     { name: 'YouTube',     href: 'https://www.youtube.com/@topnewsmarathi',                                      color: 'hover:text-red-500' },
     { name: 'Threads',     href: 'https://www.threads.com/@topnewsmarathi',                                      color: 'hover:text-gray-400' },

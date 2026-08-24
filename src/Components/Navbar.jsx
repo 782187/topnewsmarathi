@@ -171,7 +171,7 @@ const Navbar = () => {
   // Social media links shown in sidebar
   const socialLinks = [
     { name: 'Facebook',    icon: FacebookIcon,  href: 'https://www.facebook.com/people/Top-News-Marathi/61560392199389/',             color: 'hover:text-blue-500' },
-    { name: 'X (Twitter)', icon: XIcon,         href: 'https://x.com/Topnewsmarathi',                                                color: 'hover:text-white' },
+    { name: 'X (Twitter)', icon: XIcon,         href: 'https://x.com/topnewsmarathio',                                                color: 'hover:text-white' },
     { name: 'Instagram',   icon: InstagramIcon, href: 'https://www.instagram.com/topnewsmarathiofficial?igsh=MWRqa2ZqNTJ5YzdueQ==',  color: 'hover:text-pink-500' },
     { name: 'YouTube',     icon: YoutubeIcon,   href: 'https://www.youtube.com/@topnewsmarathi',                                      color: 'hover:text-red-500' },
     { name: 'Threads',     icon: ThreadsIcon,   href: 'https://www.threads.com/@topnewsmarathi',                                      color: 'hover:text-gray-400' },
