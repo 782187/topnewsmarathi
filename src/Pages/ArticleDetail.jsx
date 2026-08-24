@@ -5,6 +5,8 @@ import LatestNewsWidget from '../Components/LatestNewsWidget.jsx';
 import SEO from '../Components/SEO.jsx';
 import { Link as LinkIcon, Home, ChevronRight, Clock, User, Share2 } from 'lucide-react';
 import { buildStaticUrl } from '../utils/staticUrl.js';
+import InstagramEmbed from '../Components/InstagramEmbed.jsx';
+import { isInstagramUrl, normalizeInstagramUrl } from '../utils/instagramUtils.js';
 
 // Production-safe text sanitization for Marathi/Devanagari
 const cleanText = (text) => {
@@ -364,6 +366,16 @@ const ArticleDetail = () => {
               className="article-content"
               dangerouslySetInnerHTML={{ __html: cleanHTML(article.content) || '' }}
             />
+
+            {/* Instagram Post Embed — shown below the article content */}
+            {article.instagram_url && isInstagramUrl(article.instagram_url) && (
+              <div className="mt-10">
+                <InstagramEmbed
+                  key={article.instagram_url}
+                  url={normalizeInstagramUrl(article.instagram_url)}
+                />
+              </div>
+            )}
 
             {/* Bottom Tag / Share Area */}
             <div className="mt-16 pt-8 border-t border-brand-gray-medium/30 flex flex-col sm:flex-row items-center justify-between gap-6">
