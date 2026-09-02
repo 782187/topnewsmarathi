@@ -5,8 +5,11 @@ import LatestNewsWidget from '../Components/LatestNewsWidget.jsx';
 import SEO from '../Components/SEO.jsx';
 import { Link as LinkIcon, Home, ChevronRight, Clock, User, Share2 } from 'lucide-react';
 import { buildStaticUrl } from '../utils/staticUrl.js';
-import InstagramEmbed from '../Components/InstagramEmbed.jsx';
-import { isInstagramUrl, normalizeInstagramUrl } from '../utils/instagramUtils.js';
+import SocialEmbed from '../Components/SocialEmbed.jsx';
+import { isSocialUrl, normalizeSocialUrl } from '../utils/socialUtils.js';
+
+// Social post embeds shown below the article body, in this order.
+const SOCIAL_EMBED_FIELDS = ['instagram_url', 'twitter_url', 'facebook_url'];
 
 // Production-safe text sanitization for Marathi/Devanagari
 const cleanText = (text) => {
@@ -367,14 +370,13 @@ const ArticleDetail = () => {
               dangerouslySetInnerHTML={{ __html: cleanHTML(article.content) || '' }}
             />
 
-            {/* Instagram Post Embed — shown below the article content */}
-            {article.instagram_url && isInstagramUrl(article.instagram_url) && (
-              <div className="mt-10">
-                <InstagramEmbed
-                  key={article.instagram_url}
-                  url={normalizeInstagramUrl(article.instagram_url)}
-                />
-              </div>
+            {/* Social Post Embeds — shown below the article content */}
+            {SOCIAL_EMBED_FIELDS.map((field) =>
+              article[field] && isSocialUrl(article[field]) ? (
+                <div key={field} className="mt-10">
+                  <SocialEmbed url={normalizeSocialUrl(article[field])} theme="dark" />
+                </div>
+              ) : null
             )}
 
             {/* Bottom Tag / Share Area */}
