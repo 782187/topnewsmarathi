@@ -12,7 +12,7 @@ const CategorySection = ({
   if (loading) {
     return (
       <div className="w-full">
-        <div className="bg-brand-gray-dark rounded-xl p-4 shadow-2xl shadow-black/50 overflow-hidden">
+        <div className="bg-brand-gray-dark rounded-xl p-4 shadow-2xl shadow-brand-shadow/50 border border-brand-border overflow-hidden">
           <h2 className="text-brand-white font-bold text-lg mb-4 flex items-center gap-2">
             <span className="w-1 h-5 bg-brand-yellow rounded"></span>
             <span className="text-brand-white">{title}</span>
@@ -43,7 +43,7 @@ const CategorySection = ({
 
     return (
       <div className="w-full mb-6">
-        <div className="bg-brand-gray-dark rounded-xl p-4 shadow-2xl shadow-black/50 overflow-hidden">
+        <div className="bg-brand-gray-dark rounded-xl p-4 shadow-2xl shadow-brand-shadow/50 border border-brand-border overflow-hidden">
           {/* Section Header */}
           <h2 className="text-brand-white font-bold text-lg mb-4 flex items-center gap-2">
             <span className="w-1 h-5 bg-brand-yellow rounded"></span>
@@ -67,7 +67,7 @@ const CategorySection = ({
             <div className="lg:col-span-2">
               <Link
                 to={`/article/${mainArticle.slug}`}
-                className="block group rounded-xl overflow-hidden bg-brand-black shadow-xl shadow-black/40 hover:shadow-2xl hover:shadow-black/60 transition-all duration-300"
+                className="block group rounded-xl overflow-hidden bg-brand-black shadow-xl shadow-brand-shadow/40 hover:shadow-2xl hover:shadow-brand-shadow/60 transition-all duration-300"
               >
                 {/* Image */}
                 <div className="relative aspect-video flex items-center justify-center">
@@ -83,7 +83,7 @@ const CategorySection = ({
                       {mainArticle.type === 'video' && (
                         <div className="absolute inset-0 flex items-center justify-center">
                           <div className="bg-brand-red w-12 h-12 rounded-full flex items-center justify-center shadow-lg">
-                            <svg className="w-6 h-6 text-brand-white ml-1" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                            <svg className="w-6 h-6 text-white ml-1" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
                           </div>
                         </div>
                       )}
@@ -95,11 +95,11 @@ const CategorySection = ({
                 {/* Title below the image — never overlaps empty space */}
                 <div className="p-3 bg-gradient-to-b from-brand-black-light to-brand-black">
                   {mainArticle.category_name && (
-                    <span className="bg-brand-red text-brand-white text-xs px-3 py-1 rounded font-medium mb-2 inline-block shadow-lg">
+                    <span className="bg-brand-red text-white text-xs px-3 py-1 rounded font-medium mb-2 inline-block shadow-lg">
                       {mainArticle.category_name}
                     </span>
                   )}
-                  <h3 className="text-brand-white font-bold text-lg md:text-xl line-clamp-2 group-hover:text-brand-yellow transition-colors">
+                  <h3 className="text-brand-white font-bold text-lg md:text-xl line-clamp-2 group-hover:text-brand-link transition-colors">
                     {mainArticle.title}
                   </h3>
                 </div>
@@ -126,7 +126,7 @@ const CategorySection = ({
                       {article.type === 'video' && (
                         <div className="absolute inset-0 flex items-center justify-center">
                           <div className="bg-brand-red/80 w-6 h-6 rounded-full flex items-center justify-center">
-                            <svg className="w-3 h-3 text-brand-white ml-0.5" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                            <svg className="w-3 h-3 text-white ml-0.5" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
                           </div>
                         </div>
                       )}
@@ -136,7 +136,7 @@ const CategorySection = ({
                     <h4 className="text-brand-white font-medium text-sm line-clamp-2 group-hover:text-brand-primary transition-colors">
                       {article.title}
                     </h4>
-                    <span className="text-gray-400 text-xs mt-1 block">
+                    <span className="text-brand-gray text-xs mt-1 block">
                       {new Date(article.created_at).toLocaleDateString('mr-IN')}
                     </span>
                   </div>
@@ -166,7 +166,7 @@ const CategorySection = ({
                       {article.type === 'video' && (
                         <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
                           <div className="bg-brand-red w-10 h-10 rounded-full flex items-center justify-center shadow-lg">
-                            <svg className="w-5 h-5 text-brand-white ml-1" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                            <svg className="w-5 h-5 text-white ml-1" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
                           </div>
                         </div>
                       )}
@@ -188,7 +188,7 @@ const CategorySection = ({
   if (layout === 'compact') {
     return (
       <div className="w-full mb-6">
-        <div className="bg-brand-gray-dark rounded-xl p-4 shadow-2xl shadow-black/50 overflow-hidden">
+        <div className="bg-brand-gray-dark rounded-xl p-4 shadow-2xl shadow-brand-shadow/50 border border-brand-border overflow-hidden">
           {/* Section Header */}
           <h2 className="text-brand-white font-bold text-lg mb-4 flex items-center gap-2">
             <span className="w-1 h-5 bg-brand-yellow rounded"></span>
@@ -215,7 +215,7 @@ const CategorySection = ({
                 className="flex-shrink-0 w-48 group"
               >
                 {(article.thumbnail || (article.type === 'video' && getYouTubeThumbnail(article.video_url))) && (
-                  <div className="aspect-video rounded-xl bg-brand-black flex items-center justify-center mb-2 relative shadow-md shadow-black/30 group-hover:shadow-xl group-hover:shadow-black/50 transition-all duration-300">
+                  <div className="aspect-video rounded-xl bg-brand-black flex items-center justify-center mb-2 relative shadow-md shadow-brand-shadow/30 group-hover:shadow-xl group-hover:shadow-brand-shadow/50 transition-all duration-300">
                     <img
                       src={article.type === 'video' && article.video_url
                         ? (getYouTubeThumbnail(article.video_url))
@@ -226,18 +226,18 @@ const CategorySection = ({
                     {article.type === 'video' && (
                       <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
                         <div className="bg-brand-red w-10 h-10 rounded-full flex items-center justify-center shadow-lg">
-                          <svg className="w-5 h-5 text-brand-white ml-1" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                          <svg className="w-5 h-5 text-white ml-1" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
                         </div>
                       </div>
                     )}
                     {article.category_name && (
-                      <span className="absolute top-2 left-2 bg-brand-red text-brand-white text-xs px-2 py-1 rounded font-medium shadow-lg">
+                      <span className="absolute top-2 left-2 bg-brand-red text-white text-xs px-2 py-1 rounded font-medium shadow-lg">
                         {article.category_name}
                       </span>
                     )}
                   </div>
                 )}
-                <h4 className="text-brand-white font-medium text-sm line-clamp-2 group-hover:text-brand-yellow transition-colors">
+                <h4 className="text-brand-white font-medium text-sm line-clamp-2 group-hover:text-brand-link transition-colors">
                   {article.title}
                 </h4>
                 <div className="flex items-center justify-between mt-1">
@@ -259,7 +259,7 @@ const CategorySection = ({
   // Default layout - Grid of articles
   return (
     <div className="w-full mb-6">
-      <div className="bg-brand-gray-dark rounded-xl p-4 shadow-2xl shadow-black/50 overflow-hidden">
+      <div className="bg-brand-gray-dark rounded-xl p-4 shadow-2xl shadow-brand-shadow/50 border border-brand-border overflow-hidden">
         {/* Section Header */}
         <h2 className="text-brand-white font-bold text-lg mb-4 flex items-center gap-2">
           <span className="w-1 h-5 bg-brand-yellow rounded"></span>
@@ -297,14 +297,14 @@ const CategorySection = ({
                   {article.type === 'video' && (
                     <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
                       <div className="bg-brand-red/80 w-6 h-6 rounded-full flex items-center justify-center shadow-lg">
-                        <svg className="w-3 h-3 text-brand-white ml-0.5" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                        <svg className="w-3 h-3 text-white ml-0.5" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
                       </div>
                     </div>
                   )}
                 </div>
               )}
               <div className="flex-1 flex flex-col justify-between py-1">
-                <h4 className="text-brand-white font-medium text-sm md:text-base hover:text-brand-yellow transition-colors line-clamp-2">
+                <h4 className="text-brand-white font-medium text-sm md:text-base hover:text-brand-link transition-colors line-clamp-2">
                   {article.title}
                 </h4>
                 <div className="flex items-center justify-between mt-2">

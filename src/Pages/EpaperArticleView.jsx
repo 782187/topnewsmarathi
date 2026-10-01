@@ -192,7 +192,7 @@ const EpaperArticleView = () => {
     return (
       <div className="min-h-screen bg-[var(--brand-black)] w-full flex flex-col items-center justify-center gap-4 px-4 text-center">
         <p className="text-brand-white text-xl">{error || 'बातमी आढळली नाही'}</p>
-        <Link to={`/epaper/${editionSlug}/${date}`} className="bg-[var(--brand-red)] text-brand-white px-5 py-2 rounded-lg font-bold hover:bg-[var(--brand-red-dark)] transition-colors">
+        <Link to={`/epaper/${editionSlug}/${date}`} className="bg-[var(--brand-red)] text-white px-5 py-2 rounded-lg font-bold hover:bg-[var(--brand-red-dark)] transition-colors">
           पृष्ठाकडे परत जा
         </Link>
       </div>
@@ -211,7 +211,7 @@ const EpaperArticleView = () => {
         <div className="max-w-screen-xl mx-auto px-3 sm:px-6 py-2.5 flex items-center justify-between gap-3">
           <Link
             to={`/epaper/${editionSlug}/${date}`}
-            className="text-brand-white hover:text-[color:var(--brand-yellow)] transition-colors flex items-center gap-2 flex-shrink-0"
+            className="text-brand-white hover:text-brand-link transition-colors flex items-center gap-2 flex-shrink-0"
             aria-label="पृष्ठाकडे परत जा"
           >
             <ArrowLeft size={20} />
@@ -224,7 +224,7 @@ const EpaperArticleView = () => {
               <button
                 onClick={zoomOut}
                 disabled={scale <= MIN_SCALE}
-                className="p-1.5 text-brand-white hover:text-[color:var(--brand-yellow)] disabled:opacity-30 transition-colors"
+                className="p-1.5 text-brand-white hover:text-brand-link disabled:opacity-30 transition-colors"
                 aria-label="झूम कमी करा"
               >
                 <ZoomOut size={18} />
@@ -233,7 +233,7 @@ const EpaperArticleView = () => {
               <button
                 onClick={zoomIn}
                 disabled={scale >= MAX_SCALE}
-                className="p-1.5 text-brand-white hover:text-[color:var(--brand-yellow)] disabled:opacity-30 transition-colors"
+                className="p-1.5 text-brand-white hover:text-brand-link disabled:opacity-30 transition-colors"
                 aria-label="झूम वाढवा"
               >
                 <ZoomIn size={18} />
@@ -243,7 +243,7 @@ const EpaperArticleView = () => {
             {/* WhatsApp share */}
             <button
               onClick={shareWhatsApp}
-              className="p-2 bg-brand-gray-dark border border-brand-gray-medium hover:border-[color:var(--brand-yellow)] text-brand-white rounded-lg transition-colors"
+              className="p-2 bg-brand-gray-dark border border-brand-gray-medium hover:border-brand-link text-brand-white rounded-lg transition-colors"
               aria-label="व्हॉट्सअॅपवर शेअर करा"
             >
               <Share2 size={18} />
@@ -255,7 +255,7 @@ const EpaperArticleView = () => {
               className={`p-2 bg-brand-gray-dark border rounded-lg transition-colors ${
                 copied
                   ? 'border-[color:var(--brand-yellow)] text-[color:var(--brand-yellow)]'
-                  : 'border-brand-gray-medium hover:border-[color:var(--brand-yellow)] text-brand-white'
+                  : 'border-brand-gray-medium hover:border-brand-link text-brand-white'
               }`}
               aria-label={copied ? 'लिंक कॉपी झाली' : 'लिंक कॉपी करा'}
             >
@@ -268,8 +268,8 @@ const EpaperArticleView = () => {
               disabled={downloading}
               className={`p-2 rounded-lg transition-colors ${
                 downloading
-                  ? 'bg-[var(--brand-red-dark)] text-brand-white opacity-70 cursor-not-allowed'
-                  : 'bg-[var(--brand-red)] hover:bg-[var(--brand-red-dark)] text-brand-white'
+                  ? 'bg-[var(--brand-red-dark)] text-white opacity-70 cursor-not-allowed'
+                  : 'bg-[var(--brand-red)] hover:bg-[var(--brand-red-dark)] text-white'
               }`}
               aria-label={downloading ? 'डाउनलोड होत आहे...' : 'लोगोसह प्रतिमा डाउनलोड करा'}
               title={downloading ? 'डाउनलोड होत आहे...' : 'लोगोसह डाउनलोड करा'}
@@ -284,7 +284,7 @@ const EpaperArticleView = () => {
 
         {/* Inline error toast — displayed below the toolbar for 4 s on failure */}
         {downloadError && (
-          <div className="bg-[var(--brand-red-darker)] text-brand-white text-xs text-center py-1.5 px-4 animate-pulse">
+          <div className="bg-[var(--brand-red-darker)] text-white text-xs text-center py-1.5 px-4 animate-pulse">
             ⚠️ {downloadError}
           </div>
         )}

@@ -17,7 +17,7 @@ const DirectorAvatar = ({ photo, alt, fallback }) => {
         />
       ) : (
         <div className="w-full h-full bg-brand-red-dark flex items-center justify-center">
-          <span className="text-brand-yellow font-black text-5xl">{fallback}</span>
+          <span className="text-brand-logo-yellow font-black text-5xl">{fallback}</span>
         </div>
       )}
     </div>

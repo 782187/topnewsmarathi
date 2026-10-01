@@ -38,7 +38,7 @@ const ArticleCard = ({ article }) => {
   return (
     <Link
       to={`/article/${article.slug}`}
-      className="bg-brand-black-light border border-brand-gray-medium hover:border-brand-yellow rounded-xl overflow-hidden transition-all duration-300 group hover:shadow-[0_10px_30px_-10px_rgba(0,0,0,0.9)] flex flex-col"
+      className="bg-brand-black-light border border-brand-gray-medium hover:border-brand-link rounded-xl overflow-hidden transition-all duration-300 group hover:shadow-[0_10px_30px_-10px_color-mix(in_srgb,var(--brand-shadow)_90%,transparent)] flex flex-col"
     >
       {/* Thumbnail */}
       <div className="aspect-video relative bg-brand-black flex-shrink-0 flex items-center justify-center">
@@ -74,7 +74,7 @@ const ArticleCard = ({ article }) => {
         <span className="text-brand-yellow text-[10px] font-black uppercase tracking-wider mb-2">
           • {article.category_name}
         </span>
-        <h3 className="text-brand-white font-bold text-base md:text-lg group-hover:text-brand-yellow transition-colors line-clamp-3 leading-snug flex-1">
+        <h3 className="text-brand-white font-bold text-base md:text-lg group-hover:text-brand-link transition-colors line-clamp-3 leading-snug flex-1">
           {article.title}
         </h3>
         <div className="flex items-center justify-between mt-4 pt-3 border-t border-brand-black">
@@ -163,7 +163,7 @@ const AuthorPage = () => {
 
         {/* Breadcrumb */}
         <nav className="flex items-center flex-wrap gap-2 text-[10px] md:text-xs text-brand-gray mb-8 uppercase tracking-widest font-bold">
-          <Link to="/" className="hover:text-brand-yellow transition-colors flex items-center gap-1">
+          <Link to="/" className="hover:text-brand-link transition-colors flex items-center gap-1">
             <Home size={12} /> होम
           </Link>
           <ChevronRight size={12} className="text-brand-red" />
@@ -185,7 +185,7 @@ const AuthorPage = () => {
             {/* Avatar */}
             <div
               style={{ width: 128, height: 128, minWidth: 128 }}
-              className="md:w-40 md:h-40 rounded-full overflow-hidden border-4 border-brand-yellow/40 shadow-[0_0_30px_rgba(0,0,0,0.6)] flex-shrink-0"
+              className="md:w-40 md:h-40 rounded-full overflow-hidden border-4 border-brand-yellow/40 shadow-[0_0_30px_color-mix(in_srgb,var(--brand-shadow)_60%,transparent)] flex-shrink-0"
             >
               {author.profile_image && !imgError ? (
                 <img
@@ -196,7 +196,7 @@ const AuthorPage = () => {
                 />
               ) : (
                 <div className="w-full h-full bg-brand-red-dark flex items-center justify-center">
-                  <span className="text-brand-yellow font-black text-4xl">{initials}</span>
+                  <span className="text-brand-logo-yellow font-black text-4xl">{initials}</span>
                 </div>
               )}
             </div>

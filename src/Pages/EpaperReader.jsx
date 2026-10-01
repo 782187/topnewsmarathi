@@ -178,7 +178,7 @@ const EpaperReader = () => {
     return (
       <div className="min-h-screen bg-[var(--brand-black)] w-full flex flex-col items-center justify-center gap-4 px-4 text-center">
         <p className="text-brand-white text-xl">{error || 'ई-पेपर आढळला नाही'}</p>
-        <Link to="/epaper" className="bg-[var(--brand-red)] text-brand-white px-5 py-2 rounded-lg font-bold hover:bg-[var(--brand-red-dark)] transition-colors">
+        <Link to="/epaper" className="bg-[var(--brand-red)] text-white px-5 py-2 rounded-lg font-bold hover:bg-[var(--brand-red-dark)] transition-colors">
           सर्व आवृत्त्या पहा
         </Link>
       </div>
@@ -223,7 +223,7 @@ const EpaperReader = () => {
           <div className="flex items-center gap-3 min-w-0">
             <Link
               to="/epaper"
-              className="text-brand-white hover:text-[color:var(--brand-yellow)] transition-colors flex-shrink-0"
+              className="text-brand-white hover:text-brand-link transition-colors flex-shrink-0"
               aria-label="ई-पेपर सूचीकडे परत जा"
             >
               <ArrowLeft size={20} />
@@ -253,11 +253,11 @@ const EpaperReader = () => {
 
             {/* Zoom controls */}
             <div className="flex items-center gap-1 bg-[var(--brand-black)] rounded-lg px-1 py-1 border border-brand-gray-medium">
-              <button onClick={zoomOut} disabled={scale <= MIN_SCALE} className="p-1.5 text-brand-white hover:text-[color:var(--brand-yellow)] disabled:opacity-30 transition-colors" aria-label="झूम कमी करा">
+              <button onClick={zoomOut} disabled={scale <= MIN_SCALE} className="p-1.5 text-brand-white hover:text-brand-link disabled:opacity-30 transition-colors" aria-label="झूम कमी करा">
                 <ZoomOut size={18} />
               </button>
               <span className="text-brand-gray text-xs w-10 text-center">{Math.round(scale * 100)}%</span>
-              <button onClick={zoomIn} disabled={scale >= MAX_SCALE} className="p-1.5 text-brand-white hover:text-[color:var(--brand-yellow)] disabled:opacity-30 transition-colors" aria-label="झूम वाढवा">
+              <button onClick={zoomIn} disabled={scale >= MAX_SCALE} className="p-1.5 text-brand-white hover:text-brand-link disabled:opacity-30 transition-colors" aria-label="झूम वाढवा">
                 <ZoomIn size={18} />
               </button>
             </div>
@@ -266,7 +266,7 @@ const EpaperReader = () => {
             <a
               href={pdfUrl}
               download
-              className="p-2 bg-[var(--brand-red)] hover:bg-[var(--brand-red-dark)] text-brand-white rounded-lg transition-colors"
+              className="p-2 bg-[var(--brand-red)] hover:bg-[var(--brand-red-dark)] text-white rounded-lg transition-colors"
               aria-label="पीडीएफ डाउनलोड करा"
             >
               <Download size={18} />
@@ -292,14 +292,14 @@ const EpaperReader = () => {
             <div className="flex items-center gap-3">
               <button
                 onClick={retryPdfLoad}
-                className="bg-[var(--brand-red)] hover:bg-[var(--brand-red-dark)] text-brand-white px-4 py-2 rounded-lg font-bold transition-colors"
+                className="bg-[var(--brand-red)] hover:bg-[var(--brand-red-dark)] text-white px-4 py-2 rounded-lg font-bold transition-colors"
               >
                 पुन्हा प्रयत्न करा
               </button>
               <a
                 href={pdfUrl}
                 download
-                className="border border-brand-gray-medium hover:border-[color:var(--brand-yellow)] text-brand-white px-4 py-2 rounded-lg font-bold transition-colors"
+                className="border border-brand-gray-medium hover:border-brand-link text-brand-white px-4 py-2 rounded-lg font-bold transition-colors"
               >
                 पीडीएफ डाउनलोड करा
               </a>
@@ -353,7 +353,7 @@ const EpaperReader = () => {
                 <button
                   onClick={goToPrevPage}
                   disabled={pageNumber <= 1}
-                  className="flex-shrink-0 p-1.5 rounded-lg bg-brand-gray-dark border border-brand-gray-medium text-brand-white hover:text-[color:var(--brand-yellow)] disabled:opacity-30 transition-colors"
+                  className="flex-shrink-0 p-1.5 rounded-lg bg-brand-gray-dark border border-brand-gray-medium text-brand-white hover:text-brand-link disabled:opacity-30 transition-colors"
                   aria-label="मागील पृष्ठ"
                 >
                   <ChevronLeft size={18} />
@@ -379,7 +379,7 @@ const EpaperReader = () => {
                 <button
                   onClick={goToNextPage}
                   disabled={pageNumber >= numPages}
-                  className="flex-shrink-0 p-1.5 rounded-lg bg-brand-gray-dark border border-brand-gray-medium text-brand-white hover:text-[color:var(--brand-yellow)] disabled:opacity-30 transition-colors"
+                  className="flex-shrink-0 p-1.5 rounded-lg bg-brand-gray-dark border border-brand-gray-medium text-brand-white hover:text-brand-link disabled:opacity-30 transition-colors"
                   aria-label="पुढील पृष्ठ"
                 >
                   <ChevronRight size={18} />

@@ -14,7 +14,14 @@ const PlatformIcon = ({ svg, size = 32 }) => (
   />
 );
 
-const PlatformCard = ({ platform }) => (
+// Black brand marks (X, Threads) use the theme's text color so they stay
+// visible on the dark theme; everything else keeps its brand color.
+const brandColor = (hex) => (hex === '#000000' ? 'var(--brand-white)' : hex);
+const tint = (color, percent) => `color-mix(in srgb, ${color} ${percent}%, transparent)`;
+
+const PlatformCard = ({ platform }) => {
+  const color = brandColor(platform.color);
+  return (
   <a
     href={platform.href}
     target="_blank"
@@ -22,21 +29,21 @@ const PlatformCard = ({ platform }) => (
     className="group flex flex-col items-center gap-4 p-6 rounded-2xl border border-brand-gray-medium bg-brand-black-light
                hover:border-opacity-80 hover:shadow-2xl hover:-translate-y-1
                transition-all duration-300 cursor-pointer text-center"
-    style={{ '--platform-color': platform.color }}
+    style={{ '--platform-color': color }}
   >
     {/* Icon Circle */}
     <div
       className="w-16 h-16 rounded-2xl flex items-center justify-center flex-shrink-0 transition-transform duration-300 group-hover:scale-110"
-      style={{ backgroundColor: `${platform.color}1a`, border: `2px solid ${platform.color}40` }}
+      style={{ backgroundColor: tint(color, 10), border: `2px solid ${tint(color, 25)}` }}
     >
-      <span style={{ color: platform.color }}>
+      <span style={{ color }}>
         <PlatformIcon svg={platform.svg} size={30} />
       </span>
     </div>
 
     {/* Name & Handle */}
     <div>
-      <h3 className="text-brand-white font-black text-lg group-hover:text-brand-yellow transition-colors">
+      <h3 className="text-brand-white font-black text-lg group-hover:text-brand-link transition-colors">
         {platform.name}
       </h3>
       <p className="text-brand-gray text-xs mt-0.5">{platform.handle}</p>
@@ -49,15 +56,16 @@ const PlatformCard = ({ platform }) => (
     <span
       className="mt-auto inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full text-xs font-black uppercase tracking-widest transition-all duration-200 group-hover:gap-2.5"
       style={{
-        backgroundColor: `${platform.color}22`,
-        color: platform.color,
-        border: `1px solid ${platform.color}50`,
+        backgroundColor: tint(color, 13),
+        color,
+        border: `1px solid ${tint(color, 31)}`,
       }}
     >
       फॉलो करा <ChevronRight size={12} />
     </span>
   </a>
-);
+  );
+};
 
 // Group platforms for display
 const sectionOrder = [
@@ -81,7 +89,7 @@ const FollowUsPage = () => {
 
         {/* Breadcrumb */}
         <nav className="flex items-center flex-wrap gap-2 text-[10px] md:text-xs text-brand-gray mb-8 uppercase tracking-widest font-bold">
-          <Link to="/" className="hover:text-brand-yellow transition-colors flex items-center gap-1">
+          <Link to="/" className="hover:text-brand-link transition-colors flex items-center gap-1">
             <Home size={12} /> होम
           </Link>
           <ChevronRight size={12} className="text-brand-red" />

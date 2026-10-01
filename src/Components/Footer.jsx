@@ -20,16 +20,16 @@ const SocialIcon = ({ name }) => {
 const Footer = () => {
   const socialLinks = [
     { name: 'Facebook',    href: 'https://www.facebook.com/people/Top-News-Marathi/61560392199389/',             color: 'hover:text-blue-500' },
-    { name: 'X (Twitter)', href: 'https://x.com/topnewsmarathio',                                                color: 'hover:text-white' },
+    { name: 'X (Twitter)', href: 'https://x.com/topnewsmarathio',                                                color: 'hover:text-brand-white' },
     { name: 'Instagram',   href: 'https://www.instagram.com/topnewsmarathiofficial?igsh=MWRqa2ZqNTJ5YzdueQ==',  color: 'hover:text-pink-500' },
     { name: 'YouTube',     href: 'https://www.youtube.com/@topnewsmarathi',                                      color: 'hover:text-red-500' },
-    { name: 'Threads',     href: 'https://www.threads.com/@topnewsmarathi',                                      color: 'hover:text-gray-400' },
+    { name: 'Threads',     href: 'https://www.threads.com/@topnewsmarathi',                                      color: 'hover:text-brand-white' },
     { name: 'Reddit',      href: 'https://www.reddit.com/user/Top_News_Marathi/?screen_view_count=2',            color: 'hover:text-orange-500' },
     { name: 'Quora',       href: 'https://www.quora.com/profile/TOP-NEWS-MARATHI',  color: 'hover:text-red-400' },
   ];
 
   return (
-    <footer className="bg-brand-secondary text-brand-white border-t-4 border-brand-red-dark">
+    <footer className="bg-brand-gray-dark text-brand-white border-t-4 border-brand-red-dark">
       <div className="max-w-7xl mx-auto px-4 md:px-6 lg:px-8 py-10">
 
         {/* Brand + Follow/Social */}
@@ -54,18 +54,18 @@ const Footer = () => {
 
           <div className="flex flex-col items-center lg:items-end w-full lg:w-auto">
             <div className="flex items-center gap-2 mb-3">
-              <h3 className="text-sm font-semibold text-gray-400 uppercase tracking-wider">
+              <h3 className="text-sm font-semibold text-brand-gray uppercase tracking-wider">
                 आम्हाला फॉलो करा
               </h3>
               <Link
                 to="/follow"
-                className="text-[10px] bg-brand-red/20 text-brand-red border border-brand-red/40 px-2 py-0.5 rounded-full font-bold hover:bg-brand-red/30 transition-colors"
+                className="text-[10px] bg-brand-red/10 text-brand-red border border-brand-red/30 px-2 py-0.5 rounded-full font-bold hover:bg-brand-red/20 transition-colors"
               >
                 सर्व पहा →
               </Link>
               <Link
                 to="/about"
-                className="text-[10px] bg-brand-yellow/20 text-brand-yellow border border-brand-yellow/40 px-2 py-0.5 rounded-full font-bold hover:bg-brand-yellow/30 transition-colors"
+                className="text-[10px] bg-brand-yellow/10 text-brand-yellow border border-brand-yellow/30 px-2 py-0.5 rounded-full font-bold hover:bg-brand-yellow/20 transition-colors"
               >
                 आमच्याविषयी →
               </Link>
@@ -77,7 +77,7 @@ const Footer = () => {
                   href={social.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className={`text-gray-400 transition-all duration-200 hover:scale-110 ${social.color}`}
+                  className={`text-brand-gray transition-all duration-200 hover:scale-110 ${social.color}`}
                   aria-label={social.name}
                   title={social.name}
                 >
@@ -89,22 +89,22 @@ const Footer = () => {
 
         </div>
 
-        <div className="border-t border-brand-gray-medium my-8"></div>
+        <div className="border-t border-brand-border my-8"></div>
 
         {/* Directors credit */}
-        <p className="text-center text-gray-400 text-xs sm:text-sm mb-4">
-          Directors: <Link to="/about" className="text-brand-yellow hover:underline">Mr. Ajay Kamble</Link>
-          <span className="text-gray-600"> &amp; </span>
-          <Link to="/about/anirban-sarkar" className="text-brand-yellow hover:underline">Dr. Anirban Sarkar</Link>
+        <p className="text-center text-brand-gray text-xs sm:text-sm mb-4">
+          Directors: <Link to="/about" className="text-brand-link hover:underline">Mr. Ajay Kamble</Link>
+          <span className="text-brand-gray/50"> &amp; </span>
+          <Link to="/about/anirban-sarkar" className="text-brand-link hover:underline">Dr. Anirban Sarkar</Link>
         </p>
 
         {/* Bottom bar: copyright + legal links */}
-        <div className="flex flex-col-reverse sm:flex-row items-center justify-center sm:justify-between gap-3 pt-4 border-t border-brand-gray-medium/50 text-xs sm:text-sm text-gray-400">
+        <div className="flex flex-col-reverse sm:flex-row items-center justify-center sm:justify-between gap-3 pt-4 border-t border-brand-border/50 text-xs sm:text-sm text-brand-gray">
           <p>© 2026 सर्व हक्क राखीव</p>
           <div className="flex items-center gap-2">
-            <Link to="/terms-and-conditions" className="hover:text-brand-yellow hover:underline">Terms &amp; Conditions</Link>
-            <span className="text-gray-600">|</span>
-            <Link to="/privacy-policy" className="hover:text-brand-yellow hover:underline">Privacy Policy</Link>
+            <Link to="/terms-and-conditions" className="hover:text-brand-link hover:underline">Terms &amp; Conditions</Link>
+            <span className="text-brand-gray/50">|</span>
+            <Link to="/privacy-policy" className="hover:text-brand-link hover:underline">Privacy Policy</Link>
           </div>
         </div>
 

@@ -1,49 +1,189 @@
 @import "tailwindcss";
 
-/* ===== TOP NEWS MARATHI BRAND COLORS ===== */
-:root {
-  /* Primary Colors from Logo - Bold Red Theme */
+/* ===== TOP NEWS MARATHI COLOR THEMES — White / Light / Dark =====
+   The active theme lives on <html data-theme="white|light|dark">. index.html
+   applies the saved choice (Light by default) before first paint;
+   utils/theme.js switches it at runtime.
+
+   The variable names predate theming, so read them as roles, not colors:
+     --brand-black         page background
+     --brand-black-light   subtle section / chip background
+     --brand-black-medium  muted background, dividers
+     --brand-gray-dark     card, navbar and panel surface
+     --brand-gray-medium   control background and card border
+     --brand-gray-light    muted text (dates, meta)
+     --brand-gray-lighter  secondary text
+     --brand-white         primary text
+     --brand-off-white     body copy
+     --brand-yellow*       accent (logo yellow on dark, deep amber on light)
+     --brand-link          links and hover highlight on headlines
+     --brand-hover         hover / active state layer for nav items
+     --brand-shadow        base color for card shadows
+     --brand-red-tint      soft red-tinted strip (news-flash ticker)
+   Text that sits on a fixed red or photo background uses plain `text-white`. */
+
+/* Light (default) — soft gray page, white cards */
+:root,
+:root[data-theme="light"] {
+  color-scheme: light;
+
   --brand-red: #B30000;
-  /* Deep Red from Logo */
   --brand-red-dark: #8B0000;
   --brand-red-darker: #660000;
   --brand-red-light: #FF1A1A;
+  --brand-red-tint: #FEF3F2;
 
-  /* Secondary Colors - Dark Grey/Black Theme */
+  --brand-black: #F5F6FA;
+  --brand-black-light: #EAECF2;
+  --brand-black-medium: #DDE0EA;
+  --brand-gray-dark: #FFFFFF;
+  --brand-gray-medium: #E2E5EF;
+  --brand-gray-light: #6B7280;
+  --brand-gray-lighter: #374151;
+
+  --brand-yellow: #B45309;
+  --brand-yellow-dark: #92400E;
+  --brand-yellow-darker: #78350F;
+  --brand-yellow-light: #D97706;
+
+  --brand-white: #111827;
+  --brand-off-white: #1F2937;
+  --brand-light-gray: #E5E7EB;
+  --brand-border: #D1D5DB;
+
+  --brand-link: #B30000;
+  --brand-hover: rgb(17 24 39 / 0.05);
+  --brand-shadow: rgb(15 23 42 / 0.3);
+  --brand-scrollbar: #CBD5E1;
+  --brand-scrollbar-hover: #94A3B8;
+}
+
+/* White — pure white page and surfaces, crisp neutral grays */
+:root[data-theme="white"] {
+  color-scheme: light;
+
+  --brand-red: #B30000;
+  --brand-red-dark: #8B0000;
+  --brand-red-darker: #660000;
+  --brand-red-light: #FF1A1A;
+  --brand-red-tint: #FFF1F1;
+
+  --brand-black: #FFFFFF;
+  --brand-black-light: #F7F7F7;
+  --brand-black-medium: #EDEDED;
+  --brand-gray-dark: #FFFFFF;
+  --brand-gray-medium: #E5E5E5;
+  --brand-gray-light: #666666;
+  --brand-gray-lighter: #3F3F3F;
+
+  --brand-yellow: #B45309;
+  --brand-yellow-dark: #92400E;
+  --brand-yellow-darker: #78350F;
+  --brand-yellow-light: #D97706;
+
+  --brand-white: #111111;
+  --brand-off-white: #262626;
+  --brand-light-gray: #EEEEEE;
+  --brand-border: #DDDDDD;
+
+  --brand-link: #B30000;
+  --brand-hover: rgb(0 0 0 / 0.05);
+  --brand-shadow: rgb(0 0 0 / 0.22);
+  --brand-scrollbar: #D4D4D4;
+  --brand-scrollbar-hover: #A3A3A3;
+}
+
+/* Dark — the original Top News Marathi palette. Red is lifted slightly
+   (#B30000 → #DC2626) so red text stays legible on dark surfaces while
+   white text on red fills still passes contrast. */
+:root[data-theme="dark"] {
+  color-scheme: dark;
+
+  --brand-red: #DC2626;
+  --brand-red-dark: #8B0000;
+  --brand-red-darker: #660000;
+  --brand-red-light: #FF1A1A;
+  --brand-red-tint: #242424;
+
   --brand-black: #1A1A1A;
-  /* Main Background - Deep Dark Gray */
   --brand-black-light: #242424;
   --brand-black-medium: #2D2D2D;
   --brand-gray-dark: #222222;
-  /* Card Backgrounds */
   --brand-gray-medium: #404040;
   --brand-gray-light: #999999;
   --brand-gray-lighter: #CCCCCC;
 
-  /* Accent Colors - Bold Yellow Theme */
   --brand-yellow: #FFCC00;
-  /* Bold Logo Yellow */
   --brand-yellow-dark: #E6B800;
   --brand-yellow-darker: #B38F00;
   --brand-yellow-light: #FFD633;
 
-  /* Neutral Colors */
   --brand-white: #FFFFFF;
   --brand-off-white: #F8F9FA;
   --brand-light-gray: #E9ECEF;
   --brand-border: #333333;
 
+  --brand-link: #FFCC00;
+  --brand-hover: rgb(0 0 0 / 0.25);
+  --brand-shadow: #000000;
+  --brand-scrollbar: #404040;
+  --brand-scrollbar-hover: #999999;
+}
+
+/* Theme-independent tokens (they resolve against the active theme) */
+:root {
   /* Semantic Colors */
-  --success: #28A745;
+  --success: #16A34A;
   --warning: var(--brand-yellow);
   --error: var(--brand-red);
-  --info: #17A2B8;
+  --info: #0891B2;
 
   /* Gradients */
   --gradient-primary: linear-gradient(135deg, var(--brand-red) 0%, var(--brand-red-dark) 100%);
-  --gradient-secondary: linear-gradient(135deg, #2D2D2D 0%, #000000 100%);
+  --gradient-secondary: linear-gradient(135deg, var(--brand-black-medium) 0%, var(--brand-black) 100%);
   --gradient-accent: linear-gradient(135deg, var(--brand-yellow) 0%, var(--brand-yellow-dark) 100%);
   --gradient-hero: linear-gradient(to bottom, var(--brand-red-dark) 0%, var(--brand-black) 100%);
+}
+
+/* Register the theme variables with Tailwind so every `bg-brand-*`,
+   `text-brand-*`, `border-brand-*` class — including `/opacity` modifiers
+   and `hover:` / `group-hover:` variants — follows the active theme. */
+@theme inline {
+  --color-brand-red: var(--brand-red);
+  --color-brand-red-dark: var(--brand-red-dark);
+  --color-brand-red-darker: var(--brand-red-darker);
+  --color-brand-red-light: var(--brand-red-light);
+  --color-brand-red-tint: var(--brand-red-tint);
+  --color-brand-primary: var(--brand-red);
+
+  --color-brand-black: var(--brand-black);
+  --color-brand-black-light: var(--brand-black-light);
+  --color-brand-black-medium: var(--brand-black-medium);
+  --color-brand-secondary: var(--brand-black);
+
+  --color-brand-gray: var(--brand-gray-light);
+  --color-brand-gray-dark: var(--brand-gray-dark);
+  --color-brand-gray-medium: var(--brand-gray-medium);
+  --color-brand-gray-light: var(--brand-gray-light);
+  --color-brand-gray-lighter: var(--brand-gray-lighter);
+
+  --color-brand-yellow: var(--brand-yellow);
+  --color-brand-yellow-dark: var(--brand-yellow-dark);
+  --color-brand-yellow-darker: var(--brand-yellow-darker);
+  --color-brand-yellow-light: var(--brand-yellow-light);
+  --color-brand-accent: var(--brand-yellow);
+
+  --color-brand-white: var(--brand-white);
+  --color-brand-off-white: var(--brand-off-white);
+  --color-brand-light-gray: var(--brand-light-gray);
+  --color-brand-border: var(--brand-border);
+
+  --color-brand-link: var(--brand-link);
+  --color-brand-hover: var(--brand-hover);
+  --color-brand-shadow: var(--brand-shadow);
+
+  /* Logo yellow for text on fixed dark-red fills (avatar initials) */
+  --color-brand-logo-yellow: #FFCC00;
 }
 
 /* Global Background Setup */
@@ -92,18 +232,18 @@ body {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--brand-gray-medium);
+  background: var(--brand-scrollbar);
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--brand-gray-light);
+  background: var(--brand-scrollbar-hover);
 }
 
 /* Firefox Scrollbar */
 * {
   scrollbar-width: thin;
-  scrollbar-color: var(--brand-gray-medium) var(--brand-black-light);
+  scrollbar-color: var(--brand-scrollbar) var(--brand-black-light);
 }
 
 /* ===== Responsive Typography for Marathi ===== */
@@ -181,73 +321,10 @@ body {
 }
 
 
-/* ===== BRAND UTILITY CLASSES ===== */
-
-/* ===== BRAND UTILITY CLASSES ===== */
-.bg-brand-primary {
-  background-color: var(--brand-red);
-}
-
-.bg-brand-secondary {
-  background-color: var(--brand-black);
-}
-
-.bg-brand-accent {
-  background-color: var(--brand-yellow);
-}
-
-.bg-brand-gray-dark {
-  background-color: var(--brand-gray-dark);
-}
-
-.bg-brand-gray-medium {
-  background-color: var(--brand-gray-medium);
-}
-
-.bg-brand-black-light {
-  background-color: var(--brand-black-light);
-}
-
-.bg-brand-black-medium {
-  background-color: var(--brand-black-medium);
-}
-
-.text-brand-primary {
-  color: var(--brand-red);
-}
-
-.text-brand-secondary {
-  color: var(--brand-black);
-}
-
-.text-brand-accent {
-  color: var(--brand-yellow);
-}
-
-.text-brand-white {
-  color: var(--brand-white);
-}
-
-.text-brand-gray {
-  color: var(--brand-gray-light);
-}
-
-.border-brand-primary {
-  border-color: var(--brand-red);
-}
-
-.border-brand-accent {
-  border-color: var(--brand-yellow);
-}
-
-.border-brand-gray {
-  border-color: var(--brand-gray-medium);
-}
-
-.border-brand-black {
-  border-color: var(--brand-black);
-}
-
+/* ===== BRAND UTILITY CLASSES =====
+   `bg-brand-*` / `text-brand-*` / `border-brand-*` are generated by Tailwind
+   from the @theme block above. Only the legacy dash-style hover helpers below
+   are hand-written. */
 .hover-bg-brand-primary:hover {
   background-color: var(--brand-red);
 }
@@ -280,59 +357,10 @@ body {
   color: var(--brand-white);
 }
 
-/* Additional brand colors */
-.bg-brand-red-dark {
-  background-color: var(--brand-red-dark);
-}
-
-.bg-brand-red-darker {
-  background-color: var(--brand-red-darker);
-}
-
-.bg-brand-red-light {
-  background-color: var(--brand-red-light);
-}
-
-.bg-brand-yellow-dark {
-  background-color: var(--brand-yellow-dark);
-}
-
-.bg-brand-yellow-darker {
-  background-color: var(--brand-yellow-darker);
-}
-
-.bg-brand-yellow-light {
-  background-color: var(--brand-yellow-light);
-}
-
-.text-brand-red-dark {
-  color: var(--brand-red-dark);
-}
-
-.text-brand-yellow-dark {
-  color: var(--brand-yellow-dark);
-}
-
-.text-brand-gray-dark {
-  color: var(--brand-gray-dark);
-}
-
-.border-brand-red-dark {
-  border-color: var(--brand-red-dark);
-}
-
-.border-brand-gray-dark {
-  border-color: var(--brand-gray-dark);
-}
-
-.border-brand-gray-medium {
-  border-color: var(--brand-gray-medium);
-}
-
 /* ===== THEME COMPONENTS ===== */
 .btn-primary {
   background: var(--gradient-primary);
-  color: var(--brand-white);
+  color: #FFFFFF;
   border: none;
   padding: 12px 24px;
   border-radius: 8px;
@@ -368,19 +396,19 @@ body {
   background: var(--brand-gray-dark);
   border: 1px solid var(--brand-border);
   border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 2px 8px color-mix(in srgb, var(--brand-shadow) 40%, transparent);
   transition: all 0.3s ease;
 }
 
 .card-brand:hover {
   transform: translateY(-4px);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 8px 24px color-mix(in srgb, var(--brand-shadow) 40%, transparent);
 }
 
 /* ===== Skeleton Loading Styles ===== */
 @keyframes skeleton-loading {
   0% { background-color: var(--brand-black-medium); }
-  50% { background-color: var(--brand-gray-dark); }
+  50% { background-color: var(--brand-black-light); }
   100% { background-color: var(--brand-black-medium); }
 }
 
@@ -468,14 +496,14 @@ body {
   border-radius: 12px;
   margin: 2.5rem auto;
   display: block;
-  box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+  box-shadow: 0 20px 40px color-mix(in srgb, var(--brand-shadow) 60%, transparent);
   max-width: 100%;
   height: auto !important;
   border: 1px solid var(--brand-gray-medium);
 }
 
 .article-content a {
-  color: var(--brand-yellow);
+  color: var(--brand-link);
   text-decoration: underline;
   text-decoration-thickness: 1px;
   text-underline-offset: 4px;
@@ -484,7 +512,7 @@ body {
 
 .article-content a:hover {
   color: var(--brand-white);
-  background: rgba(255, 204, 0, 0.1);
+  background: color-mix(in srgb, var(--brand-link) 10%, transparent);
 }
 
 .article-content table {
@@ -493,12 +521,12 @@ body {
   overflow-x: auto;
   border-collapse: collapse;
   margin: 2rem 0;
-  background: var(--brand-black-light);
+  background: var(--brand-gray-dark);
   border-radius: 8px;
   scrollbar-width: thin;
 }
 
-.article-content th, 
+.article-content th,
 .article-content td {
   border: 1px solid var(--brand-gray-medium);
   padding: 1rem;
@@ -507,7 +535,7 @@ body {
 
 .article-content th {
   background: var(--brand-black-medium);
-  color: var(--brand-yellow);
+  color: var(--brand-link);
   font-weight: 700;
 }
 
@@ -516,7 +544,7 @@ body {
   aspect-ratio: 16 / 9;
   border-radius: 12px;
   margin: 2.5rem 0;
-  box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+  box-shadow: 0 20px 40px color-mix(in srgb, var(--brand-shadow) 60%, transparent);
   border: 1px solid var(--brand-gray-medium);
 }
 

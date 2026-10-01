@@ -69,7 +69,7 @@ const CategoryPage = () => {
 
         {/* Breadcrumbs */}
         <nav className="flex items-center gap-2 text-[10px] md:text-xs text-brand-gray mb-4 uppercase tracking-widest opacity-70">
-          <Link to="/" className="hover:text-brand-yellow transition-colors">होम</Link>
+          <Link to="/" className="hover:text-brand-link transition-colors">होम</Link>
           <span className="text-brand-yellow">/</span>
           <span className="text-brand-white font-bold">{displayName}</span>
         </nav>
@@ -100,7 +100,7 @@ const CategoryPage = () => {
                   <Link
                     key={article.id}
                     to={`/article/${article.slug}`}
-                    className="bg-brand-black-light border border-brand-gray-medium hover:border-brand-yellow rounded-lg overflow-hidden transition-all duration-300 group hover:shadow-[0_10px_30px_-10px_rgba(0,0,0,1)] flex flex-col font-bold"
+                    className="bg-brand-black-light border border-brand-gray-medium hover:border-brand-link rounded-lg overflow-hidden transition-all duration-300 group hover:shadow-[0_10px_30px_-10px_var(--brand-shadow)] flex flex-col font-bold"
                   >
                     {(article.thumbnail || (article.type === 'video' && getYouTubeThumbnail(article.video_url))) && (
                       <div className="relative h-64 sm:h-72 bg-brand-black flex items-center justify-center flex-shrink-0">
@@ -113,13 +113,13 @@ const CategoryPage = () => {
                         />
                         {article.type === 'video' && (
                           <div className="absolute inset-0 flex items-center justify-center bg-black/30 group-hover:bg-transparent transition-all">
-                            <div className="bg-brand-red w-12 h-12 rounded-full flex items-center justify-center shadow-2xl border-2 border-brand-white group-hover:scale-110 transition-transform">
-                              <svg className="w-6 h-6 text-brand-white ml-1" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z" /></svg>
+                            <div className="bg-brand-red w-12 h-12 rounded-full flex items-center justify-center shadow-2xl border-2 border-white group-hover:scale-110 transition-transform">
+                              <svg className="w-6 h-6 text-white ml-1" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z" /></svg>
                             </div>
                           </div>
                         )}
 
-                        <div className="absolute bottom-2 left-2 bg-black/60 backdrop-blur-sm text-brand-white text-[10px] px-2 py-0.5 rounded border border-white/10 opacity-0 group-hover:opacity-100 transition-opacity">
+                        <div className="absolute bottom-2 left-2 bg-black/60 backdrop-blur-sm text-white text-[10px] px-2 py-0.5 rounded border border-white/10 opacity-0 group-hover:opacity-100 transition-opacity">
                           {new Date(article.created_at).toLocaleDateString('mr-IN')}
                         </div>
                       </div>
@@ -132,7 +132,7 @@ const CategoryPage = () => {
                         </span>
                       </div>
 
-                      <h3 className="text-brand-white font-bold text-lg md:text-xl group-hover:text-brand-yellow transition-colors line-clamp-3 mb-4 leading-tight">
+                      <h3 className="text-brand-white font-bold text-lg md:text-xl group-hover:text-brand-link transition-colors line-clamp-3 mb-4 leading-tight">
                         {article.title}
                       </h3>
 

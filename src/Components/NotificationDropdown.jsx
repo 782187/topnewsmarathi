@@ -82,7 +82,7 @@ const NotificationDropdown = ({ isOpen, onClose }) => {
               <Link
                 key={item.id}
                 to={item.url}
-                className="block p-4 hover:bg-brand-black transition-colors group"
+                className="block p-4 hover:bg-brand-hover transition-colors group"
                 onClick={onClose}
               >
                 <div className="flex gap-4">
@@ -96,7 +96,7 @@ const NotificationDropdown = ({ isOpen, onClose }) => {
                     )}
                   </div>
                   <div className="flex-1 space-y-1">
-                    <p className="text-brand-white text-sm font-bold line-clamp-2 leading-tight group-hover:text-brand-yellow transition-colors">
+                    <p className="text-brand-white text-sm font-bold line-clamp-2 leading-tight group-hover:text-brand-link transition-colors">
                       {item.message}
                     </p>
                     <div className="flex items-center gap-3 text-[10px] text-brand-gray font-medium">
@@ -121,7 +121,7 @@ const NotificationDropdown = ({ isOpen, onClose }) => {
         className="block p-3 text-center bg-brand-black hover:bg-brand-gray-medium transition-colors border-t border-brand-gray-medium group"
         onClick={onClose}
       >
-        <span className="text-xs text-brand-white font-bold flex items-center justify-center gap-1 group-hover:text-brand-yellow">
+        <span className="text-xs text-brand-white font-bold flex items-center justify-center gap-1 group-hover:text-brand-link">
           सर्व ताज्या बातम्या पहा <ChevronRight size={14} />
         </span>
       </Link>

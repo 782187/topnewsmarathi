@@ -8,6 +8,7 @@ import {
   ChevronDown
 } from 'lucide-react';
 import NotificationDropdown from './NotificationDropdown';
+import ThemeSwitcher from './ThemeSwitcher';
 
 // Custom Social Media Icons as SVG components
 const FacebookIcon = ({ size = 20, className = "" }) => (
@@ -171,10 +172,10 @@ const Navbar = () => {
   // Social media links shown in sidebar
   const socialLinks = [
     { name: 'Facebook',    icon: FacebookIcon,  href: 'https://www.facebook.com/people/Top-News-Marathi/61560392199389/',             color: 'hover:text-blue-500' },
-    { name: 'X (Twitter)', icon: XIcon,         href: 'https://x.com/topnewsmarathio',                                                color: 'hover:text-white' },
+    { name: 'X (Twitter)', icon: XIcon,         href: 'https://x.com/topnewsmarathio',                                                color: 'hover:text-brand-white' },
     { name: 'Instagram',   icon: InstagramIcon, href: 'https://www.instagram.com/topnewsmarathiofficial?igsh=MWRqa2ZqNTJ5YzdueQ==',  color: 'hover:text-pink-500' },
     { name: 'YouTube',     icon: YoutubeIcon,   href: 'https://www.youtube.com/@topnewsmarathi',                                      color: 'hover:text-red-500' },
-    { name: 'Threads',     icon: ThreadsIcon,   href: 'https://www.threads.com/@topnewsmarathi',                                      color: 'hover:text-gray-400' },
+    { name: 'Threads',     icon: ThreadsIcon,   href: 'https://www.threads.com/@topnewsmarathi',                                      color: 'hover:text-brand-white' },
     { name: 'Reddit',      icon: RedditIcon,    href: 'https://www.reddit.com/user/Top_News_Marathi/?screen_view_count=2',            color: 'hover:text-orange-500' },
     { name: 'Quora',       icon: QuoraIcon,      href: 'https://www.quora.com/profile/TOP-NEWS-MARATHI',  color: 'hover:text-red-400' },
   ];
@@ -245,7 +246,7 @@ const Navbar = () => {
   return (
     <>
       {/* Main Navbar */}
-      <nav className={`bg-brand-gray-dark border-b-2 border-brand-yellow text-brand-white sticky top-0 z-50 shadow-xl transition-all duration-300 ${isSidebarOpen ? 'blur-sm' : ''
+      <nav className={`bg-brand-gray-dark border-b-2 border-brand-red text-brand-white sticky top-0 z-50 shadow-md transition-all duration-300 ${isSidebarOpen ? 'blur-sm' : ''
         }`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
@@ -255,7 +256,7 @@ const Navbar = () => {
               {/* Mobile Menu Button */}
               <button
                 onClick={toggleMobileMenu}
-                className="lg:hidden p-2 rounded-lg hover:bg-brand-gray-dark transition-colors duration-200"
+                className="lg:hidden p-2 rounded-lg hover:bg-brand-hover transition-colors duration-200"
                 aria-label="Toggle mobile menu"
               >
                 <Menu size={24} />
@@ -280,7 +281,7 @@ const Navbar = () => {
               {/* Search Icon - Desktop */}
               <button
                 onClick={toggleSidebar}
-                className="hidden lg:flex p-2 rounded-lg hover-bg-brand-gray-dark transition-colors duration-200 items-center justify-center"
+                className="hidden lg:flex p-2 rounded-lg hover:bg-brand-hover transition-colors duration-200 items-center justify-center"
                 aria-label="Open search sidebar"
               >
                 <Search size={20} />
@@ -303,8 +304,8 @@ const Navbar = () => {
                       to={item.href}
                       onClick={() => handleNavClick()}
                       className={`flex-shrink-0 flex items-center space-x-2 px-2 xl:px-3 py-2 rounded-lg text-sm font-bold transition-all duration-200 whitespace-nowrap ${location.pathname === item.href
-                        ? 'bg-brand-black text-brand-yellow shadow-inner'
-                        : 'text-brand-white hover:bg-brand-black hover:text-brand-yellow'
+                        ? 'bg-brand-hover text-brand-link shadow-inner'
+                        : 'text-brand-white hover:bg-brand-hover hover:text-brand-link'
                         }`}
                     >
                       {item.label === 'लाईव्ह टीव्ही' && (
@@ -331,8 +332,8 @@ const Navbar = () => {
                       setIsDropdownOpen(!isDropdownOpen);
                     }}
                     className={`flex items-center space-x-1 px-2 xl:px-3 py-2 rounded-lg text-sm font-bold transition-all duration-200 whitespace-nowrap ${location.pathname === item.href
-                      ? 'bg-brand-black text-brand-yellow shadow-inner'
-                      : 'text-brand-white hover:bg-brand-black hover:text-brand-yellow'
+                      ? 'bg-brand-hover text-brand-link shadow-inner'
+                      : 'text-brand-white hover:bg-brand-hover hover:text-brand-link'
                       }`}
                   >
                     <span>{item.label}</span>
@@ -354,7 +355,7 @@ const Navbar = () => {
                         <Link
                           key={city.id}
                           to={city.href}
-                          className="block px-4 py-2 text-sm text-brand-white hover:text-brand-yellow hover:bg-brand-black transition-colors duration-150 font-bold"
+                          className="block px-4 py-2 text-sm text-brand-white hover:text-brand-link hover:bg-brand-hover transition-colors duration-150 font-bold"
                           onClick={() => {
                             setIsDropdownOpen(false);
                             handleNavClick();
@@ -369,12 +370,14 @@ const Navbar = () => {
               ))}
             </div>
 
-            {/* Right Section - Bell Icon */}
+            {/* Right Section - Theme, Search and Bell Icons */}
             <div className="flex items-center space-x-2 sm:space-x-3">
+              <ThemeSwitcher />
+
               {/* Search Icon - Mobile */}
               <button
                 onClick={toggleSidebar}
-                className="lg:hidden p-2 rounded-lg hover:bg-brand-gray-dark transition-colors duration-200"
+                className="lg:hidden p-2 rounded-lg hover:bg-brand-hover transition-colors duration-200"
                 aria-label="Open search sidebar"
               >
                 <Search size={20} />
@@ -388,7 +391,7 @@ const Navbar = () => {
                     setIsMobileMenuOpen(false);
                     setIsSidebarOpen(false);
                   }}
-                  className={`p-2 rounded-lg transition-colors duration-200 ${isNotifOpen ? 'bg-brand-black text-brand-yellow' : 'hover:bg-brand-gray-dark'
+                  className={`p-2 rounded-lg transition-colors duration-200 ${isNotifOpen ? 'bg-brand-hover text-brand-link' : 'hover:bg-brand-hover'
                     }`}
                   aria-label="Notifications"
                 >
@@ -424,7 +427,7 @@ const Navbar = () => {
                   <div>
                     <button
                       onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                      className="flex items-center justify-between w-full px-3 py-2 text-brand-white hover:bg-brand-black hover:text-brand-yellow font-bold rounded-lg transition-colors duration-150"
+                      className="flex items-center justify-between w-full px-3 py-2 text-brand-white hover:bg-brand-hover hover:text-brand-link font-bold rounded-lg transition-colors duration-150"
                     >
                       <span>{item.label}</span>
                       <ChevronDown
@@ -441,7 +444,7 @@ const Navbar = () => {
                         <Link
                           key={city.id}
                           to={city.href}
-                          className="block px-3 py-2 text-sm text-gray-400 hover:text-brand-white hover:bg-brand-gray-medium rounded-lg transition-colors duration-150"
+                          className="block px-3 py-2 text-sm text-brand-gray hover:text-brand-white hover:bg-brand-gray-medium rounded-lg transition-colors duration-150"
                           onClick={() => {
                             setIsDropdownOpen(false);
                             handleNavClick();
@@ -457,8 +460,8 @@ const Navbar = () => {
                     to={item.href}
                     onClick={() => handleNavClick()}
                     className={`flex items-center space-x-2 px-3 py-2 rounded-lg font-bold transition-colors duration-150 ${location.pathname === item.href
-                      ? 'bg-brand-black text-brand-yellow'
-                      : 'text-brand-white hover:bg-brand-black hover:text-brand-yellow'
+                      ? 'bg-brand-hover text-brand-link'
+                      : 'text-brand-white hover:bg-brand-hover hover:text-brand-link'
                       }`}
                   >
                     {item.label === 'लाईव्ह टीव्ही' && (
@@ -478,7 +481,7 @@ const Navbar = () => {
 
       {/* Overlay with blur */}
       <div
-        className={`fixed inset-0 bg-brand-black/60 backdrop-blur-sm z-40 transition-all duration-300 ${isSidebarOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'
+        className={`fixed inset-0 bg-black/60 backdrop-blur-sm z-40 transition-all duration-300 ${isSidebarOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'
           }`}
         onClick={() => setIsSidebarOpen(false)}
       />
@@ -505,7 +508,7 @@ const Navbar = () => {
           />
           <button
             onClick={() => setIsSidebarOpen(false)}
-            className="p-2 rounded-lg hover:bg-brand-gray-dark transition-colors duration-200"
+            className="p-2 rounded-lg hover:bg-brand-hover transition-colors duration-200"
             aria-label="Close sidebar"
           >
             <X size={24} />
@@ -523,11 +526,11 @@ const Navbar = () => {
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 onKeyDown={handleSearch}
-                className="w-full bg-brand-gray-medium text-brand-white placeholder-gray-400 rounded-lg pl-10 pr-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary focus:border-transparent transition-all duration-200"
+                className="w-full bg-brand-black-light text-brand-white placeholder-brand-gray rounded-lg pl-10 pr-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary focus:border-transparent transition-all duration-200 border border-brand-border"
               />
               <Search
                 size={18}
-                className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
+                className="absolute left-3 top-1/2 transform -translate-y-1/2 text-brand-gray"
               />
             </div>
           </div>
@@ -544,8 +547,8 @@ const Navbar = () => {
                     setIsSidebarOpen(false);
                   }}
                   className={`flex items-center space-x-2 px-4 py-2 rounded-lg font-bold transition-colors duration-150 ${location.pathname === item.href
-                    ? 'bg-brand-black text-brand-yellow'
-                    : 'text-brand-white hover:bg-brand-black hover:text-brand-yellow'
+                    ? 'bg-brand-hover text-brand-link'
+                    : 'text-brand-white hover:bg-brand-hover hover:text-brand-link'
                     }`}
                 >
                   {item.label === 'लाईव्ह टीव्ही' && (
@@ -562,7 +565,7 @@ const Navbar = () => {
 
           {/* Follow Us Section */}
           <div className="py-4 px-4 pb-20">
-            <h3 className="text-sm font-semibold text-gray-400 uppercase tracking-wider mb-4">
+            <h3 className="text-sm font-semibold text-brand-gray uppercase tracking-wider mb-4">
               आम्हाला फॉलो करा
             </h3>
             <div className="space-y-2">
@@ -574,7 +577,7 @@ const Navbar = () => {
                     href={social.href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className={`flex items-center space-x-3 px-4 py-3 rounded-lg bg-brand-gray-medium text-gray-300 hover:bg-brand-gray-dark transition-all duration-200 ${social.color}`}
+                    className={`flex items-center space-x-3 px-4 py-3 rounded-lg bg-brand-gray-medium text-brand-gray-lighter hover:bg-brand-gray-dark transition-all duration-200 ${social.color}`}
                   >
                     <IconComponent size={20} />
                     <span className="font-medium">{social.name}</span>
@@ -587,7 +590,7 @@ const Navbar = () => {
 
         {/* Sidebar Footer */}
         <div className="absolute bottom-0 left-0 right-0 p-4 border-t border-brand-gray-medium bg-brand-secondary">
-          <p className="text-xs text-gray-500 text-center">
+          <p className="text-xs text-brand-gray text-center">
             2026 TopNewsMarathi. All rights reserved.
           </p>
         </div>

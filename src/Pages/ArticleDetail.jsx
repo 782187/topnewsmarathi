@@ -7,6 +7,7 @@ import { Link as LinkIcon, Home, ChevronRight, Clock, User, Share2 } from 'lucid
 import { buildStaticUrl } from '../utils/staticUrl.js';
 import SocialEmbed from '../Components/SocialEmbed.jsx';
 import { isSocialUrl, normalizeSocialUrl } from '../utils/socialUtils.js';
+import { useTheme } from '../utils/theme.js';
 
 // Social post embeds shown below the article body, in this order.
 const SOCIAL_EMBED_FIELDS = ['instagram_url', 'twitter_url', 'facebook_url'];
@@ -27,6 +28,25 @@ const cleanHTML = (html) => {
     .replace(/\uFEFF/g, '')
     .replace(/&nbsp;/g, ' ') // Normalize non-breaking spaces
     .trim();
+};
+
+// Copy pasted from dark-mode sources often carries near-white inline text
+// colors (e.g. rgb(227, 228, 231)) that vanish on the White/Light themes.
+// Those declarations are dropped so the text takes the theme color; deliberate
+// editor colors (red, blue…) are darker and kept.
+const isLightColor = (color) => {
+  if (color === 'white') return true;
+  const [r, g, b] = (color.match(/\d+(\.\d+)?/g) || []).map(Number);
+  if ([r, g, b].some((c) => c === undefined || Number.isNaN(c))) return false;
+  return (0.2126 * r + 0.7152 * g + 0.0722 * b) / 255 > 0.7;
+};
+
+const dropLightTextColors = (html) => {
+  const doc = new DOMParser().parseFromString(html, 'text/html');
+  doc.body.querySelectorAll('[style]').forEach((el) => {
+    if (el.style.color && isLightColor(el.style.color)) el.style.removeProperty('color');
+  });
+  return doc.body.innerHTML;
 };
 
 const generateDescription = (html) => {
@@ -55,13 +75,13 @@ const AvatarInner = ({ article }) => {
   if (article.author_name) {
     return (
       <div className="w-full h-full bg-brand-red-dark flex items-center justify-center">
-        <span className="text-brand-yellow font-black text-sm">{initials}</span>
+        <span className="text-brand-logo-yellow font-black text-sm">{initials}</span>
       </div>
     );
   }
   return (
     <div className="w-full h-full bg-brand-red-dark flex items-center justify-center">
-      <User size={24} className="text-brand-yellow" />
+      <User size={24} className="text-brand-logo-yellow" />
     </div>
   );
 };
@@ -73,6 +93,7 @@ const ArticleDetail = () => {
   const [relatedArticles, setRelatedArticles] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const theme = useTheme();
 
   useEffect(() => {
     fetchArticle();
@@ -161,6 +182,11 @@ const ArticleDetail = () => {
     };
   }, [article]);
 
+  const articleHTML = useMemo(() => {
+    const html = cleanHTML(article?.content);
+    return html && theme !== 'dark' ? dropLightTextColors(html) : html;
+  }, [article, theme]);
+
   if (loading) {
     return (
       <div className="min-h-screen bg-brand-black w-full pb-16">
@@ -226,14 +252,14 @@ const ArticleDetail = () => {
 
         {/* Improved Breadcrumb Navigation */}
         <nav className="flex items-center flex-wrap gap-2 text-[10px] md:text-xs text-brand-gray mb-8 uppercase tracking-widest font-bold">
-          <Link to="/" className="hover:text-brand-yellow transition-colors flex items-center gap-1 group">
+          <Link to="/" className="hover:text-brand-link transition-colors flex items-center gap-1 group">
             <Home size={12} className="group-hover:scale-110 transition-transform" /> होम
           </Link>
           <ChevronRight size={12} className="text-brand-red mx-1" />
 
           {article.category_name && (
             <>
-              <Link to={`/category/${article.category_name}`} className="hover:text-brand-yellow transition-colors px-2 py-1 bg-brand-black-light rounded border border-brand-gray-medium/30">
+              <Link to={`/category/${article.category_name}`} className="hover:text-brand-link transition-colors px-2 py-1 bg-brand-black-light rounded border border-brand-gray-medium/30">
                 {article.category_name}
               </Link>
               <ChevronRight size={12} className="text-brand-red mx-1" />
@@ -242,7 +268,7 @@ const ArticleDetail = () => {
 
           {article.city_name && (
             <>
-              <Link to={`/city/${article.city_name}`} className="hover:text-brand-yellow transition-colors px-2 py-1 bg-brand-black-light rounded border border-brand-gray-medium/30">
+              <Link to={`/city/${article.city_name}`} className="hover:text-brand-link transition-colors px-2 py-1 bg-brand-black-light rounded border border-brand-gray-medium/30">
                 {article.city_name}
               </Link>
               <ChevronRight size={12} className="text-brand-red mx-1" />
@@ -290,7 +316,7 @@ const ArticleDetail = () => {
                     <Link
                       to={`/author/${article.author_id}`}
                       style={{ width: 64, height: 64, minWidth: 64 }}
-                      className="rounded-full flex-shrink-0 overflow-hidden border-2 border-brand-yellow/30 shadow-lg hover:border-brand-yellow hover:scale-105 transition-all duration-200 block"
+                      className="rounded-full flex-shrink-0 overflow-hidden border-2 border-brand-yellow/30 shadow-lg hover:border-brand-link hover:scale-105 transition-all duration-200 block"
                     >
                       <AvatarInner article={article} />
                     </Link>
@@ -303,7 +329,7 @@ const ArticleDetail = () => {
                     {article.author_id ? (
                       <Link
                         to={`/author/${article.author_id}`}
-                        className="text-sm font-black text-brand-white hover:text-brand-yellow transition-colors flex items-center gap-1 group"
+                        className="text-sm font-black text-brand-white hover:text-brand-link transition-colors flex items-center gap-1 group"
                       >
                         {article.author_name}
                         <ChevronRight size={13} className="opacity-0 group-hover:opacity-100 transition-opacity -ml-0.5" />
@@ -324,7 +350,7 @@ const ArticleDetail = () => {
                   <a href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(window.location.href)}`} target="_blank" rel="noreferrer" className="w-10 h-10 rounded-xl bg-[#1877F2]/10 text-[#1877F2] flex items-center justify-center hover:bg-[#1877F2] hover:text-white transition-all hover:-translate-y-1 border border-[#1877F2]/20">
                     <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" /></svg>
                   </a>
-                  <a href={`https://x.com/intent/tweet?url=${encodeURIComponent(window.location.href)}&text=${encodeURIComponent(article.title)}`} target="_blank" rel="noreferrer" className="w-10 h-10 rounded-xl bg-white/10 text-white flex items-center justify-center hover:bg-white hover:text-black transition-all hover:-translate-y-1 border border-white/20">
+                  <a href={`https://x.com/intent/tweet?url=${encodeURIComponent(window.location.href)}&text=${encodeURIComponent(article.title)}`} target="_blank" rel="noreferrer" className="w-10 h-10 rounded-xl bg-brand-white/10 text-brand-white flex items-center justify-center hover:bg-brand-white hover:text-brand-black transition-all hover:-translate-y-1 border border-brand-white/20">
                     <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932ZM17.61 20.644h2.039L6.486 3.24H4.298Z" /></svg>
                   </a>
                   <a href={`https://api.whatsapp.com/send?text=${encodeURIComponent(article.title + ' ' + window.location.href)}`} target="_blank" rel="noreferrer" className="w-10 h-10 rounded-xl bg-[#25D366]/10 text-[#25D366] flex items-center justify-center hover:bg-[#25D366] hover:text-white transition-all hover:-translate-y-1 border border-[#25D366]/20">
@@ -340,7 +366,7 @@ const ArticleDetail = () => {
             {/* Featured Media Container */}
             <div className="relative group mb-10">
               {article.video_url && isYouTubeUrl(article.video_url) ? (
-                <div className="w-full shadow-[0_30px_60px_-15px_rgba(0,0,0,0.7)] rounded-2xl overflow-hidden ring-1 ring-white/10 bg-black">
+                <div className="w-full shadow-[0_30px_60px_-15px_color-mix(in_srgb,var(--brand-shadow)_70%,transparent)] rounded-2xl overflow-hidden ring-1 ring-brand-white/10 bg-black">
                   <div className="relative w-full aspect-video">
                     <iframe
                       src={convertToEmbedUrl(article.video_url)}
@@ -352,7 +378,7 @@ const ArticleDetail = () => {
                   </div>
                 </div>
               ) : article.thumbnail ? (
-                <div className="w-full shadow-[0_30px_60px_-15px_rgba(0,0,0,0.7)] rounded-2xl overflow-hidden ring-1 ring-white/10 bg-brand-black">
+                <div className="w-full shadow-[0_30px_60px_-15px_color-mix(in_srgb,var(--brand-shadow)_70%,transparent)] rounded-2xl overflow-hidden ring-1 ring-brand-white/10 bg-brand-black">
                   <div className="relative w-full aspect-video flex items-center justify-center">
                     <img
                       src={`${import.meta.env.VITE_STATIC_URL}${article.thumbnail}`}
@@ -367,14 +393,14 @@ const ArticleDetail = () => {
             {/* Article Body Content */}
             <div
               className="article-content"
-              dangerouslySetInnerHTML={{ __html: cleanHTML(article.content) || '' }}
+              dangerouslySetInnerHTML={{ __html: articleHTML }}
             />
 
             {/* Social Post Embeds — shown below the article content */}
             {SOCIAL_EMBED_FIELDS.map((field) =>
               article[field] && isSocialUrl(article[field]) ? (
                 <div key={field} className="mt-10">
-                  <SocialEmbed url={normalizeSocialUrl(article[field])} theme="dark" />
+                  <SocialEmbed url={normalizeSocialUrl(article[field])} theme={theme === 'dark' ? 'dark' : 'light'} />
                 </div>
               ) : null
             )}
@@ -404,7 +430,7 @@ const ArticleDetail = () => {
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
                   {relatedArticles.map(rel => (
                     <Link key={rel.id} to={`/article/${rel.slug}`} className="group">
-                      <div className="aspect-video rounded-xl overflow-hidden bg-brand-black-light mb-3 ring-1 ring-white/5 group-hover:ring-brand-yellow/30 transition-all">
+                      <div className="aspect-video rounded-xl overflow-hidden bg-brand-black-light mb-3 ring-1 ring-brand-white/5 group-hover:ring-brand-link/30 transition-all">
                         {rel.thumbnail && (
                           <img
                             src={`${import.meta.env.VITE_STATIC_URL}${rel.thumbnail}`}
@@ -413,7 +439,7 @@ const ArticleDetail = () => {
                           />
                         )}
                       </div>
-                      <h3 className="text-brand-white text-sm font-bold leading-snug group-hover:text-brand-yellow transition-colors line-clamp-2">
+                      <h3 className="text-brand-white text-sm font-bold leading-snug group-hover:text-brand-link transition-colors line-clamp-2">
                         {cleanText(rel.title)}
                       </h3>
                     </Link>

@@ -55,7 +55,7 @@ const LatestNewsPage = () => {
                 <Link
                   key={article.id}
                   to={`/article/${article.slug}`}
-                  className="flex flex-col sm:flex-row gap-4 bg-brand-gray-dark border border-brand-gray-medium hover:border-brand-yellow rounded-lg overflow-hidden transition-all duration-300 group p-3"
+                  className="flex flex-col sm:flex-row gap-4 bg-brand-gray-dark border border-brand-gray-medium hover:border-brand-link rounded-lg overflow-hidden transition-all duration-300 group p-3"
                 >
                   {(article.thumbnail || (article.type === 'video' && getYouTubeThumbnail(article.video_url))) && (
                     <div className="relative w-full sm:w-48 aspect-video flex-shrink-0 bg-brand-black rounded flex items-center justify-center overflow-hidden">
@@ -68,7 +68,7 @@ const LatestNewsPage = () => {
                       />
                       {article.type === 'video' && (
                         <div className="absolute inset-0 bg-black/40 flex items-center justify-center group-hover:bg-black/20 transition-colors">
-                          <div className="w-10 h-10 bg-brand-red rounded-full flex items-center justify-center text-white border-2 border-brand-white shadow-lg group-hover:scale-110 transition-all">
+                          <div className="w-10 h-10 bg-brand-red rounded-full flex items-center justify-center text-white border-2 border-white shadow-lg group-hover:scale-110 transition-all">
                             <svg className="w-5 h-5 ml-1" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
                           </div>
                         </div>
@@ -76,7 +76,7 @@ const LatestNewsPage = () => {
                     </div>
                   )}
                   <div className="flex flex-col flex-1 justify-between">
-                    <h3 className="text-brand-white font-semibold text-lg hover:text-brand-yellow transition-colors mb-2 text-safe">
+                    <h3 className="text-brand-white font-semibold text-lg hover:text-brand-link transition-colors mb-2 text-safe">
                       {article.title}
                     </h3>
                     <div className="flex items-center justify-between mt-2 pt-2 border-t border-brand-black-medium">
@@ -85,7 +85,7 @@ const LatestNewsPage = () => {
                         {new Date(article.created_at).toLocaleString('mr-IN', { hour: '2-digit', minute: '2-digit', day: 'numeric', month: 'short' })}
                       </span>
                       {article.category_name && (
-                        <span className="bg-brand-red-dark text-brand-white text-xs px-2 py-1 rounded font-medium border border-brand-black">
+                        <span className="bg-brand-red-dark text-white text-xs px-2 py-1 rounded font-medium border border-brand-black">
                           {article.category_name}
                         </span>
                       )}

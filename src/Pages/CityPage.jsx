@@ -74,7 +74,7 @@ const CityPage = () => {
               <Link
                 key={article.id}
                 to={`/article/${article.slug}`}
-                className="bg-brand-gray-dark border border-brand-gray-medium hover:border-brand-yellow rounded-lg overflow-hidden transition-all duration-300 group hover:shadow-xl"
+                className="bg-brand-gray-dark border border-brand-gray-medium hover:border-brand-link rounded-lg overflow-hidden transition-all duration-300 group hover:shadow-xl"
               >
                 {(article.thumbnail || (article.type === 'video' && getYouTubeThumbnail(article.video_url))) && (
                   <div className="aspect-video relative bg-brand-black flex items-center justify-center">
@@ -87,22 +87,22 @@ const CityPage = () => {
                     />
                     {article.type === 'video' && (
                       <div className="absolute inset-0 flex items-center justify-center pointer-events-none bg-black/20 group-hover:bg-transparent transition-colors">
-                        <div className="bg-brand-red w-12 h-12 rounded-full flex items-center justify-center shadow-lg border-2 border-brand-white">
-                          <svg className="w-6 h-6 text-brand-white ml-1" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                        <div className="bg-brand-red w-12 h-12 rounded-full flex items-center justify-center shadow-lg border-2 border-white">
+                          <svg className="w-6 h-6 text-white ml-1" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
                         </div>
                       </div>
                     )}
                   </div>
                 )}
                 <div className="p-4">
-                  <h3 className="text-brand-white font-bold text-lg hover:text-brand-yellow transition-colors line-clamp-3 mb-3 text-safe">
+                  <h3 className="text-brand-white font-bold text-lg hover:text-brand-link transition-colors line-clamp-3 mb-3 text-safe">
                     {article.title}
                   </h3>
                   <div className="flex items-center justify-between mt-auto pt-2 border-t border-brand-black-light">
                     <span className="text-brand-gray text-sm">
                       {new Date(article.created_at).toLocaleDateString('mr-IN')}
                     </span>
-                    <span className="bg-brand-red text-brand-white text-xs px-2 py-1 rounded font-medium border border-brand-yellow">
+                    <span className="bg-brand-red text-white text-xs px-2 py-1 rounded font-medium border border-brand-yellow">
                       {article.city_name || displayName}
                     </span>
                   </div>

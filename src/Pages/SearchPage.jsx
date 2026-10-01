@@ -41,7 +41,7 @@ const SearchPage = () => {
         
         {/* Breadcrumbs */}
         <nav className="flex items-center gap-2 text-[10px] md:text-xs text-brand-gray mb-6 uppercase tracking-widest opacity-70">
-          <Link to="/" className="hover:text-brand-yellow transition-colors">होम</Link>
+          <Link to="/" className="hover:text-brand-link transition-colors">होम</Link>
           <span className="text-brand-yellow">/</span>
           <span className="text-brand-white font-bold">शोध</span>
         </nav>
@@ -84,7 +84,7 @@ const SearchPage = () => {
                     <Link
                       key={article.id}
                       to={`/article/${article.slug}`}
-                      className="group bg-brand-black-light border border-brand-gray-medium hover:border-brand-yellow rounded-xl overflow-hidden transition-all duration-500 hover:shadow-[0_20px_50px_-20px_rgba(0,0,0,1)] flex flex-col h-full"
+                      className="group bg-brand-black-light border border-brand-gray-medium hover:border-brand-link rounded-xl overflow-hidden transition-all duration-500 hover:shadow-[0_20px_50px_-20px_var(--brand-shadow)] flex flex-col h-full"
                     >
                       {(article.thumbnail || (article.type === 'video' && getYouTubeThumbnail(article.video_url))) && (
                         <div className="aspect-video relative bg-brand-black flex items-center justify-center">
@@ -102,14 +102,14 @@ const SearchPage = () => {
                               </div>
                             </div>
                           )}
-                          <div className="absolute top-3 left-3 bg-brand-black/80 backdrop-blur-md px-3 py-1 rounded-md text-[10px] text-brand-yellow font-bold uppercase border border-white/10 tracking-widest">
+                          <div className="absolute top-3 left-3 bg-brand-black/80 backdrop-blur-md px-3 py-1 rounded-md text-[10px] text-brand-yellow font-bold uppercase border border-brand-white/10 tracking-widest">
                             {article.category_name}
                           </div>
                         </div>
                       )}
                       
                       <div className="p-5 flex-1 flex flex-col">
-                        <h2 className="text-xl font-bold text-brand-white group-hover:text-brand-yellow transition-colors line-clamp-2 leading-tight mb-4">
+                        <h2 className="text-xl font-bold text-brand-white group-hover:text-brand-link transition-colors line-clamp-2 leading-tight mb-4">
                           {article.title}
                         </h2>
                         

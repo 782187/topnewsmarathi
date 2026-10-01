@@ -68,7 +68,7 @@ const SidebarAd = ({ index = 0 }) => {
         <span className="text-brand-yellow text-[10px] font-bold uppercase tracking-widest opacity-80 border-b border-brand-yellow pb-0.5">
           Advertisement
         </span>
-        <span className="text-gray-500 text-[10px] italic opacity-60">jaahiraat</span>
+        <span className="text-brand-gray text-[10px] italic opacity-60">jaahiraat</span>
       </div>
       
       {/* Ad Content */}

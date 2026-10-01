@@ -103,7 +103,7 @@ const EpaperPage = () => {
                   <Link
                     key={epaper.id}
                     to={`/epaper/${epaper.edition_slug}/${epaper.publish_date.slice(0, 10)}`}
-                    className="group bg-brand-gray-dark border border-brand-gray-medium hover:border-[color:var(--brand-yellow)] rounded-lg overflow-hidden transition-all duration-300 hover:shadow-xl flex flex-col"
+                    className="group bg-brand-gray-dark border border-brand-gray-medium hover:border-brand-link rounded-lg overflow-hidden transition-all duration-300 hover:shadow-xl flex flex-col"
                   >
                     {/* Front-page thumbnail — the hero of the card */}
                     <div className="aspect-[3/4] relative bg-brand-black-light overflow-hidden">
@@ -138,7 +138,7 @@ const EpaperPage = () => {
                         </div>
                       )}
                       <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors flex items-center justify-center pointer-events-none">
-                        <span className="opacity-0 group-hover:opacity-100 bg-[var(--brand-red)] text-brand-white text-xs font-bold px-3 py-1.5 rounded-full transition-opacity">
+                        <span className="opacity-0 group-hover:opacity-100 bg-[var(--brand-red)] text-white text-xs font-bold px-3 py-1.5 rounded-full transition-opacity">
                           वाचा
                         </span>
                       </div>
@@ -146,7 +146,7 @@ const EpaperPage = () => {
 
                     {/* Caption — edition name + date below the front page */}
                     <div className="p-2.5 text-center border-t border-brand-gray-medium">
-                      <h3 className="text-brand-white font-bold text-sm truncate group-hover:text-[color:var(--brand-yellow)] transition-colors">{epaper.edition_name}</h3>
+                      <h3 className="text-brand-white font-bold text-sm truncate group-hover:text-brand-link transition-colors">{epaper.edition_name}</h3>
                       <div className="flex items-center justify-center gap-1 mt-1">
                         <Calendar size={12} className="text-brand-gray flex-shrink-0" />
                         <span className="text-brand-gray text-xs">{formatDate(epaper.publish_date)}</span>
@@ -161,7 +161,7 @@ const EpaperPage = () => {
                   <button
                     onClick={handleLoadMore}
                     disabled={loadingMore}
-                    className="bg-[var(--brand-red)] hover:bg-[var(--brand-red-dark)] text-brand-white font-bold px-6 py-3 rounded-lg transition-colors disabled:opacity-50"
+                    className="bg-[var(--brand-red)] hover:bg-[var(--brand-red-dark)] text-white font-bold px-6 py-3 rounded-lg transition-colors disabled:opacity-50"
                   >
                     {loadingMore ? 'लोड होत आहे...' : 'अजून पहा'}
                   </button>

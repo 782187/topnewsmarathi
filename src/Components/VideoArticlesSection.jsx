@@ -27,7 +27,7 @@ const VideoArticlesSection = () => {
     return (
       <div className="w-full px-4 py-6">
         <div className="max-w-screen-2xl mx-auto">
-        <div className="bg-brand-gray-dark rounded-xl p-4 shadow-2xl shadow-black/50 overflow-hidden">
+        <div className="bg-brand-gray-dark rounded-xl p-4 shadow-2xl shadow-brand-shadow/50 border border-brand-border overflow-hidden">
             <h2 className="text-brand-white font-bold text-lg mb-4 flex items-center gap-2">
               <span className="flex items-center gap-2">
                 <svg className="w-5 h-5 text-brand-yellow" fill="currentColor" viewBox="0 0 24 24">
@@ -59,7 +59,7 @@ const VideoArticlesSection = () => {
   return (
     <div className="w-full px-4 py-6">
       <div className="max-w-screen-2xl mx-auto">
-        <div className="bg-brand-gray-dark rounded-xl p-4 shadow-2xl shadow-black/50 overflow-hidden">
+        <div className="bg-brand-gray-dark rounded-xl p-4 shadow-2xl shadow-brand-shadow/50 border border-brand-border overflow-hidden">
           {/* Section Header */}
           <h2 className="text-brand-white font-bold text-lg mb-6 flex items-center gap-2">
             <span className="flex items-center gap-2">
@@ -77,7 +77,7 @@ const VideoArticlesSection = () => {
                 {getYouTubeThumbnail(article.video_url) && (
                   <Link 
                     to={`/article/${article.slug}`}
-                    className="relative aspect-video bg-black rounded-xl overflow-hidden mb-3 block shadow-lg shadow-black/40 hover:shadow-2xl hover:shadow-black/60 transition-all duration-300"
+                    className="relative aspect-video bg-black rounded-xl overflow-hidden mb-3 block shadow-lg shadow-brand-shadow/40 hover:shadow-2xl hover:shadow-brand-shadow/60 transition-all duration-300"
                   >
                     <img
                       src={getYouTubeThumbnail(article.video_url)}
@@ -86,7 +86,7 @@ const VideoArticlesSection = () => {
                     />
                     <div className="absolute inset-0 flex items-center justify-center bg-black/20 group-hover:bg-black/10 transition-colors">
                       <div className="bg-brand-red w-12 h-12 rounded-full flex items-center justify-center shadow-lg group-hover:scale-110 transition-all duration-300">
-                        <svg className="w-6 h-6 text-brand-white ml-1" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                        <svg className="w-6 h-6 text-white ml-1" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
                       </div>
                     </div>
                   </Link>
@@ -99,11 +99,11 @@ const VideoArticlesSection = () => {
 
                 {/* Article Metadata */}
                 <div className="flex items-center justify-between mb-3">
-                  <span className="text-gray-400 text-xs">
+                  <span className="text-brand-gray text-xs">
                     {new Date(article.created_at).toLocaleDateString('mr-IN')}
                   </span>
                   {article.category_name && (
-                    <span className="bg-brand-gray-medium text-gray-300 text-xs px-2 py-1 rounded">
+                    <span className="bg-brand-gray-medium text-brand-gray-lighter text-xs px-2 py-1 rounded">
                       {article.category_name}
                     </span>
                   )}
@@ -128,7 +128,7 @@ const VideoArticlesSection = () => {
             <div className="mt-6 text-center">
               <Link
                 to="/videos"
-                className="inline-flex items-center gap-2 bg-brand-primary text-brand-white px-4 py-2 rounded-lg hover:bg-brand-red-light transition-colors"
+                className="inline-flex items-center gap-2 bg-brand-primary text-white px-4 py-2 rounded-lg hover:bg-brand-red-light transition-colors"
               >
                 <span>आणखी व्हिडिओ</span>
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">

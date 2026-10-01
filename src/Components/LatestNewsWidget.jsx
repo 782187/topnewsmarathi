@@ -44,10 +44,10 @@ const LatestNewsWidget = () => {
               to={`/article/${article.slug}`}
               className="group block border-b border-brand-black-light pb-3 last:border-0 last:pb-0"
             >
-              <h4 className="text-brand-white text-sm font-medium group-hover:text-brand-yellow transition-colors line-clamp-2 mb-1">
+              <h4 className="text-brand-white text-sm font-medium group-hover:text-brand-link transition-colors line-clamp-2 mb-1">
                 {article.title}
               </h4>
-              <span className="text-[10px] text-gray-500">
+              <span className="text-[10px] text-brand-gray">
                 {new Date(article.created_at).toLocaleDateString('mr-IN')}
               </span>
             </Link>

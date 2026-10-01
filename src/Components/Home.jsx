@@ -11,22 +11,22 @@ import { buildStaticUrl } from '../utils/staticUrl.js';
 const NewsFlashTicker = ({ articles }) => {
   const newsItems = articles.slice(0, 5);
   return (
-    <div className="bg-brand-primary text-brand-white overflow-hidden shadow-lg">
+    <div className="bg-brand-primary text-white overflow-hidden shadow-lg">
       <div className="flex items-center">
         <div className="bg-brand-red-dark px-4 py-2 font-bold text-sm whitespace-nowrap">
-          <span className="text-brand-white">न्यूज फ्लॅश</span>
+          <span className="text-white">न्यूज फ्लॅश</span>
         </div>
-        <div className="flex-1 overflow-hidden bg-brand-black-light">
+        <div className="flex-1 overflow-hidden bg-brand-red-tint">
           <div className="animate-marquee whitespace-nowrap py-2">
             {newsItems.length > 0 ? (
               newsItems.map((article) => (
                 <Link key={article.id} to={`/article/${article.slug}`}
-                  className="mx-4 hover:text-brand-accent transition-colors font-medium">
+                  className="mx-4 text-brand-off-white hover:text-brand-link transition-colors font-medium">
                   {article.title}
                 </Link>
               ))
             ) : (
-              <span className="mx-4">ताज्या बातम्या लवकरच येत आहेत...</span>
+              <span className="mx-4 text-brand-gray-lighter">ताज्या बातम्या लवकरच येत आहेत...</span>
             )}
           </div>
         </div>
@@ -36,7 +36,7 @@ const NewsFlashTicker = ({ articles }) => {
 };
 
 const LiveVideoSection = () => (
-  <div className="bg-brand-gray-dark rounded-xl overflow-hidden shadow-2xl shadow-black/50">
+  <div className="bg-brand-gray-dark rounded-xl overflow-hidden shadow-2xl shadow-brand-shadow/50 border border-brand-border">
     <div className="aspect-video">
       <iframe
         style={{ width: '100%', height: '100%' }}
@@ -53,7 +53,7 @@ const LiveVideoSection = () => (
             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-red opacity-75"></span>
             <span className="relative inline-flex rounded-full h-3 w-3 bg-brand-red"></span>
           </span>
-          <span className="bg-brand-red text-brand-white text-[10px] px-2 py-0.5 rounded font-bold">लाईव्ह</span>
+          <span className="bg-brand-red text-white text-[10px] px-2 py-0.5 rounded font-bold">लाईव्ह</span>
         </div>
         <div className="flex items-center flex-wrap gap-x-2 flex-1">
           <h3 className="text-brand-white font-bold text-sm sm:text-base md:text-lg whitespace-nowrap">
@@ -70,7 +70,7 @@ const LiveVideoSection = () => (
 );
 
 const LatestArticlesSection = ({ articles, loading }) => (
-  <div className="bg-brand-gray-dark rounded-xl p-4 shadow-2xl shadow-black/50 overflow-hidden">
+  <div className="bg-brand-gray-dark rounded-xl p-4 shadow-2xl shadow-brand-shadow/50 border border-brand-border overflow-hidden">
     <h2 className="text-brand-white font-bold text-lg mb-4 flex items-center gap-2">
       <span className="text-brand-white">LATEST</span>
       <span className="text-brand-yellow ml-2">NEWS</span>
@@ -79,16 +79,16 @@ const LatestArticlesSection = ({ articles, loading }) => (
       {loading ? (
         Array.from({ length: 4 }).map((_, index) => (
           <div key={index} className="flex gap-3 animate-pulse p-2">
-            <div className="w-28 sm:w-32 aspect-video bg-brand-gray-medium rounded flex-shrink-0"></div>
-            <div className="flex-1"><div className="h-4 bg-brand-gray-medium rounded mb-2 w-full"></div></div>
+            <div className="w-28 sm:w-32 aspect-video bg-brand-black-medium rounded flex-shrink-0"></div>
+            <div className="flex-1"><div className="h-4 bg-brand-black-medium rounded mb-2 w-full"></div></div>
           </div>
         ))
       ) : articles.length > 0 ? (
         articles.slice(0, 4).map((article) => (
           <Link key={article.id} to={`/article/${article.slug}`}
-            className="flex gap-3 hover:bg-brand-gray-medium/20 p-2 rounded-lg transition-all duration-300 shadow-sm hover:shadow-md font-bold">
+            className="flex gap-3 hover:bg-brand-hover p-2 rounded-lg transition-all duration-300 shadow-sm hover:shadow-md font-bold">
             {(article.thumbnail || (article.type === 'video' && getYouTubeThumbnail(article.video_url))) && (
-              <div className="relative w-28 sm:w-32 aspect-video flex-shrink-0 rounded bg-brand-black flex items-center justify-center">
+              <div className="relative w-28 sm:w-32 aspect-video flex-shrink-0 rounded bg-brand-black-light flex items-center justify-center">
                 <img
                   src={article.type === 'video' && article.video_url
                     ? getYouTubeThumbnail(article.video_url)
@@ -99,20 +99,20 @@ const LatestArticlesSection = ({ articles, loading }) => (
                 {article.type === 'video' && (
                   <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
                     <div className="bg-brand-red/80 w-6 h-6 rounded-full flex items-center justify-center shadow-lg">
-                      <svg className="w-3 h-3 text-brand-white ml-0.5" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z" /></svg>
+                      <svg className="w-3 h-3 text-white ml-0.5" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z" /></svg>
                     </div>
                   </div>
                 )}
               </div>
             )}
             <div className="flex-1">
-              <h3 className="text-brand-white font-medium text-base hover:text-brand-yellow transition-colors break-words line-clamp-2">{article.title}</h3>
+              <h3 className="text-brand-white font-medium text-base hover:text-brand-link transition-colors break-words line-clamp-2">{article.title}</h3>
               <div className="flex items-center justify-between mt-2">
                 <span className="text-brand-gray text-xs font-normal">
                   {new Date(article.created_at).toLocaleDateString('mr-IN')}
                 </span>
                 {article.category_name && (
-                  <span className="bg-brand-red text-brand-white text-xs px-2 py-1 rounded">{article.category_name}</span>
+                  <span className="bg-brand-red text-white text-xs px-2 py-1 rounded">{article.category_name}</span>
                 )}
               </div>
             </div>
@@ -133,7 +133,7 @@ const RemainingArticlesSection = ({ articles }) => {
   if (remainingArticles.length === 0) return null;
   return (
     <div className="w-full mt-6">
-      <div className="bg-brand-gray-dark rounded-xl p-4 shadow-2xl shadow-black/50 overflow-hidden">
+      <div className="bg-brand-gray-dark rounded-xl p-4 shadow-2xl shadow-brand-shadow/50 border border-brand-border overflow-hidden">
         <h2 className="text-brand-white font-bold text-lg mb-4 flex items-center gap-2">
           <span className="w-1 h-5 bg-brand-yellow rounded"></span>
           <span className="text-brand-white">अधिक ताज्या बातम्या</span>
@@ -141,9 +141,9 @@ const RemainingArticlesSection = ({ articles }) => {
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
           {remainingArticles.map((article) => (
             <Link key={article.id} to={`/article/${article.slug}`}
-              className="bg-brand-black-light rounded-xl overflow-hidden hover:bg-brand-black-medium transition-all duration-300 group shadow-lg shadow-black/30 hover:shadow-2xl hover:shadow-black/50 flex flex-col font-bold">
+              className="bg-brand-black-light rounded-xl overflow-hidden hover:bg-brand-black-medium transition-all duration-300 group shadow-lg shadow-brand-shadow/30 hover:shadow-2xl hover:shadow-brand-shadow/50 border border-brand-border flex flex-col font-bold">
               {(article.thumbnail || (article.type === 'video' && getYouTubeThumbnail(article.video_url))) && (
-                <div className="relative h-48 bg-brand-black flex items-center justify-center flex-shrink-0">
+                <div className="relative h-48 bg-brand-black-medium flex items-center justify-center flex-shrink-0">
                   <img
                     src={article.type === 'video' && article.video_url
                       ? getYouTubeThumbnail(article.video_url)
@@ -154,19 +154,19 @@ const RemainingArticlesSection = ({ articles }) => {
                   {article.type === 'video' && (
                     <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
                       <div className="bg-brand-red w-12 h-12 rounded-full flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
-                        <svg className="w-6 h-6 text-brand-white ml-1" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z" /></svg>
+                        <svg className="w-6 h-6 text-white ml-1" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z" /></svg>
                       </div>
                     </div>
                   )}
                   {article.category_name && (
-                    <span className="absolute top-2 left-2 bg-brand-red text-brand-white text-xs px-2 py-1 rounded font-medium shadow-lg">
+                    <span className="absolute top-2 left-2 bg-brand-red text-white text-xs px-2 py-1 rounded font-medium shadow-lg">
                       {article.category_name}
                     </span>
                   )}
                 </div>
               )}
               <div className="p-3 flex-1 flex flex-col">
-                <h3 className="text-brand-white font-medium text-sm md:text-base mb-3 line-clamp-2 group-hover:text-brand-yellow transition-colors">{article.title}</h3>
+                <h3 className="text-brand-white font-medium text-sm md:text-base mb-3 line-clamp-2 group-hover:text-brand-link transition-colors">{article.title}</h3>
                 <div className="flex items-center justify-between mt-auto">
                   <span className="text-brand-gray text-xs font-normal">
                     {new Date(article.created_at).toLocaleDateString('mr-IN')}

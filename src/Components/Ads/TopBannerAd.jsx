@@ -63,7 +63,7 @@ const TopBannerAd = () => {
       >
         {/* Advertisement Label */}
         <div className="flex items-center justify-center mb-0.5">
-          <span className="text-gray-400 text-[10px] font-medium tracking-wide opacity-60 blur-sm">
+          <span className="text-brand-gray text-[10px] font-medium tracking-wide opacity-60 blur-sm">
             - {ad.title || 'jaahiraat'} -
           </span>
         </div>

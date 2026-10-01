@@ -97,7 +97,7 @@ const EpaperImageReader = ({ epaper, pages, archive = [], editionSlug, date }) =
           <div className="flex items-center gap-3 min-w-0">
             <Link
               to="/epaper"
-              className="text-brand-white hover:text-[color:var(--brand-yellow)] transition-colors flex-shrink-0"
+              className="text-brand-white hover:text-brand-link transition-colors flex-shrink-0"
               aria-label="ई-पेपर सूचीकडे परत जा"
             >
               <ArrowLeft size={20} />
@@ -127,11 +127,11 @@ const EpaperImageReader = ({ epaper, pages, archive = [], editionSlug, date }) =
 
             {/* Zoom controls */}
             <div className="flex items-center gap-1 bg-[var(--brand-black)] rounded-lg px-1 py-1 border border-brand-gray-medium">
-              <button onClick={zoomOut} disabled={scale <= MIN_SCALE} className="p-1.5 text-brand-white hover:text-[color:var(--brand-yellow)] disabled:opacity-30 transition-colors" aria-label="झूम कमी करा">
+              <button onClick={zoomOut} disabled={scale <= MIN_SCALE} className="p-1.5 text-brand-white hover:text-brand-link disabled:opacity-30 transition-colors" aria-label="झूम कमी करा">
                 <ZoomOut size={18} />
               </button>
               <span className="text-brand-gray text-xs w-10 text-center">{Math.round(scale * 100)}%</span>
-              <button onClick={zoomIn} disabled={scale >= MAX_SCALE} className="p-1.5 text-brand-white hover:text-[color:var(--brand-yellow)] disabled:opacity-30 transition-colors" aria-label="झूम वाढवा">
+              <button onClick={zoomIn} disabled={scale >= MAX_SCALE} className="p-1.5 text-brand-white hover:text-brand-link disabled:opacity-30 transition-colors" aria-label="झूम वाढवा">
                 <ZoomIn size={18} />
               </button>
             </div>
@@ -140,7 +140,7 @@ const EpaperImageReader = ({ epaper, pages, archive = [], editionSlug, date }) =
             <a
               href={pdfUrl}
               download
-              className="p-2 bg-[var(--brand-red)] hover:bg-[var(--brand-red-dark)] text-brand-white rounded-lg transition-colors"
+              className="p-2 bg-[var(--brand-red)] hover:bg-[var(--brand-red-dark)] text-white rounded-lg transition-colors"
               aria-label="पीडीएफ डाउनलोड करा"
             >
               <Download size={18} />
@@ -194,7 +194,7 @@ const EpaperImageReader = ({ epaper, pages, archive = [], editionSlug, date }) =
               <button
                 onClick={goToPrevPage}
                 disabled={pageNumber <= 1}
-                className="flex-shrink-0 p-1.5 rounded-lg bg-brand-gray-dark border border-brand-gray-medium text-brand-white hover:text-[color:var(--brand-yellow)] disabled:opacity-30 transition-colors"
+                className="flex-shrink-0 p-1.5 rounded-lg bg-brand-gray-dark border border-brand-gray-medium text-brand-white hover:text-brand-link disabled:opacity-30 transition-colors"
                 aria-label="मागील पृष्ठ"
               >
                 <ChevronLeft size={18} />
@@ -220,7 +220,7 @@ const EpaperImageReader = ({ epaper, pages, archive = [], editionSlug, date }) =
               <button
                 onClick={goToNextPage}
                 disabled={pageNumber >= numPages}
-                className="flex-shrink-0 p-1.5 rounded-lg bg-brand-gray-dark border border-brand-gray-medium text-brand-white hover:text-[color:var(--brand-yellow)] disabled:opacity-30 transition-colors"
+                className="flex-shrink-0 p-1.5 rounded-lg bg-brand-gray-dark border border-brand-gray-medium text-brand-white hover:text-brand-link disabled:opacity-30 transition-colors"
                 aria-label="पुढील पृष्ठ"
               >
                 <ChevronRight size={18} />
@@ -278,7 +278,7 @@ const EpaperImageReader = ({ epaper, pages, archive = [], editionSlug, date }) =
                     <button
                       key={a.id}
                       onClick={() => navigate(`/epaper/${editionSlug}/${date}/article/${a.slug}`)}
-                      className="absolute border-2 border-transparent hover:border-[color:var(--brand-yellow)] hover:bg-[color:var(--brand-yellow)]/10 rounded-sm transition-colors cursor-pointer"
+                      className="absolute border-2 border-transparent hover:border-brand-link hover:bg-brand-link/10 rounded-sm transition-colors cursor-pointer"
                       style={{ left: `${a.x * 100}%`, top: `${a.y * 100}%`, width: `${a.w * 100}%`, height: `${a.h * 100}%` }}
                       aria-label={a.title || 'बातमी वाचा'}
                       title={a.title || ''}
